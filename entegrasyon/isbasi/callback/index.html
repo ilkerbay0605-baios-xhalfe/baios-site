@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAIOS</title>
+<meta name="description" content="BAIOS — Semantik İşletim Sistemi">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BAIOS">
+<meta property="og:description" content="BAIOS — Semantik İşletim Sistemi">
+<meta property="og:url" content="https://baios.dev/entegrasyon/isbasi/callback/index.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="tr_TR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BAIOS">
+<meta name="twitter:description" content="BAIOS — Semantik İşletim Sistemi">
+<link rel="canonical" href="https://baios.dev/entegrasyon/isbasi/callback/index.html">
+<link rel="stylesheet" href="../../../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"BAIOS — Semantik İşletim Sistemi","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "Entegrasyon", "item": "https://baios.dev/entegrasyon/index.html"}, {"@type": "ListItem", "position": 3, "name": "Isbasi", "item": "https://baios.dev/entegrasyon/isbasi/index.html"}, {"@type": "ListItem", "position": 4, "name": "BAIOS", "item": "https://baios.dev/entegrasyon/isbasi/callback/index.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../../../index.html">BAIOS</a>
+  <nav>
+    <a href="../../../bireysel/hizli-baslangic.html">Bireysel</a>
+    <a href="../../../kurumsal/index.html">Kurumsal</a>
+    <a href="../../../edge/index.html">Edge</a>
+    <a href="../../../felsefe.html">Felsefe</a>
+    <a href="../../../mimari.html">Mimari</a>
+    <a href="../../../katalog.html">Katalog</a>
+    <a href="../../../kaynaklar/tutorial.html">Kaynaklar</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><!-- title: BAIOS — Logo İşbaşı Bağlantısı -->
+<!-- description: Logo İşbaşı SSO bağlantısı tamamlanıyor. -->
+<h1 id="logo-isbasi-baglantisi">Logo İşbaşı Bağlantısı</h1>
+<div id="isbasi-cb-status">Bağlantı tamamlanıyor…</div>
+<div id="isbasi-cb-detail" style="margin-top:12px;font-family:monospace;font-size:13px;"></div>
+<p style="margin-top:16px;color:#666;font-size:13px;">
+Bu sayfa Logo İşbaşı yetkilendirmesinden sonra otomatik açılır. Bilgiler yerel
+BAIOS uygulamanıza iletilir; sayfa kapatılabilir.
+</p>
+<p style="margin-top:12px;color:#888;font-size:12px;">
+<strong>KVKK aydınlatma:</strong> Bu sayfa, İşbaşı'tan dönen yetkilendirme kodunu
+<strong>yalnızca tarayıcınızda</strong> alıp <strong>kendi bilgisayarınızdaki</strong>
+yerel BAIOS uygulamasına iletir. Kod baios.dev sunucularında <strong>saklanmaz,
+kaydedilmez, üçüncü tarafa aktarılmaz</strong>. Ayrıntı: <a href="../../../gizlilik.html">Gizlilik &amp; Kullanım</a>.
+</p>
+<script>
+(function () {
+  var q = new URLSearchParams(window.location.search);
+  // Gerçek İşbaşı akışı: ?code={UserAppKey} (yalnız code; tenantId login
+  // yanıtından gelir, callback'te opsiyonel).
+  var code = q.get("code") || "";
+  var tenantId = q.get("tenantId") || q.get("tenantid") || "";
+  var error = q.get("error") || "";
+  var statusEl = document.getElementById("isbasi-cb-status");
+  var detailEl = document.getElementById("isbasi-cb-detail");
+<p>if (error) {
+    statusEl.textContent = "Yetkilendirme hatası: " + error;
+    return;
+  }
+  if (!code) {
+    statusEl.textContent = "Eksik parametre (code bulunamadı).";
+    return;
+  }
+  detailEl.textContent = "code alındı." + (tenantId ? " · tenantId: " + tenantId : "");</p>
+<p>// Yerel BAIOS backend'ine ilet (localhost secure-context istisnası; CORS izinli).
+  var url = "http://localhost:8000/api/xhalfe/isbasi/callback?code="
+    + encodeURIComponent(code);
+  if (tenantId) url += "&tenantId=" + encodeURIComponent(tenantId);
+  fetch(url)
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      statusEl.textContent = "✓ İşbaşı bağlantısı alındı. BAIOS uygulamanıza dönebilirsiniz.";
+    })
+    .catch(function () {
+      statusEl.textContent =
+        "Bilgiler alındı ancak yerel BAIOS uygulamasına ulaşılamadı. "
+        + "BAIOS çalışıyor mu kontrol edip tekrar deneyin.";
+    });
+})();
+</script></p></main>
+<footer>BAIOS — Semantik İşletim Sistemi · 2026 · <a href="/gizlilik.html">Gizlilik</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

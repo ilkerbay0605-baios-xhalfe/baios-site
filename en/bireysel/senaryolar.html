@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real Usage Scenarios — BAIOS</title>
+<meta name="description" content="Concrete BAIOS workflows from six different professions.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Real Usage Scenarios — BAIOS">
+<meta property="og:description" content="Concrete BAIOS workflows from six different professions.">
+<meta property="og:url" content="https://baios.dev/en/bireysel/senaryolar.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Real Usage Scenarios — BAIOS">
+<meta name="twitter:description" content="Concrete BAIOS workflows from six different professions.">
+<link rel="canonical" href="https://baios.dev/en/bireysel/senaryolar.html">
+<link rel="stylesheet" href="../../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"Concrete BAIOS workflows from six different professions.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "En", "item": "https://baios.dev/en/index.html"}, {"@type": "ListItem", "position": 3, "name": "Bireysel", "item": "https://baios.dev/en/bireysel/index.html"}, {"@type": "ListItem", "position": 4, "name": "Real Usage Scenarios", "item": "https://baios.dev/en/bireysel/senaryolar.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../../en/index.html">BAIOS</a>
+  <nav>
+    <a href="../../en/bireysel/hizli-baslangic.html">Individual</a>
+    <a href="../../kurumsal/index.html">Enterprise</a>
+    <a href="../../en/edge/index.html">Edge</a>
+    <a href="../../en/felsefe.html">Philosophy</a>
+    <a href="../../en/mimari.html">Architecture</a>
+    <a href="../../en/katalog.html">Catalog</a>
+    <a href="../../en/kaynaklar/tutorial.html">Resources</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> Concrete BAIOS workflows from six different professions.</div><h1 id="scenarios">Scenarios</h1>
+<p>Instead of an abstract definition of BAIOS, <strong>how it actually works in real work</strong>. Each scenario is a slice from a real day of its user.</p>
+<p>🇹🇷 <a href="../../bireysel/senaryolar.html">Türkçe</a></p>
+<hr>
+<h2 id="teacher-lesson-prep-student-tracking">🎓 Teacher — Lesson prep + student tracking</h2>
+<p><strong>Goal:</strong> Plan the weekly math lesson, keep attendance, and keep student files up to date.</p>
+<p><strong>BAIOS setup:</strong>
+<ul><li>Project: <code>matematik-8-a</code></li>
+<li>Connected ARMs: <code>file</code>, <code>dosya_oku</code>, <code>calendar</code>, <code>gmail_send</code></li>
+<li>Connected skills: <code>konu_aciklama</code>, <code>flashcard</code>, <code>gunluk_ozet</code></li>
+</ul>
+<strong>A typical day:</strong>
+<pre><code>baios> /proje sec matematik-8-a
+baios> gelecek hafta trigonometri ders planı hazırla
+  → konu_aciklama skill → docs/ders_plan_hafta14.md
+baios> bu konudan 20 flashcard çıkar
+  → flashcard skill → outputs/flashcards_trigonometri.csv
+baios> ayşe'nin son sınav notunu dosyaya ekle 75
+  → file arm → docs/ogrenciler/ayse.md güncel
+baios> /otomasyon kur: her pazar 20:00 — hafta özetini bana e-posta at
+</code></pre></p>
+<hr>
+<h2 id="accountant-invoice-analysis-vat-check">📊 Accountant — Invoice analysis + VAT check</h2>
+<p><strong>Goal:</strong> Check end-of-month invoices, verify VAT amounts, produce a report.</p>
+<p><strong>BAIOS setup:</strong>
+<ul><li>Project: <code>muhasebe-2026</code></li>
+<li>ARMs: <code>file</code>, <code>dosya_oku</code> (PDF), <code>sql</code> (record db)</li>
+<li>Flow: <code>muhasebe_kontrol</code></li>
+</ul>
+<strong>A typical day:</strong>
+<pre><code>baios> /proje sec muhasebe-2026
+baios> bu ay gelen faturaları docs/faturalar-nisan/ içine koydum, kontrol et
+  → dosya_oku (PDF) → llm analiz → tutarsızlık uyarısı
+  → sql arm → ay toplamı hesapla → rapor.md
+baios> şirket X için nisan özeti hazırla
+  → veri_analiz skill → outputs/sirket_X_nisan.md
+</code></pre></p>
+<p><strong>Audit:</strong> Every action is recorded in <code>~/.baios/audit/</code> — an answer to the later question of who did what.</p>
+<hr>
+<h2 id="content-creator-blog-social-posts">✍️ Content creator — Blog + social posts</h2>
+<p><strong>Goal:</strong> A weekly blog post + Twitter/LinkedIn summaries.</p>
+<p><strong>BAIOS setup:</strong>
+<ul><li>Project: <code>blog-kisilik-gelisimi</code></li>
+<li>ARMs: <code>brave_search</code>, <code>web_reader</code>, <code>file</code>, <code>notion</code></li>
+<li>Skills: <code>arastirma</code>, <code>blog_post_taslak</code>, <code>url_ozet</code>, <code>gorsel_prompt</code></li>
+</ul>
+<strong>A typical day:</strong>
+<pre><code>baios> yeni konu: "sabah rutini bilimi"
+baios> /skill calistir arastirma konu="sabah rutini bilimi"
+  → brave_search + llm + file → docs/arastirma_sabah_rutini.md
+baios> bu araştırmadan 1200 kelimelik blog post yaz, okuyucu: girişimci
+  → blog_post_taslak skill → outputs/blog_sabah_rutini.md
+baios> aynı konu için LinkedIn post taslağı (3 paragraf)
+baios> blog'a görsel prompt öner
+  → gorsel_prompt skill → dalle ile görsel üret
+</code></pre></p>
+<hr>
+<h2 id="data-scientist-csv-exploration-report">🔬 Data scientist — CSV exploration + report</h2>
+<p><strong>Goal:</strong> Understand a customer segmentation CSV, write first findings, suggest charts.</p>
+<p><strong>BAIOS setup:</strong>
+<ul><li>Project: <code>musteri-segmentasyon-q2</code></li>
+<li>ARMs: <code>file</code>, <code>sql</code>, <code>http</code></li>
+<li>Skill: <code>veri_analiz</code></li>
+</ul>
+<strong>A typical day:</strong>
+<pre><code>baios> docs/customers.csv yükle
+baios> /skill calistir veri_analiz dosya=docs/customers.csv
+  → sql arm → temel istatistik
+  → llm → bulgu yorumu
+  → file → outputs/bulgular.md + grafik_tarif.md
+baios> bu bulgulara göre 3 slayt taslağı
+baios> /wiki olustur musteri-segmentasyon-bulgular  ← knowledge accumulation
+</code></pre></p>
+<hr>
+<h2 id="developer-baiosdev-dogfood">🧑‍💻 Developer — baios.dev dogfood</h2>
+<p><strong>Goal:</strong> Manage the baios.dev website through BAIOS itself (the real story of this site).</p>
+<p><strong>BAIOS setup:</strong>
+<ul><li>Project: <code>baios-dev</code> (from a template)</li>
+<li>ARMs: <code>git_ops</code>, <code>github</code>, <code>deploy</code>, <code>browser</code>, <code>web_reader</code>, <code>file</code></li>
+<li>Skills: <code>landing_copy_revize</code>, <code>blog_post_taslak</code>, <code>changelog_uret</code>, <code>release_notes</code>, <code>site_qa</code></li>
+<li>Flow: <code>site_release</code></li>
+</ul>
+<strong>A typical release:</strong>
+<pre><code>baios> /proje sec baios-dev
+baios> yeni blog: "BAIOS neden ajan değil"
+  → blog_post_taslak → outputs/blog_*.md (human approval)
+baios> /flow calistir site_release versiyon=v2.6
+  → changelog + release_notes → git branch → commit → push → PR aç
+baios> PR merge'den sonra /arm deploy trigger main
+baios> /arm deploy wait 300
+baios> /skill calistir site_qa url=https://baios.dev
+</code></pre></p>
+<p><a href="../felsefe.html#ajan-değil-katman">Read the detailed story →</a></p>
+<hr>
+<h2 id="researcher-source-scanning-wiki-accumulation">🎓 Researcher — Source scanning + wiki accumulation</h2>
+<p><strong>Goal:</strong> Literature on "artificial intelligence + law" for a doctoral thesis, a continuously growing wiki.</p>
+<p><strong>BAIOS setup:</strong>
+<ul><li>Project: <code>doktora-tez-ai-hukuk</code></li>
+<li>ARMs: <code>brave_search</code>, <code>web_reader</code>, <code>file</code>, <code>notion</code></li>
+<li>Skills: <code>arastirma</code>, <code>url_ozet</code></li>
+<li>Automatic wiki generation</li>
+</ul>
+<strong>A typical day:</strong>
+<pre><code>baios> bu akademik makale URL'sini oku ve özetle: https://arxiv.org/abs/...
+  → web_reader + llm_ozet → outputs/kaynak_N.md
+baios> önemli bulgulardan biri: "AI karar verme şeffaflık sorunu"
+  → /wiki olustur ai-karar-seffafligi
+baios> geçen ay özetlediğim tüm kaynakları göster
+  → file arm → docs/kaynaklar/ listele
+baios> ilgili wiki sayfalarını LLM context'e ekle ve tez 3. bölümü için taslak hazırla
+</code></pre></p>
+<p><strong>The benefit:</strong> Every source is permanently added to your knowledge. A month later, even if the LLM changes, the accumulation is preserved.</p>
+<hr>
+<h2 id="the-common-thread-discipline">The Common Thread: Discipline</h2>
+<p>In all six scenarios, a different profession, a different job. What's common:
+1. <strong>Project</strong> — BAIOS keeps every job alive inside a project.
+2. <strong>Discipline</strong> — The working method lives in a file, repeatable.
+3. <strong>Approval</strong> — Risky operations ask for approval.
+4. <strong>Context</strong> — The LLM always looks at the current state.
+5. <strong>Accumulation</strong> — Each project accumulates its own knowledge, the wiki grows.</p>
+<hr>
+<h2 id="your-scenario">Your scenario?</h2>
+<p><a href="../kaynaklar/tutorial.html">Open your first project with the tutorial →</a> and set up your own discipline. If you run into trouble, ask from the <strong>omgunbay</strong> chat window at the bottom right.</p></main>
+<footer>BAIOS — Semantic Operating System · 2026 · <a href="/en/gizlilik.html">Privacy</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

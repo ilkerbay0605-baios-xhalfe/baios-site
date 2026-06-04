@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAIOS Felsefesi</title>
+<meta name="description" content="Beş prensip, ajan değil katman, LLM bağımsızlık.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BAIOS Felsefesi">
+<meta property="og:description" content="Beş prensip, ajan değil katman, LLM bağımsızlık.">
+<meta property="og:url" content="https://baios.dev/felsefe.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="tr_TR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BAIOS Felsefesi">
+<meta name="twitter:description" content="Beş prensip, ajan değil katman, LLM bağımsızlık.">
+<link rel="canonical" href="https://baios.dev/felsefe.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"Beş prensip, ajan değil katman, LLM bağımsızlık.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "BAIOS Felsefesi", "item": "https://baios.dev/felsefe.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="index.html">BAIOS</a>
+  <nav>
+    <a href="bireysel/hizli-baslangic.html">Bireysel</a>
+    <a href="kurumsal/index.html">Kurumsal</a>
+    <a href="edge/index.html">Edge</a>
+    <a href="felsefe.html">Felsefe</a>
+    <a href="mimari.html">Mimari</a>
+    <a href="katalog.html">Katalog</a>
+    <a href="kaynaklar/tutorial.html">Kaynaklar</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> Beş prensip, ajan değil katman, LLM bağımsızlık.</div><h1 id="felsefe">Felsefe</h1>
+<p>🇬🇧 <a href="en/felsefe.html">English</a></p>
+<p>BAIOS'un ne olduğunu değil, <strong>nasıl davrandığını</strong> anlatan beş prensip.</p>
+<hr>
+<h2 id="1-dil-odaklilik">1. Dil Odaklılık</h2>
+<p>Kullanıcı ne istediğini yazar veya söyler. BAIOS anlar ve yapar.</p>
+<p>Komut ezberletmez — doğal iletişim hedefler. Kısayollar (<code>/projeler</code>, <code>/skill ...</code>) vardır ama <strong>zorunlu değildir</strong>. Aynı işi hem "Ahmet'e e-posta at" diye yazarak hem de <code>/mail gonder Ahmet</code> komutuyla yapabilirsin. BAIOS iki yolu da aynı çalışma diline çevirir.</p>
+<h2 id="2-onaysiz-aksiyon-yok">2. Onaysız Aksiyon Yok</h2>
+<p>Hiçbir riskli işlem kullanıcı onayı olmadan yapılmaz.</p>
+<ul><li>Dosya silme, üzerine yazma</li>
+<li>Deploy, build, uzak sunucu tetikleme</li>
+<li>API çağrısı (ücretli olanlar özellikle)</li>
+<li>Commit, push, PR merge</li>
+</ul>
+Her işlem yapılmadan önce **proposal** gösterilir; sen onaylarsın, BAIOS yapar, sonuç kaydedilir. Onaylı otomasyonlarda (her sabah rapor çek, her akşam yedekle) risk seviyesi düşükse tekrar onay istenmez — **bir kez kararlaştırıldı, kurallı çalışır**.
+<h2 id="3-basitlik">3. Basitlik</h2>
+<ul><li>Kullanıcıya soru sormak yerine çöz. Bilgiyi context'ten al.</li>
+<li>50 satır markdown yerine 5 satır cevap ver.</li>
+<li>Risk tablosu, semantic boundary, proposal formatı — bunlar **sadece gerçekten riskli** işlemlerde kullanılır (dosya silme, deploy). Bilgi sorularında KULLANMA.</li>
+<li>"Uygulanabilir aksiyon yok" YAZMA. Aksiyon yoksa sessizce geç.</li>
+<li>Gerçekten gerekli değilse A/B/C seçeneği sunma — doğrudan en iyi olanı öner.</li>
+</ul>
+<h2 id="4-context-her-seydir">4. Context Her Şeydir</h2>
+<p>BAIOS, konuştuğun LLM'in ne bildiğine bağımlı değildir. <strong>Her konuşmada context'i BAIOS kurar</strong>, LLM'e enjekte eder.</p>
+<ul><li>**Sistem katmanı:** BAIOS sürümü, mevcut ARM'lar, skill'ler, flow'lar, kullanıcı kimliği.</li>
+<li>**Proje katmanı:** Aktif proje, proje dosyaları, proje disiplini, bağlı bileşenler.</li>
+<li>**Geçici katman:** Son işlemler, son 5 dakikanın iş akışı.</li>
+<li>**Wiki katmanı:** Sorguyla ilgili bilgi tabanı sayfaları.</li>
+</ul>
+LLM değişse bile context korunur — **OpenAI'dan Ollama'ya geçsen bile konuşmanın kaldığı yerden devam eder**.
+<h2 id="5-llm-bagimsizlik">5. LLM Bağımsızlık</h2>
+<p>BAIOS herhangi bir LLM ile çalışır: OpenAI, Anthropic, yerel Ollama, MiniMax, başkaları.</p>
+<ul><li>LLM sadece **araçtır**. BAIOS'un yapısı LLM'den bağımsızdır.</li>
+<li>Bir provider çökerse **fallback zinciri** otomatik diğerine geçer.</li>
+<li>Maliyet hassassan ucuz modele, hassas veri varsa yerele — tercih sende.</li>
+<li>Tek komut: `baios config set llm.provider ollama`</li>
+</ul>
+<hr>
+<h2 id="ajan-degil-katman">Ajan Değil, Katman</h2>
+<p>BAIOS bir ajan değildir. Ajan <em>"sen git halledilsin"</em> diyendir; BAIOS ise <strong>senin yanında çalışan disiplindir</strong>. Sen düşünürsün, BAIOS senin düşüncenin kayıtlı, tekrarlanabilir, denetlenebilir versiyonunu üretir.</p>
+<p>Bu fark neden önemli:
+<ul><li>Ajan hata yaparsa geri alman zor.</li>
+<li>Katman hata yaparsa adım adım geri alınabilir.</li>
+<li>Ajan kara kutudur.</li>
+<li>Katman şeffaftır — her adımı görürsün, her adıma itiraz edebilirsin.</li>
+</ul>
+<hr>
+<h2 id="uc-kullanici-uc-farkli-katman">Üç Kullanıcı, Üç Farklı Katman</h2></p>
+<ul><li>**Bireysel:** Tek kullanıcı, tek makine. Erken sürüm; mesleğine özel persona'larla (avukat, muhasebeci, KOBİ sahibi, araştırmacı…).</li>
+<li>**Kurumsal (ekip / RBAC / audit):** Ekip, rol, denetim, multi-tenant. **SMB sürümünden sonra planlı.** [İletişime geçin](kurumsal/iletisim.html).</li>
+<li>**Edge:** ESP32, Raspberry Pi, gömülü cihazlar. Sınırlı core. Yakında.</li>
+</ul>
+[Mimariyi oku →](mimari.html)</main>
+<footer>BAIOS — Semantik İşletim Sistemi · 2026 · <a href="/gizlilik.html">Gizlilik</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAIOS Philosophy</title>
+<meta name="description" content="Five principles, a layer not a doer, model independence.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BAIOS Philosophy">
+<meta property="og:description" content="Five principles, a layer not a doer, model independence.">
+<meta property="og:url" content="https://baios.dev/en/felsefe.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BAIOS Philosophy">
+<meta name="twitter:description" content="Five principles, a layer not a doer, model independence.">
+<link rel="canonical" href="https://baios.dev/en/felsefe.html">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"Five principles, a layer not a doer, model independence.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "En", "item": "https://baios.dev/en/index.html"}, {"@type": "ListItem", "position": 3, "name": "BAIOS Philosophy", "item": "https://baios.dev/en/felsefe.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../en/index.html">BAIOS</a>
+  <nav>
+    <a href="../en/bireysel/hizli-baslangic.html">Individual</a>
+    <a href="../kurumsal/index.html">Enterprise</a>
+    <a href="../en/edge/index.html">Edge</a>
+    <a href="../en/felsefe.html">Philosophy</a>
+    <a href="../en/mimari.html">Architecture</a>
+    <a href="../en/katalog.html">Catalog</a>
+    <a href="../en/kaynaklar/tutorial.html">Resources</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> Five principles, a layer not a doer, model independence.</div><h1 id="philosophy">Philosophy</h1>
+<p>🇹🇷 <a href="../felsefe.html">Türkçe</a></p>
+<p>Five principles that describe not what BAIOS is, but <strong>how it behaves</strong>.</p>
+<hr>
+<h2 id="1-language-first">1. Language First</h2>
+<p>You write or say what you want. BAIOS understands and does it.</p>
+<p>No commands to memorize — natural communication is the goal. Shortcuts (<code>/projects</code>, <code>/skill ...</code>) exist but are <strong>not required</strong>. You can do the same thing by writing "email Ahmet" or with the <code>/mail send Ahmet</code> command. BAIOS turns both into the same working language.</p>
+<h2 id="2-no-action-without-approval">2. No Action Without Approval</h2>
+<p>No risky operation happens without your approval.</p>
+<ul><li>Deleting or overwriting files</li>
+<li>Deploy, build, triggering a remote server</li>
+<li>API calls (paid ones especially)</li>
+<li>Commit, push, PR merge</li>
+</ul>
+Before every operation a **proposal** is shown; you approve, BAIOS acts, the result is recorded. In approved automations (pull a report every morning, back up every evening), if the risk level is low it does not ask again — **decided once, runs by the rules**.
+<h2 id="3-simplicity">3. Simplicity</h2>
+<ul><li>Solve instead of asking the user. Take the information from context.</li>
+<li>Give a 5-line answer, not 50 lines of markdown.</li>
+<li>Risk tables, semantic boundaries, proposal formats — these are used **only for genuinely risky** operations (deleting files, deploy). Do not use them for information questions.</li>
+<li>Do not write "no actionable step." If there is no action, move on quietly.</li>
+<li>Don't offer A/B/C choices unless truly necessary — suggest the best one directly.</li>
+</ul>
+<h2 id="4-context-is-everything">4. Context Is Everything</h2>
+<p>BAIOS does not depend on what the model you're talking to happens to know. <strong>BAIOS builds the context on every conversation</strong> and injects it into the model.</p>
+<ul><li>**System layer:** BAIOS version, available ARMs, skills, flows, user identity.</li>
+<li>**Project layer:** Active project, project files, project discipline, connected components.</li>
+<li>**Temporary layer:** Recent operations, the last five minutes of work.</li>
+<li>**Wiki layer:** Knowledge-base pages relevant to the query.</li>
+</ul>
+Even if the model changes, the context is preserved — **even switching from OpenAI to Ollama, the conversation continues where it left off**.
+<h2 id="5-model-independence">5. Model Independence</h2>
+<p>BAIOS works with any model: OpenAI, Anthropic, local Ollama, MiniMax, others.</p>
+<ul><li>The model is only a **tool**. BAIOS's structure is independent of it.</li>
+<li>If a provider fails, the **fallback chain** automatically moves to the next.</li>
+<li>Cost-sensitive? Cheap model. Sensitive data? Local — the choice is yours.</li>
+<li>One command: `baios config set llm.provider ollama`</li>
+</ul>
+<hr>
+<h2 id="a-layer-not-a-black-box">A Layer, Not a Black Box</h2>
+<p>BAIOS does not say <em>"leave it to me and it'll get done."</em> It is <strong>a discipline that works beside you</strong>. You think; BAIOS produces a recorded, repeatable, auditable version of your thinking.</p>
+<p>Why this difference matters:
+<ul><li>When something acts in your place and errs, it's hard to undo.</li>
+<li>When a layer errs, it can be undone step by step.</li>
+<li>A black box hides its reasoning.</li>
+<li>A layer is transparent — you see every step, and you can object to every step.</li>
+</ul>
+<hr>
+<h2 id="three-users-three-layers">Three Users, Three Layers</h2></p>
+<ul><li>**Individual:** One user, one machine. Early access; with personas built for your profession (lawyer, accountant, SMB owner, researcher…).</li>
+<li>**Enterprise (team / RBAC / audit):** Teams, roles, audit, multi-tenant. **Planned after the SMB release.** [Get in touch](../kurumsal/iletisim.html).</li>
+<li>**Edge:** ESP32, Raspberry Pi, embedded devices. Limited core. Coming soon.</li>
+</ul>
+[Read the architecture →](mimari.html)</main>
+<footer>BAIOS — Semantic Operating System · 2026 · <a href="/en/gizlilik.html">Privacy</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

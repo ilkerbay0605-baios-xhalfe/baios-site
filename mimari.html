@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAIOS Mimarisi</title>
+<meta name="description" content="Proje disiplini, context katmanları, ARM/Skill/Flow/Otomasyon, MCP.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BAIOS Mimarisi">
+<meta property="og:description" content="Proje disiplini, context katmanları, ARM/Skill/Flow/Otomasyon, MCP.">
+<meta property="og:url" content="https://baios.dev/mimari.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="tr_TR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BAIOS Mimarisi">
+<meta name="twitter:description" content="Proje disiplini, context katmanları, ARM/Skill/Flow/Otomasyon, MCP.">
+<link rel="canonical" href="https://baios.dev/mimari.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"Proje disiplini, context katmanları, ARM/Skill/Flow/Otomasyon, MCP.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "BAIOS Mimarisi", "item": "https://baios.dev/mimari.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="index.html">BAIOS</a>
+  <nav>
+    <a href="bireysel/hizli-baslangic.html">Bireysel</a>
+    <a href="kurumsal/index.html">Kurumsal</a>
+    <a href="edge/index.html">Edge</a>
+    <a href="felsefe.html">Felsefe</a>
+    <a href="mimari.html">Mimari</a>
+    <a href="katalog.html">Katalog</a>
+    <a href="kaynaklar/tutorial.html">Kaynaklar</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> Proje disiplini, context katmanları, ARM/Skill/Flow/Otomasyon, MCP.</div><h1 id="mimari">Mimari</h1>
+<p>🇬🇧 <a href="en/mimari.html">English</a></p>
+<p>BAIOS'un anatomi haritası — kullanırken değil, <strong>anlamak isteyenler</strong> için.</p>
+<hr>
+<h2 id="proje-disiplini">Proje Disiplini</h2>
+<p>Her proje kendi dünyasıdır. BAIOS projeyi açınca şu dosyaları okur:</p>
+<p><pre><code>~/.baios/projects/<slug>/
+├── project_context.md      ← kalıcı: amaç, kurallar, roller
+├── project_tmp_context.md  ← geçici: son işlemler, çalışma notu
+├── project_config.json     ← bağlı ARM, Skill, Flow, otomasyon
+├── discipline_v<N>.md      ← LLM ile üretilmiş çalışma yöntemi
+├── docs/                   ← proje materyalleri
+└── outputs/                ← skill/flow çıktıları
+</code></pre></p>
+<p><strong>Discipline Engine:</strong> Proje materyallerini + hedefini + mevcut BAIOS kapasitelerini birleştirir, LLM'e <strong>adım adım çalışma yöntemi</strong> ürettirir. Her versiyonu dosyaya yazar, versiyonlanır.</p>
+<p>Proje değiştiğinde disiplin yeniden üretilebilir. Eski versiyonlar arşivde kalır.</p>
+<hr>
+<h2 id="context-katmanlari">Context Katmanları</h2>
+<p>BAIOS LLM'e tek parça metin göndermez — <strong>katmanlı</strong> gönderir:</p>
+<table>
+<thead><tr><th>Katman</th><th>İçerik</th><th>Ne zaman</th></tr></thead>
+<tbody>
+<tr><td><strong>Sistem</strong></td><td>BAIOS sürümü, ARM/Skill/Flow sayıları, kurulu ARM'lar, aktif otomasyonlar</td><td>Her mesaj</td></tr>
+<tr><td><strong>Proje</strong></td><td>Aktif proje bilgisi, project_context.md içeriği, bağlı bileşenler</td><td>Proje aktifse</td></tr>
+<tr><td><strong>Geçici</strong></td><td>project_tmp_context.md — son işlemler</td><td>Proje aktifse</td></tr>
+<tr><td><strong>Wiki</strong></td><td>Sorguyla ilgili wiki sayfaları (RAG)</td><td>Uygun sayfa varsa</td></tr>
+<tr><td><strong>Konuşma</strong></td><td>Son N mesaj</td><td>Her mesaj</td></tr>
+<tr><td><strong>Kullanıcı mesajı</strong></td><td>Güncel soru/istek</td><td>Her mesaj</td></tr>
+</tbody></table>
+<p><strong>Neden önemli:</strong>
+<ul><li>LLM "BAIOS'ta şu skill yok" hatası yapmaz (liste önünde).</li>
+<li>Proje değişse context kendiliğinden değişir.</li>
+<li>Yeni ARM eklendiğinde tüm LLM konuşmaları otomatik bilir — stale liste yok.</li>
+</ul>
+<hr>
+<h2 id="arm-adaptor">ARM — Adaptör</h2></p>
+<p>ARM = BAIOS'u dış dünyaya bağlayan adaptör.</p>
+<p><strong>Kategoriler:</strong>
+<ul><li><strong>API tabanlı:</strong> Gmail, GitHub, Telegram, Notion, Brave Search, OpenWeather…</li>
+<li><strong>Yerel:</strong> shell, file, dosya_oku, web_reader, browser, sql, http, rss</li>
+<li><strong>Cloud/IoT:</strong> cloud (S3/GDrive), MQTT, HomeAssistant</li>
+<li><strong>Sistem:</strong> git_ops, deploy, feedback…</li>
+</ul>
+<strong>Kurulum seviyeleri (install_level):</strong>
+<ul><li><code>0</code> — Kurulumsuz, doğrudan çalışır (file, shell, web_reader)</li>
+<li><code>1</code> — API key gerekir (brave_search, weather)</li>
+<li><code>2</code> — OAuth / çok alanlı kurulum (gmail, notion, github)</li>
+<li><code>3</code> — Riskli (shell)</li>
+</ul>
+<strong>Her ARM:</strong>
+<ul><li>Handler Python fonksiyonu: <code>handle_<name>(action, config, query)</code></li>
+<li>Catalog kaydı: <code>baios/arm/catalog.json</code></li>
+<li>Versiyon: <code>baios/arm/versions_local.json</code></li>
+<li>Setup flow: sorulacak alanlar (token, repo vb.)</li>
+</ul>
+Yeni ARM yazmak için <a href="kaynaklar/gelistiriciler.html">geliştirici rehberi</a>.</p>
+<hr>
+<h2 id="skill-tekrarlanabilir-is-akisi">Skill — Tekrarlanabilir İş Akışı</h2>
+<p>Skill = adım adım işleyen şablon. JSON dosyası.</p>
+<p><pre><code>{
+  "name": "arastirma",
+  "required_arms": ["brave_search"],
+  "input_params": ["konu"],
+  "steps": [
+    {"action": "arm:brave_search", "params": {"query": "{konu}"}},
+    {"action": "llm:Sonuçları 5 maddede Türkçe özetle."},
+    {"action": "file:outputs/arastirma_{konu}.md"}
+  ]
+}
+</code></pre></p>
+<p><strong>Adım tipleri:</strong>
+<ul><li><code>arm:<name></code> — ARM çalıştır</li>
+<li><code>llm:<prompt></code> — LLM ile işle (use_previous: öncekini de gönder)</li>
+<li><code>file:<yol></code> — kaydet</li>
+<li><code>skill:<name></code> — başka skill çağır</li>
+</ul>
+<strong>Parametreler:</strong> <code>{konu}</code>, <code>{hedef_kitle}</code> gibi placeholder'lar çağrıda doldurulur.</p>
+<p>Skill JSON'ları <strong>arkadaşlarına gönderilebilir</strong>, community store'a eklenebilir.</p>
+<hr>
+<h2 id="flow-cok-skillli-buyuk-akis">Flow — Çok-Skill'li Büyük Akış</h2>
+<p>Flow, birden fazla skill'i/ARM'ı <strong>koşullu, döngülü</strong> çalıştırır.</p>
+<p><strong>Örnek: <code>site_release</code> flow (baios.dev için)</strong>
+<pre><code>changelog_uret → release_notes → git_ops(branch) → git_ops(commit)
+  → git_ops(push) → github(pr_create) → site_qa
+</code></pre></p>
+<p>Her adım koşullu olabilir: "QA başarısızsa rollback branch aç".</p>
+<hr>
+<h2 id="otomasyon-zamantetik">Otomasyon — Zaman/Tetik</h2>
+<p>Otomasyon = skill/flow'u zamanlanmış veya olay-tetikli çalıştırır.</p>
+<ul><li>**Cron:** `0 8 * * *` — her sabah 08:00</li>
+<li>**Webhook:** gelen HTTP → flow tetikle</li>
+<li>**Dosya değişimi:** `~/indirdiklerim/` izle, yeni PDF varsa analiz et</li>
+<li>**RSS:** yeni item → özetle + e-posta</li>
+<li>**MQTT:** sensör threshold → bildirim</li>
+</ul>
+Her otomasyon **onaylıdır** — kural-bazlı, risk düşükse onaysız çalışır.
+<hr>
+<h2 id="mcp-model-context-protocol">MCP — Model Context Protocol</h2>
+<p>BAIOS hem <strong>MCP sunucusu</strong> hem <strong>MCP istemcisi</strong>.</p>
+<ul><li>**Sunucu:** Claude Desktop, VS Code gibi araçlar BAIOS'u MCP üzerinden kullanabilir — "ilker'in projesi baios-dev'de PR aç".</li>
+<li>**İstemci:** BAIOS herhangi bir MCP sunucusuna (Figma, Jira, Notion API, GitHub MCP, Slack MCP…) bağlanır. Bir MCP sunucusu eklemek = BAIOS'a yeni ARM eklemek.</li>
+</ul>
+Detay: [MCP rehberi](kaynaklar/mcp-rehberi.html).
+<hr>
+<h2 id="guvenlik">Güvenlik</h2>
+<ul><li>**Vault:** Fernet + PBKDF2 ile API key'ler şifreli. Plaintext fallback yalnızca vault kilitliyse.</li>
+<li>**Path traversal koruması:** Her dosya yolu resolve edilip base dir içinde mi kontrol edilir.</li>
+<li>**Shell whitelist:** Yalnızca beyaz listedeki komutlar. `rm -rf`, `sudo` engellidir.</li>
+<li>**git_ops sandbox:** Sadece izinli repo'lar. `push` opt-in, `--force` opt-in.</li>
+<li>**Audit log:** Her aksiyon `~/.baios/audit/` altına kayıt. Kurumsal için tamper-proof.</li>
+<li>**Input validation:** Her API endpoint Pydantic ile doğrulanır.</li>
+</ul>
+<hr>
+<h2 id="ekosistem">Ekosistem</h2>
+<ul><li>**Python:** 3.12+</li>
+<li>**FastAPI** backend</li>
+<li>**React** frontend (opsiyonel — CLI + web)</li>
+<li>**17 kanal:** CLI, Web, Telegram, Discord, Slack, WhatsApp, Signal, Matrix, Teams, E-posta, IRC, Nostr, Google Chat, LINE, Viber, Twitch, Reddit</li>
+<li>**4 LLM provider:** OpenAI, Anthropic, Local (Ollama), Local_4K</li>
+</ul>
+[Hazır bileşen kataloğu →](katalog.html)</main>
+<footer>BAIOS — Semantik İşletim Sistemi · 2026 · <a href="/gizlilik.html">Gizlilik</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

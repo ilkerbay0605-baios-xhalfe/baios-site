@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCP Guide — BAIOS</title>
+<meta name="description" content="BAIOS MCP server + client. A bridge to any MCP tool.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MCP Guide — BAIOS">
+<meta property="og:description" content="BAIOS MCP server + client. A bridge to any MCP tool.">
+<meta property="og:url" content="https://baios.dev/en/kaynaklar/mcp-rehberi.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MCP Guide — BAIOS">
+<meta name="twitter:description" content="BAIOS MCP server + client. A bridge to any MCP tool.">
+<link rel="canonical" href="https://baios.dev/en/kaynaklar/mcp-rehberi.html">
+<link rel="stylesheet" href="../../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"BAIOS MCP server + client. A bridge to any MCP tool.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "En", "item": "https://baios.dev/en/index.html"}, {"@type": "ListItem", "position": 3, "name": "Kaynaklar", "item": "https://baios.dev/en/kaynaklar/index.html"}, {"@type": "ListItem", "position": 4, "name": "MCP Guide", "item": "https://baios.dev/en/kaynaklar/mcp-rehberi.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../../en/index.html">BAIOS</a>
+  <nav>
+    <a href="../../en/bireysel/hizli-baslangic.html">Individual</a>
+    <a href="../../kurumsal/index.html">Enterprise</a>
+    <a href="../../en/edge/index.html">Edge</a>
+    <a href="../../en/felsefe.html">Philosophy</a>
+    <a href="../../en/mimari.html">Architecture</a>
+    <a href="../../en/katalog.html">Catalog</a>
+    <a href="../../en/kaynaklar/tutorial.html">Resources</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> BAIOS MCP server + client. A bridge to any MCP tool.</div><h1 id="mcp-model-context-protocol">MCP — Model Context Protocol</h1>
+<p>🇹🇷 <a href="../../kaynaklar/mcp-rehberi.html">Türkçe</a></p>
+<p>BAIOS is both an <strong>MCP server</strong> and an <strong>MCP client</strong>. What does that mean, and what is it good for?</p>
+<hr>
+<h2 id="what-is-mcp">What Is MCP?</h2>
+<p>Model Context Protocol — a protocol proposed by Anthropic that lets LLM tools do server-client communication in a <strong>standardized way</strong>.</p>
+<p><strong>A simple analogy:</strong>
+<ul><li>Ethernet connects devices physically.</li>
+<li>HTTP makes software talk over the web.</li>
+<li>MCP makes LLM applications talk to tools/data over the <strong>same protocol</strong>.</li>
+</ul>
+<strong>Result:</strong> Whoever writes an MCP server (Slack, Jira, Figma) makes it usable by every MCP-compatible application (Claude Desktop, VS Code, BAIOS). Many MCP servers are already available, and the number grows every day.</p>
+<hr>
+<h2 id="baioss-mcp-role">BAIOS's MCP Role</h2>
+<h3 id="as-a-server">As a server</h3>
+<p>BAIOS exposes itself like an MCP server — <strong>other tools from outside can reach BAIOS's ARMs/Skills/Flows.</strong></p>
+<p><strong>Scenario:</strong>
+<ul><li>From Claude Desktop you say "open a PR in İlker's baios-dev project"</li>
+<li>Claude Desktop connects to BAIOS's MCP server</li>
+<li>BAIOS's <code>github</code> ARM runs → the PR is opened</li>
+</ul>
+<h3 id="as-a-client">As a client</h3></p>
+<p>BAIOS connects to external MCP servers. When you add an MCP server, that tool <strong>automatically becomes an ARM</strong>.</p>
+<p><strong>Scenario:</strong>
+<ul><li>You add the Figma MCP server (<code>npx @figma/mcp-server</code>)</li>
+<li>BAIOS detects it → the <code>figma</code> ARM appears on its own (as <code>api_figma</code>)</li>
+<li>You can use <code>arm:api_figma</code> in your skills</li>
+</ul>
+<hr>
+<h2 id="current-status">Current Status</h2></p>
+<table>
+<thead><tr><th>Capability</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>BAIOS MCP server (exposed outward)</td><td>✅ Basic</td></tr>
+<tr><td>BAIOS MCP client (discovers external MCPs)</td><td>✅ Phase 12</td></tr>
+<tr><td>Auto ARM (MCP → ARM conversion)</td><td>✅</td></tr>
+<tr><td>MCP discovery</td><td>✅</td></tr>
+<tr><td>Official MCP compatibility certificate</td><td>Planned</td></tr>
+</tbody></table>
+<hr>
+<h2 id="adding-an-mcp-server">Adding an MCP Server</h2>
+<h3 id="1-install-the-mcp-server">1. Install the MCP server</h3>
+<p>Each MCP server has its own documentation. Example — GitHub MCP:</p>
+<p><pre><code>npm install -g @modelcontextprotocol/server-github
+</code></pre></p>
+<h3 id="2-register-it-with-baios">2. Register it with BAIOS</h3>
+<p><strong>Web UI:</strong> Settings → MCP Servers → <strong>Add</strong></p>
+<p><strong>CLI:</strong>
+<pre><code>baios> /mcp ekle github-resmi "npx -y @modelcontextprotocol/server-github" stdio
+  Environment variable:
+  GITHUB_TOKEN=ghp_...
+</code></pre></p>
+<h3 id="3-see-it-as-an-arm">3. See it as an ARM</h3>
+<p><pre><code>baios> /arm listele
+# api_github_resmi — Auto ARM (MCP: github-resmi)
+</code></pre></p>
+<p>Now you can use it in your skills:
+<pre><code>{
+  "action": "arm:api_github_resmi",
+  "params": {"query": "list my repositories"}
+}
+</code></pre></p>
+<hr>
+<h2 id="popular-mcp-servers">Popular MCP Servers</h2>
+<blockquote>Compatibility testing is ongoing. The set fully tested at 100% is currently limited; **try the ones below with confidence**:</blockquote>
+<ul><li>**filesystem** — local file operations (a complement to BAIOS's own `file` ARM)</li>
+<li>**github** — GitHub API</li>
+<li>**slack** — Slack workspace</li>
+<li>**google-drive** — GDrive</li>
+<li>**postgres** — PostgreSQL</li>
+<li>**brave-search** — web search</li>
+<li>**puppeteer** — web scraping</li>
+</ul>
+Up-to-date list: [modelcontextprotocol.io/servers](https://modelcontextprotocol.io)
+<hr>
+<h2 id="use-baios-from-outside">Use BAIOS From Outside</h2>
+<p>Add BAIOS to Claude Desktop as an MCP server:</p>
+<p><strong>1. Start BAIOS MCP server mode:</strong>
+<pre><code>baios mcp-server --port 7777
+</code></pre></p>
+<p><strong>2. In Claude Desktop config:</strong>
+<pre><code>{
+  "mcpServers": {
+    "baios": {
+      "command": "baios",
+      "args": ["mcp-server", "--stdio"]
+    }
+  }
+}
+</code></pre></p>
+<p><strong>3. In Claude Desktop:</strong>
+<pre><code>Can you summarize the last 10 commits in the baios-dev project for me?
+→ Claude uses BAIOS's git_ops ARM
+</code></pre></p>
+<hr>
+<h2 id="security">Security</h2>
+<ul><li>MCP servers run **locally** (stdio) or over TLS.</li>
+<li>BAIOS routes MCP calls through the same approval chain (risky operation → approval).</li>
+<li>The audit log records both the request coming from MCP and BAIOS's response.</li>
+<li>A malicious MCP server? On the BAIOS side, **only permitted actions** get through.</li>
+</ul>
+<hr>
+<h2 id="contributing">Contributing</h2>
+<p>If you wrote your own MCP server and want a BAIOS compatibility test:
+<ul><li><strong>GitHub Issue:</strong> open it with the <code>[mcp-compat]</code> label</li>
+<li>Share an example configuration + a few test commands</li>
+<li>We add the test result to the repo</li>
+</ul>
+<hr>
+<h2 id="related">Related</h2></p>
+<ul><li>[Catalog — Auto ARM section](../katalog.html)</li>
+<li>[Developer guide](gelistiriciler.html)</li>
+<li>[Architecture — MCP section](../mimari.html#mcp)</li>
+</ul></main>
+<footer>BAIOS — Semantic Operating System · 2026 · <a href="/en/gizlilik.html">Privacy</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

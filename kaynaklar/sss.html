@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sık Sorulan Sorular — BAIOS</title>
+<meta name="description" content="BAIOS hakkında 30+ yaygın soru ve kısa cevap.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sık Sorulan Sorular — BAIOS">
+<meta property="og:description" content="BAIOS hakkında 30+ yaygın soru ve kısa cevap.">
+<meta property="og:url" content="https://baios.dev/kaynaklar/sss.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="tr_TR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sık Sorulan Sorular — BAIOS">
+<meta name="twitter:description" content="BAIOS hakkında 30+ yaygın soru ve kısa cevap.">
+<link rel="canonical" href="https://baios.dev/kaynaklar/sss.html">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"BAIOS hakkında 30+ yaygın soru ve kısa cevap.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "Kaynaklar", "item": "https://baios.dev/kaynaklar/index.html"}, {"@type": "ListItem", "position": 3, "name": "Sık Sorulan Sorular", "item": "https://baios.dev/kaynaklar/sss.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../index.html">BAIOS</a>
+  <nav>
+    <a href="../bireysel/hizli-baslangic.html">Bireysel</a>
+    <a href="../kurumsal/index.html">Kurumsal</a>
+    <a href="../edge/index.html">Edge</a>
+    <a href="../felsefe.html">Felsefe</a>
+    <a href="../mimari.html">Mimari</a>
+    <a href="../katalog.html">Katalog</a>
+    <a href="../kaynaklar/tutorial.html">Kaynaklar</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> BAIOS hakkında 30+ yaygın soru ve kısa cevap.</div><h1 id="sss">SSS</h1>
+<p>🇬🇧 <a href="../en/kaynaklar/sss.html">English</a></p>
+<p>Cevabı zaten dokümantasyonda olanı burada kısaca topluyoruz. Daha derin cevap için ilgili sayfaya link.</p>
+<hr>
+<h2 id="temel">Temel</h2>
+<p><strong>BAIOS nedir, tek cümleyle?</strong>
+İnsan dilinde çalışan, LLM bağımsız, kontrollü bir çalışma disiplini.</p>
+<p><strong>Ajan mı?</strong>
+Hayır. BAIOS bir katmandır — sen düşünürsün, BAIOS disiplinli şekilde uygular. <a href="../felsefe.html#ajan-değil-katman">Detay</a></p>
+<p><strong>Ücretli mi?</strong>
+MIT lisansı, ücretsiz ve açık kaynak. LLM çağrıları provider'a göre ücretli olabilir (OpenAI/Anthropic). Yerel Ollama kullanırsan hiç ücret yok.</p>
+<p><strong>Türkçe mi, İngilizce mi?</strong>
+Her ikisi. Dokümantasyon Türkçe öncelikli; kod içi mesajlar çoğunluğu Türkçe. i18n altyapısı hazır.</p>
+<hr>
+<h2 id="kurulum">Kurulum</h2>
+<p><strong>Nasıl kurulur?</strong>
+<pre><code># erken sürüm — GitHub'dan (PyPI yayını yakında)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+</code></pre>
+<a href="tutorial.html">Tutorial</a></p>
+<p><strong>Windows'ta çalışır mı?</strong>
+WSL2 öneriyoruz. Saf Windows yolları test edilmedi, sorun bildirin.</p>
+<p><strong>Python sürümü?</strong>
+3.12+.</p>
+<p><strong>Ollama şart mı?</strong>
+Hayır. OpenAI/Anthropic API key'in varsa o yeter. Sadece yerel LLM istiyorsan Ollama.</p>
+<hr>
+<h2 id="proje-disiplin">Proje & Disiplin</h2>
+<p><strong>Proje ne demek?</strong>
+Bir amaca yönelik dosyalar + context + bağlı ARM/Skill topluluğu. <code>~/.baios/projects/<slug>/</code> dizininde yaşar. <a href="../mimari.html#proje-disiplini">Mimari</a></p>
+<p><strong>Kaç projem olabilir?</strong>
+Sınır yok. Yüzlerce proje açabilirsin.</p>
+<p><strong>Projeyi taşıyabilir miyim?</strong>
+Evet — <code>baios proje export <slug></code> ZIP üretir, başka makinede <code>baios proje import</code> ile yüklenir.</p>
+<p><strong>Proje disiplini zorunlu mu?</strong>
+Hayır, opsiyonel. Ama çok faydalı — LLM'in sana önerileri projeye özel olur.</p>
+<hr>
+<h2 id="arm-skill">ARM & Skill</h2>
+<p><strong>ARM nedir?</strong>
+Adaptör — BAIOS'u dış servislere (Gmail, GitHub, dosya, shell) bağlayan Python modülü. <a href="../katalog.html#arm--28-adaptör">Katalog</a></p>
+<p><strong>Kaç ARM var?</strong>
+28 core + community store'da 8 opsiyonel.</p>
+<p><strong>Skill ile ARM farkı?</strong>
+<ul><li><strong>ARM:</strong> tek iş yapar (bir API çağrısı, bir dosya işlemi)</li>
+<li><strong>Skill:</strong> birden fazla adımı birleştiren şablon</li>
+</ul>
+<strong>Kendi skill'imi nasıl yazarım?</strong>
+JSON dosyası ile. <a href="gelistiriciler.html#yeni-skill-yaz">Geliştirici rehberi</a></p>
+<p><strong>Skill JSON'u arkadaşıma verebilir miyim?</strong>
+Evet — tek dosya, kopyala-yapıştır çalışır. Community store'a da yükleyebilirsin.</p>
+<hr>
+<h2 id="llm">LLM</h2>
+<p><strong>Hangi LLM'ler destekleniyor?</strong>
+OpenAI (GPT-4/4o/5), Anthropic (Claude Opus/Sonnet), Ollama (Llama 3, Mistral, Qwen), Local_4K (küçük modeller).</p>
+<p><strong>Provider değiştirmek?</strong>
+<pre><code>baios config set llm.provider anthropic
+</code></pre>
+Konuşma kaldığı yerden devam eder — context korunur.</p>
+<p><strong>LLM'in uydurma (hallucination) sorunu olur mu?</strong>
+Context'te BAIOS'un güncel kapasiteleri enjekte edilir (SM-FIX1). LLM "bu skill yok" demez — listede var mı yok mu bilir. Yine de her önemli çıktıda insan onayı alınır.</p>
+<p><strong>Fallback nedir?</strong>
+Öncelikli provider çökerse sıradaki denenir. Kesintisiz hizmet.</p>
+<hr>
+<h2 id="veri-gizlilik">Veri & Gizlilik</h2>
+<p><strong>Verim nerede?</strong>
+Yerel: <code>~/.baios/</code>. Dış servise sadece LLM çağrısı anında gider (sen OpenAI seçtiysen OpenAI'a).</p>
+<p><strong>BAIOS sunucusu var mı, verimi alır mı?</strong>
+<strong>Hayır.</strong> BAIOS tamamen yerel. Telemetri opsiyonel, varsayılan kapalı.</p>
+<p><strong>API key'lerim güvende mi?</strong>
+Vault'ta Fernet + PBKDF2 ile şifreli. Master password senin.</p>
+<p><strong>Yanlışlıkla <code>rm -rf</code> çalıştırır mı?</strong>
+Hayır. Shell ARM beyaz liste; <code>rm</code> kara listede. Genelde "onaysız riskli aksiyon yok" kuralı.</p>
+<hr>
+<h2 id="otomasyon">Otomasyon</h2>
+<p><strong>Cron gibi mi?</strong>
+Evet + fazlası. Zaman, webhook, dosya değişimi, RSS, MQTT — hepsi tetikleyici olabilir.</p>
+<p><strong>Hata olursa?</strong>
+Her çalışma audit'e kayıt. Hata olursa e-posta/Telegram bildirimi (ayarlanabilir).</p>
+<p><strong>Otomasyonu durdur?</strong>
+<pre><code>baios> /otomasyon durdur <ad>
+</code></pre></p>
+<hr>
+<h2 id="entegrasyon">Entegrasyon</h2>
+<p><strong>Slack/Discord/Telegram destekleniyor mu?</strong>
+Evet, 17 kanal hepsi. Bot kurulumu sırasıyla <a href="../katalog.html#kanallar--17">katalog → kanallar</a>.</p>
+<p><strong>Notion'a bağlanabilir mi?</strong>
+Evet, <code>notion</code> ARM'ı ile.</p>
+<p><strong>MCP sunucusu eklenebilir mi?</strong>
+Evet, Birçok MCP aracı BAIOS'a ARM olarak bağlanabilir. <a href="mcp-rehberi.html">MCP rehberi</a></p>
+<p><strong>GitHub Actions tetikleme?</strong>
+<code>deploy</code> ARM ile workflow_dispatch.</p>
+<hr>
+<h2 id="kurumsal">Kurumsal</h2>
+<p><strong>Ekipte kullanılabilir mi?</strong>
+Aktif geliştirme — Faz 13 multi-tenant + RBAC + LDAP. <a href="../kurumsal/index.html">Kurumsal</a></p>
+<p><strong>On-prem?</strong>
+Evet, docker-compose ile.</p>
+<p><strong>SOC2?</strong>
+2027 hedefi. <a href="../kurumsal/compliance.html">Compliance</a></p>
+<p><strong>Fiyat?</strong>
+Bireysel MIT (ücretsiz). Kurumsal destek + eğitim + özel geliştirme ayrı ticari anlaşma. <a href="../kurumsal/iletisim.html">İletişim</a></p>
+<hr>
+<h2 id="edge">Edge</h2>
+<p><strong>ESP32'de çalışır mı?</strong>
+Aktif araştırma. Köprü modu (ESP32 sensör + Pi orchestrator) önce hazır olacak. <a href="../edge/index.html">Edge</a></p>
+<p><strong>Raspberry Pi?</strong>
+Pi 4 / 5 için hedefte; henüz erken prototip.</p>
+<hr>
+<h2 id="katki-topluluk">Katkı & Topluluk</h2>
+<p><strong>PR açabilir miyim?</strong>
+Tabii. <a href="gelistiriciler.html#pr-açma">Geliştirici rehberi</a></p>
+<p><strong>Bug nerede bildirilir?</strong>
+GitHub Issues: <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios/issues">github.com/ilkerbay0605-baios-xhalfe/baios/issues</a></p>
+<p><strong>Discussions var mı?</strong>
+Aktif hazırlanıyor.</p>
+<p><strong>omgunbay nedir?</strong>
+Chatbot, BAIOS dokümantasyonu üzerinde RAG. <a href="omgunbay.html">omgunbay</a></p>
+<hr>
+<h2 id="hâlâ-bulamadin-mi">Hâlâ bulamadın mı?</h2>
+<ul><li>Sağ alttaki **omgunbay** sohbet penceresi (yakında)</li>
+<li>GitHub Issue aç</li>
+<li>`~/.baios/logs/baios.log` dosyası (sorun hakkında ipucu)</li>
+</ul></main>
+<footer>BAIOS — Semantik İşletim Sistemi · 2026 · <a href="/gizlilik.html">Gizlilik</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

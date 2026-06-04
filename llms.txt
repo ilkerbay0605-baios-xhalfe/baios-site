@@ -1,0 +1,59 @@
+# BAIOS — Semantik İşletim Sistemi
+
+> İnsan dilinde çalışan, LLM bağımsız, kontrollü bir çalışma disiplini. 38 ARM (adaptör), 25 skill (iş akışı), 4 flow, 17 kanal. Proje bazlı çalışır, her projenin kendi context, disiplin ve bağlı araçları vardır.
+
+BAIOS bir ajan değildir — kullanıcının yanında çalışan onaylı, denetlenebilir, LLM-agnostik bir katmandır.
+
+## Ana Sayfalar
+
+- [Hızlı Başlangıç — 10 Dakikada İlk Proje](https://baios.dev/bireysel/hizli-baslangic.html): Bireysel kullanıcı için kurulumdan ilk skill çalıştırmaya adım adım.
+- [Gerçek Kullanım Senaryoları](https://baios.dev/bireysel/senaryolar.html): Altı farklı meslekten somut BAIOS iş akışları.
+- [Edge Beta Kayıt](https://baios.dev/edge/beta-kayit.html): BAIOS Edge beta programı için duyuru listesine kayıt.
+- [BAIOS Edge](https://baios.dev/edge/index.html): ESP32, Raspberry Pi, robot ve akıllı cihazlar için sınırlı BAIOS.
+- [Edge Kullanım Örnekleri](https://baios.dev/edge/ornekler.html): Akıllı ev, sensör veri, robot köprü, maker senaryoları.
+- [Quick Start — Your First Project in 10 Minutes](https://baios.dev/en/bireysel/hizli-baslangic.html): Step by step from installation to running your first skill, for individual users.
+- [Real Usage Scenarios](https://baios.dev/en/bireysel/senaryolar.html): Concrete BAIOS workflows from six different professions.
+- [Edge Beta Sign-Up](https://baios.dev/en/edge/beta-kayit.html): Sign up to the announcement list for the BAIOS Edge beta program.
+- [BAIOS Edge](https://baios.dev/en/edge/index.html): BAIOS scoped down for ESP32, Raspberry Pi, robots and smart devices.
+- [Edge Use-Case Examples](https://baios.dev/en/edge/ornekler.html): Smart home, sensor data, robot bridge, maker scenarios.
+- [Integration Philosophy](https://baios.dev/en/entegrasyon/index.html): Why we don't integrate everything — and why that's a strength. Just tell it.
+- [BAIOS Philosophy](https://baios.dev/en/felsefe.html): Five principles, a layer not a doer, model independence.
+- [Privacy & Terms](https://baios.dev/en/gizlilik.html): KVKK notice, privacy policy, terms of use and disclaimer.
+- [BAIOS — Semantic Operating System](https://baios.dev/en/index.html): A controlled working discipline that runs in human language, model-independent.
+- [BAIOS Component Catalog](https://baios.dev/en/katalog.html): BAIOS components — ARMs, Skills, Flows, channels and Turkish SMB integrations.
+- [Developer Guide](https://baios.dev/en/kaynaklar/gelistiriciler.html): Write a skill, write an ARM, design a flow, open a PR.
+- [MCP Guide](https://baios.dev/en/kaynaklar/mcp-rehberi.html): BAIOS MCP server + client. A bridge to any MCP tool.
+- [omgunbay — BAIOS Chatbot](https://baios.dev/en/kaynaklar/omgunbay.html): A RAG-based chatbot over the BAIOS documentation.
+- [Frequently Asked Questions](https://baios.dev/en/kaynaklar/sss.html): 30+ common questions about BAIOS with short answers.
+- [Tutorial — BAIOS Guide](https://baios.dev/en/kaynaklar/tutorial.html): From installation to your first project, from your first skill to your first automation, step by step.
+- [BAIOS Architecture](https://baios.dev/en/mimari.html): Project discipline, context layers, ARM/Skill/Flow/Automation, MCP.
+- [Entegrasyon Felsefesi](https://baios.dev/entegrasyon/index.html): Neden her şeyi entegre etmiyoruz — ve bu neden bir güç. Söyle, yapayım.
+- [Untitled](https://baios.dev/entegrasyon/isbasi/callback/index.html)
+- [BAIOS Felsefesi](https://baios.dev/felsefe.html): Beş prensip, ajan değil katman, LLM bağımsızlık.
+- [Gizlilik & Kullanım](https://baios.dev/gizlilik.html): KVKK aydınlatma, gizlilik politikası, kullanım şartları ve sorumluluk reddi.
+- [BAIOS — Semantik İşletim Sistemi](https://baios.dev/index.html): İnsan dilinde çalışan, LLM bağımsız, kontrollü bir çalışma disiplini.
+- [BAIOS Bileşen Kataloğu](https://baios.dev/katalog.html): BAIOS bileşenleri — ARM, Skill, Flow, kanal ve Türk KOBİ entegrasyonları.
+- [Geliştirici Rehberi](https://baios.dev/kaynaklar/gelistiriciler.html): Skill yaz, ARM yaz, flow tasarla, PR aç.
+- [MCP Rehberi](https://baios.dev/kaynaklar/mcp-rehberi.html): BAIOS MCP sunucusu + istemcisi. herhangi bir MCP aracına köprü.
+- [omgunbay — BAIOS Chatbot](https://baios.dev/kaynaklar/omgunbay.html): BAIOS dokümantasyonu üzerinde RAG tabanlı sohbet botu.
+- [Sık Sorulan Sorular](https://baios.dev/kaynaklar/sss.html): BAIOS hakkında 30+ yaygın soru ve kısa cevap.
+- [Tutorial — BAIOS Rehberi](https://baios.dev/kaynaklar/tutorial.html): Kurulumdan ilk projeye, ilk skill'den ilk otomasyona kadar adım adım.
+- [Kurumsal Compliance](https://baios.dev/kurumsal/compliance.html): KVKK, GDPR, SOC2, audit log, vault, on-prem.
+- [Kurumsal İletişim](https://baios.dev/kurumsal/iletisim.html): Enterprise yapılandırma, pilot program, eğitim, SLA paketleri için iletişim.
+- [BAIOS Kurumsal](https://baios.dev/kurumsal/index.html): Ekipler, compliance, audit, multi-tenant. SMB sürümünden sonra planlanıyor.
+- [Kurumsal Özellikler — Roadmap](https://baios.dev/kurumsal/ozellikler.html): Hazır vs geliyor tablosu. Multi-tenant, RBAC, audit, SSO.
+- [BAIOS Mimarisi](https://baios.dev/mimari.html): Proje disiplini, context katmanları, ARM/Skill/Flow/Otomasyon, MCP.
+
+## Kullanım Örnekleri
+
+- `git clone https://github.com/ilkerbay0605-baios-xhalfe/baios && cd baios && ./run.sh start` — erken sürüm (PyPI yakında)
+- `baios> /skill calistir arastirma` — hazır skill
+- `baios> istanbul hava durumu` — doğal dil intent
+- `baios serve` — web UI (http://localhost:8000)
+
+## Kaynaklar
+
+- GitHub: https://github.com/ilkerbay0605-baios-xhalfe/baios
+- Lisans: MIT
+- Tür: Yerel AI asistan / context OS
+- Python: 3.12+

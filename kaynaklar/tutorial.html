@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutorial — BAIOS Rehberi</title>
+<meta name="description" content="Kurulumdan ilk projeye, ilk skill'den ilk otomasyona kadar adım adım.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tutorial — BAIOS Rehberi">
+<meta property="og:description" content="Kurulumdan ilk projeye, ilk skill'den ilk otomasyona kadar adım adım.">
+<meta property="og:url" content="https://baios.dev/kaynaklar/tutorial.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="tr_TR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tutorial — BAIOS Rehberi">
+<meta name="twitter:description" content="Kurulumdan ilk projeye, ilk skill'den ilk otomasyona kadar adım adım.">
+<link rel="canonical" href="https://baios.dev/kaynaklar/tutorial.html">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"Kurulumdan ilk projeye, ilk skill'den ilk otomasyona kadar adım adım.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "Kaynaklar", "item": "https://baios.dev/kaynaklar/index.html"}, {"@type": "ListItem", "position": 3, "name": "Tutorial — BAIOS Rehberi", "item": "https://baios.dev/kaynaklar/tutorial.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../index.html">BAIOS</a>
+  <nav>
+    <a href="../bireysel/hizli-baslangic.html">Bireysel</a>
+    <a href="../kurumsal/index.html">Kurumsal</a>
+    <a href="../edge/index.html">Edge</a>
+    <a href="../felsefe.html">Felsefe</a>
+    <a href="../mimari.html">Mimari</a>
+    <a href="../katalog.html">Katalog</a>
+    <a href="../kaynaklar/tutorial.html">Kaynaklar</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> Kurulumdan ilk projeye, ilk skill'den ilk otomasyona kadar adım adım.</div><h1 id="tutorial">Tutorial</h1>
+<p>🇬🇧 <a href="../en/kaynaklar/tutorial.html">English</a></p>
+<p>Baştan sona BAIOS rehberi. 45 dakikada tamamlayınca kendi iş akışını kurmuş olursun.</p>
+<hr>
+<h2 id="0-baslamadan">0. Başlamadan</h2>
+<p><strong>İhtiyaç:</strong>
+<ul><li>Python 3.12+</li>
+<li>Bir LLM provider (API key VEYA yerel Ollama)</li>
+<li>15 dakika odak</li>
+</ul>
+<strong>Sonuç:</strong> Kendi projesi, bağlı ARM'ları, çalışan bir skill'i olan bir BAIOS kullanıcısı olmuş olacaksın.</p>
+<hr>
+<h2 id="bolum-1-kurulum-5-dk">Bölüm 1 — Kurulum (5 dk)</h2>
+<h3 id="11-baiosu-yukle">1.1 BAIOS'u yükle</h3>
+<p><pre><code># erken sürüm — GitHub'dan (PyPI yayını yakında)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+</code></pre></p>
+<p>İlk açılışta kişiselleştirme sorar:
+<ul><li>İsim</li>
+<li>Dil (Türkçe önerilen)</li>
+<li>Tercih ettiğin iletişim üslubu (dostça / resmi / teknik)</li>
+</ul>
+<h3 id="12-llm-provider-sec">1.2 LLM provider seç</h3></p>
+<p><strong>Yerel (ücretsiz, internet gerekmez):</strong>
+<pre><code># Yeni terminal:
+ollama serve
+ollama pull llama3.2
+
+# BAIOS terminal:
+baios config set llm.provider local
+</code></pre></p>
+<p><strong>OpenAI (hız + kalite):</strong>
+<pre><code>baios config set llm.provider openai
+baios config set openai.api_key sk-...
+</code></pre></p>
+<p><strong>Anthropic (uzun context):</strong>
+<pre><code>baios config set llm.provider anthropic
+baios config set anthropic.api_key sk-ant-...
+</code></pre></p>
+<h3 id="13-test-et">1.3 Test et</h3>
+<p><pre><code>baios> merhaba
+</code></pre></p>
+<p>Konuşma başlamalı. Web UI için:
+<pre><code>baios serve
+# → http://localhost:8000
+</code></pre></p>
+<hr>
+<h2 id="bolum-2-ilk-proje-5-dk">Bölüm 2 — İlk Proje (5 dk)</h2>
+<h3 id="21-proje-olustur">2.1 Proje oluştur</h3>
+<p>Amacına göre bir proje düşün. Örneğin <strong>"haftalık bütçe takibi"</strong> veya <strong>"matematik dersleri"</strong> veya <strong>"blog yazı havuzu"</strong>.</p>
+<p><pre><code>baios> /proje yeni butce "Aylık gelir-gider takibi"
+baios> /proje sec butce
+</code></pre></p>
+<p>Veya web UI'den <strong>Projeler → Yeni</strong>.</p>
+<h3 id="22-proje-dosyalari">2.2 Proje dosyaları</h3>
+<p>Proje dizini otomatik oluştu:
+<pre><code>~/.baios/projects/butce/
+├── project_context.md       ← amaç, kurallar
+├── project_tmp_context.md   ← geçici notlar
+├── project_config.json      ← bağlı ARM/Skill
+├── docs/                    ← materyallerini koy
+└── outputs/                 ← skill çıktıları
+</code></pre></p>
+<h3 id="23-materyal-ekle-opsiyonel">2.3 Materyal ekle (opsiyonel)</h3>
+<p>Bütçe Excel'in varsa:
+<pre><code>cp ~/bütçe.csv ~/.baios/projects/butce/docs/
+</code></pre></p>
+<h3 id="24-disiplin-uret">2.4 Disiplin üret</h3>
+<p><strong>Web UI:</strong> Proje sayfası → <strong>Çalışma Disiplini</strong> → Hedef yaz → <strong>Üret</strong></p>
+<p><strong>CLI:</strong>
+<pre><code>baios> /disiplin uret "Aylık bütçe tutmak ve ay sonu özet çıkarmak"
+</code></pre></p>
+<p>Sonuç <code>discipline_v1.md</code> — LLM sana özel iş akışı hazırladı.</p>
+<hr>
+<h2 id="bolum-3-ilk-arm-kurulumu-5-dk">Bölüm 3 — İlk ARM Kurulumu (5 dk)</h2>
+<h3 id="31-neye-ihtiyacin-var">3.1 Neye ihtiyacın var?</h3>
+<p>Düşün: projen hangi dış servise ihtiyaç duyar?
+<ul><li>Gmail okumak mı? → <code>gmail</code> ARM</li>
+<li>Web'den bilgi çekmek mi? → <code>brave_search</code> ARM</li>
+<li>Hava durumu mu? → <code>weather</code> ARM</li>
+<li>Sadece dosyalarla çalışmak mı? → <strong>ARM gerekmez</strong> (file ARM otomatik var)</li>
+</ul>
+<h3 id="32-arm-kur">3.2 ARM kur</h3></p>
+<p><strong>Web UI:</strong> Kütüphane → ARM sekmesi → arayı bul → <strong>Kur</strong></p>
+<p><strong>CLI:</strong>
+<pre><code>baios> /arm kur weather
+# → API key sorar → OpenWeatherMap'ten ücretsiz al: https://openweathermap.org/api
+</code></pre></p>
+<h3 id="33-projeye-bagla">3.3 Projeye bağla</h3>
+<p><pre><code>baios> /proje bagla arm weather
+</code></pre></p>
+<p>Artık proje context'inde <code>weather</code> ARM mevcut — LLM bunu bilir.</p>
+<hr>
+<h2 id="bolum-4-ilk-skill-calistirma-10-dk">Bölüm 4 — İlk Skill Çalıştırma (10 dk)</h2>
+<h3 id="41-skill-sec">4.1 Skill seç</h3>
+<p>Başlangıç için <code>arastirma</code> basit ve güzel:
+<ul><li>Bir konu verirsin</li>
+<li>Web'de arar</li>
+<li>LLM özetler</li>
+<li>Dosyaya kaydeder</li>
+</ul>
+<h3 id="42-calistir">4.2 Çalıştır</h3></p>
+<p><strong>Web UI:</strong> Kütüphane → Skill → <code>arastirma</code> → <strong>Çalıştır</strong>
+<ul><li><code>konu</code>: seni ilgilendiren bir şey, örn. "hangi bitkiler mutfakta yetişir"</li>
+</ul>
+<strong>CLI:</strong>
+<pre><code>baios> /skill calistir arastirma konu="hangi bitkiler mutfakta yetişir"
+</code></pre></p>
+<h3 id="43-sonucu-incele">4.3 Sonucu incele</h3>
+<p>Çıktı proje dizininde:
+<pre><code>~/.baios/projects/butce/outputs/arastirma_hangi_bitkiler_mutfakta_yetisir.md
+</code></pre></p>
+<p>Web UI'de <strong>Projeler → butce → Dosyalar</strong> sekmesinden açabilirsin.</p>
+<hr>
+<h2 id="bolum-5-dogal-dil-konusma-5-dk">Bölüm 5 — Doğal Dil Konuşma (5 dk)</h2>
+<p>Artık komut ezberlemeyi bırak, doğal konuş:</p>
+<p><pre><code>baios> istanbul hava nasıl bugün?
+baios> bütçe CSV'sinden toplam harcamayı hesapla
+baios> "yeni teklif" ile başlayan mailleri listele (gmail ARM kuruluysa)
+baios> bu araştırma dosyasından 5 madde özet çıkar
+</code></pre></p>
+<p>BAIOS niyeti okur, doğru ARM/Skill'i seçer, riskli işlemde onay ister.</p>
+<hr>
+<h2 id="bolum-6-ilk-otomasyon-10-dk">Bölüm 6 — İlk Otomasyon (10 dk)</h2>
+<p>Tekrarlanan bir işi otomatikleştir.</p>
+<h3 id="61-otomasyon-tanimla">6.1 Otomasyon tanımla</h3>
+<p><pre><code>baios> /otomasyon kur
+  Tetikleyici: her pazar 20:00
+  Aksiyon: bütçe özeti çıkar + e-posta at (bana)
+</code></pre></p>
+<h3 id="62-calismasini-gor">6.2 Çalışmasını gör</h3>
+<p><pre><code>baios> /otomasyon listele
+</code></pre></p>
+<p>İlk pazar 20:00'de otomatik çalışır. Çıktıyı e-posta alırsın.</p>
+<h3 id="63-degistir-durdur">6.3 Değiştir / durdur</h3>
+<p><pre><code>baios> /otomasyon durdur butce_ozet_haftalik
+baios> /otomasyon sil butce_ozet_haftalik
+</code></pre></p>
+<hr>
+<h2 id="bolum-7-wiki-5-dk">Bölüm 7 — Wiki (5 dk)</h2>
+<p>Projede biriken bilgiyi kalıcı hale getir:</p>
+<p><pre><code>baios> /wiki olustur butce-kategoriler
+</code></pre></p>
+<p>BAIOS proje içeriklerini + konuşma geçmişini inceleyip bir wiki sayfası hazırlar. Her LLM çağrısında ilgili sayfalar otomatik context'e gider.</p>
+<p>Birikim birikir — projen ne kadar eskidse o kadar akıllı.</p>
+<hr>
+<h2 id="sonraki-adimlar">Sonraki Adımlar</h2>
+<table>
+<thead><tr><th>İstiyorsan</th><th>Git</th></tr></thead>
+<tbody>
+<tr><td>Meslek özel senaryolar</td><td><a href="../bireysel/senaryolar.html">Senaryolar</a></td></tr>
+<tr><td>Kendi skill'ini yazmak</td><td><a href="gelistiriciler.html">Geliştirici rehberi</a></td></tr>
+<tr><td>MCP sunucu bağlamak</td><td><a href="mcp-rehberi.html">MCP rehberi</a></td></tr>
+<tr><td>omgunbay chatbot</td><td><a href="omgunbay.html">omgunbay</a></td></tr>
+<tr><td>Sık sorulan</td><td><a href="sss.html">SSS</a></td></tr>
+</tbody></table>
+<hr>
+<h2 id="sorun-giderme">Sorun Giderme</h2>
+<p><strong>Skill hatası "Eksik ARM":</strong> <code>/arm kur <ad></code> ile kur.</p>
+<p><strong>LLM cevap vermiyor:</strong> <code>baios config show</code> → provider doğru mu, key geçerli mi.</p>
+<p><strong>Dosya bulunamadı:</strong> Proje seçili mi? <code>/proje durum</code>.</p>
+<p><strong>Port çakışması:</strong> <code>baios serve --port 8080</code>.</p>
+<p><strong>Log:</strong> <code>tail -f ~/.baios/logs/baios.log</code></p></main>
+<footer>BAIOS — Semantik İşletim Sistemi · 2026 · <a href="/gizlilik.html">Gizlilik</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,5104 @@
+# BAIOS — Tam İçerik Dökümü (AI modeli tek hamlede yutsun)
+
+Son güncellenme: 2026-06-04
+Kaynak: https://baios.dev
+
+---
+
+# /bireysel/hizli-baslangic.html
+
+# Hızlı Başlangıç
+
+🇬🇧 [English](../en/bireysel/hizli-baslangic.html)
+
+On dakikada BAIOS'u kurup ilk projeni açıp ilk skill'ini çalıştıracaksın.
+
+---
+
+## 1. Kurulum (1 dk)
+
+```bash
+# Erken sürüm — GitHub'dan kurulum (PyPI yayını yakında)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+
+İlk çalıştırmada kısa kişiselleştirme sorar (isim, dil). Tamam deyince ana menü açılır.
+
+**Web arayüzü:**
+```bash
+baios serve
+# → http://localhost:8000
+```
+
+---
+
+## 2. LLM Provider Seç (1 dk)
+
+En az bir LLM provider gerekir. Üç seçenek:
+
+**OpenAI (API key varsa):**
+```bash
+baios config set llm.provider openai
+baios config set openai.api_key sk-...
+```
+
+**Anthropic:**
+```bash
+baios config set llm.provider anthropic
+baios config set anthropic.api_key sk-ant-...
+```
+
+**Yerel Ollama (internet yok, ücretsiz):**
+```bash
+# Ayrı pencerede:
+ollama serve
+ollama pull llama3.2
+
+baios config set llm.provider local
+```
+
+> Hassas veri varsa **local** öner. Hız ve doğruluk istersen OpenAI/Anthropic.
+
+---
+
+## 3. İlk Proje (2 dk)
+
+**Web UI:**
+1. Sol menü → **Projeler** → **Yeni**
+2. Ad: `denemem`
+3. Açıklama: `BAIOS'u denemek için`
+4. **Oluştur**
+
+**CLI:**
+```bash
+baios> /proje yeni denemem "BAIOS'u denemek için"
+baios> /proje sec denemem
+```
+
+Proje dizini oluşturuldu: `~/.baios/projects/denemem/`.
+
+---
+
+## 4. Çalışma Disiplini Üret (2 dk)
+
+Proje ne için? Disiplin Engine'e söyle, LLM sana özel iş akışı hazırlasın.
+
+**Web UI:**
+1. Proje sayfasında **Çalışma Disiplini** bölümüne gir
+2. **Hedef:** "Haftalık bütçe tablosu tutmak ve ay sonu özet çıkarmak"
+3. **Üret**
+
+Sonuç `discipline_v1.md` — 3-5 fazlık adım adım yöntem, önerilen ARM ve skill'ler.
+
+---
+
+## 5. İlk Skill (2 dk)
+
+Basit bir skill deneyelim — `arastirma`:
+
+**Web UI:**
+1. Sol menü → **Kütüphane** → **Skill**
+2. `arastirma` bul → **Çalıştır**
+3. `konu`: `en iyi sabah rutinleri`
+4. **Çalıştır**
+
+Üç adım çalışır:
+1. Web araması
+2. LLM özet
+3. Dosyaya kaydet → `~/.baios/projects/denemem/outputs/arastirma_*.md`
+
+---
+
+## 6. ARM Kur (opsiyonel, 1 dk)
+
+Gmail okuma istersen `gmail` ARM'ını kur:
+
+**Web UI:**
+1. Sol menü → **Kütüphane** → **ARM**
+2. `gmail` → **Kur**
+3. Google hesap OAuth akışı
+4. Tamam
+
+Artık skill'lerde `gmail` kullanılabilir.
+
+---
+
+## 7. Chat'ten Konuş (1 dk)
+
+Artık doğal dilde konuşabilirsin:
+
+```
+baios> bugünkü e-postalarımı özetle
+  → gmail arm + llm_ozet skill
+baios> istanbul hava durumu
+  → weather arm
+baios> bu araştırma dosyasından 10 flashcard çıkar
+  → flashcard skill
+```
+
+BAIOS niyeti okur, uygun ARM/Skill'i çalıştırır. Riskli işlemde onay ister.
+
+---
+
+## Sonraki Adımlar
+
+| İstiyorsan | Bak |
+|---|---|
+| Daha fazla senaryo | [Senaryolar](senaryolar.html) |
+| Kendi skill'ini yazmak | [Geliştirici rehberi](../kaynaklar/gelistiriciler.html) |
+| MCP sunucu bağlamak | [MCP rehberi](../kaynaklar/mcp-rehberi.html) |
+| Tüm bileşen listesi | [Katalog](../katalog.html) |
+| Takılırsan | Sağ alttaki omgunbay sohbet |
+
+---
+
+## Sorun Giderme
+
+**Kurulum başarısız:**
+```bash
+# Python 3.12+ ve git gerekir
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+
+**Web UI açılmıyor:**
+Port 8000 başka bir uygulamada olabilir. `baios serve --port 8080`
+
+**LLM hatası:**
+```bash
+baios config show       # mevcut provider'ı gör
+baios config test llm   # bağlantı testi
+```
+
+**Log:**
+```bash
+tail -f ~/.baios/logs/baios.log
+```
+
+---
+
+# /bireysel/senaryolar.html
+
+# Senaryolar
+
+🇬🇧 [English](../en/bireysel/senaryolar.html)
+
+BAIOS'un soyut tanımı yerine **gerçek işlerde nasıl çalıştığı**. Her senaryo kendi kullanıcısının gerçek bir gününden parça.
+
+---
+
+## 🎓 Öğretmen — Ders hazırlığı + öğrenci takibi
+
+**Hedef:** Haftalık matematik dersini planla, yoklama tut, öğrenci dosyaları güncel olsun.
+
+**BAIOS kurgusu:**
+- Proje: `matematik-8-a`
+- Bağlı ARM'lar: `file`, `dosya_oku`, `calendar`, `gmail_send`
+- Bağlı skill'ler: `konu_aciklama`, `flashcard`, `gunluk_ozet`
+
+**Tipik gün:**
+```
+baios> /proje sec matematik-8-a
+baios> gelecek hafta trigonometri ders planı hazırla
+  → konu_aciklama skill → docs/ders_plan_hafta14.md
+baios> bu konudan 20 flashcard çıkar
+  → flashcard skill → outputs/flashcards_trigonometri.csv
+baios> ayşe'nin son sınav notunu dosyaya ekle 75
+  → file arm → docs/ogrenciler/ayse.md güncel
+baios> /otomasyon kur: her pazar 20:00 — hafta özetini bana e-posta at
+```
+
+---
+
+## 📊 Muhasebeci — Fatura analizi + KDV kontrolü
+
+**Hedef:** Ay sonu faturalarını kontrol et, KDV tutarlarını doğrula, rapor çıkar.
+
+**BAIOS kurgusu:**
+- Proje: `muhasebe-2026`
+- ARM'lar: `file`, `dosya_oku` (PDF), `sql` (kayıt db)
+- Flow: `muhasebe_kontrol`
+
+**Tipik gün:**
+```
+baios> /proje sec muhasebe-2026
+baios> bu ay gelen faturaları docs/faturalar-nisan/ içine koydum, kontrol et
+  → dosya_oku (PDF) → llm analiz → tutarsızlık uyarısı
+  → sql arm → ay toplamı hesapla → rapor.md
+baios> şirket X için nisan özeti hazırla
+  → veri_analiz skill → outputs/sirket_X_nisan.md
+```
+
+**Audit:** Her aksiyon `~/.baios/audit/` içinde kayıt — sonradan kim ne yaptı sorusuna cevap.
+
+---
+
+## ✍️ İçerik üretici — Blog + sosyal paylaşım
+
+**Hedef:** Haftalık blog yazısı + Twitter/LinkedIn özetleri.
+
+**BAIOS kurgusu:**
+- Proje: `blog-kisilik-gelisimi`
+- ARM'lar: `brave_search`, `web_reader`, `file`, `notion`
+- Skill'ler: `arastirma`, `blog_post_taslak`, `url_ozet`, `gorsel_prompt`
+
+**Tipik gün:**
+```
+baios> yeni konu: "sabah rutini bilimi"
+baios> /skill calistir arastirma konu="sabah rutini bilimi"
+  → brave_search + llm + file → docs/arastirma_sabah_rutini.md
+baios> bu araştırmadan 1200 kelimelik blog post yaz, okuyucu: girişimci
+  → blog_post_taslak skill → outputs/blog_sabah_rutini.md
+baios> aynı konu için LinkedIn post taslağı (3 paragraf)
+baios> blog'a görsel prompt öner
+  → gorsel_prompt skill → dalle ile görsel üret
+```
+
+---
+
+## 🔬 Veri bilimci — CSV keşfi + rapor
+
+**Hedef:** Müşteri segmentasyon CSV'sini anla, ilk bulguları yaz, grafik öner.
+
+**BAIOS kurgusu:**
+- Proje: `musteri-segmentasyon-q2`
+- ARM'lar: `file`, `sql`, `http`
+- Skill: `veri_analiz`
+
+**Tipik gün:**
+```
+baios> docs/customers.csv yükle
+baios> /skill calistir veri_analiz dosya=docs/customers.csv
+  → sql arm → temel istatistik
+  → llm → bulgu yorumu
+  → file → outputs/bulgular.md + grafik_tarif.md
+baios> bu bulgulara göre 3 slayt taslağı
+baios> /wiki olustur musteri-segmentasyon-bulgular  ← bilgi birikimi
+```
+
+---
+
+## 🧑‍💻 Yazılımcı — baios.dev dogfood
+
+**Hedef:** baios.dev web sitesini kendisi üzerinden yönet (bu sitenin gerçek hikayesi).
+
+**BAIOS kurgusu:**
+- Proje: `baios-dev` (template'ten)
+- ARM'lar: `git_ops`, `github`, `deploy`, `browser`, `web_reader`, `file`
+- Skill'ler: `landing_copy_revize`, `blog_post_taslak`, `changelog_uret`, `release_notes`, `site_qa`
+- Flow: `site_release`
+
+**Tipik release:**
+```
+baios> /proje sec baios-dev
+baios> yeni blog: "BAIOS neden ajan değil"
+  → blog_post_taslak → outputs/blog_*.md (insan onayı)
+baios> /flow calistir site_release versiyon=v2.6
+  → changelog + release_notes → git branch → commit → push → PR aç
+baios> PR merge'den sonra /arm deploy trigger main
+baios> /arm deploy wait 300
+baios> /skill calistir site_qa url=https://baios.dev
+```
+
+[Detaylı hikaye →](../felsefe.html#ajan-değil-katman)
+
+---
+
+## 🎓 Araştırmacı — Kaynak tarama + wiki birikimi
+
+**Hedef:** Doktora tezi için "yapay zeka + hukuk" literatürü, sürekli artan wiki.
+
+**BAIOS kurgusu:**
+- Proje: `doktora-tez-ai-hukuk`
+- ARM'lar: `brave_search`, `web_reader`, `file`, `notion`
+- Skill'ler: `arastirma`, `url_ozet`
+- Wiki otomatik üretimi
+
+**Tipik gün:**
+```
+baios> bu akademik makale URL'sini oku ve özetle: https://arxiv.org/abs/...
+  → web_reader + llm_ozet → outputs/kaynak_N.md
+baios> önemli bulgulardan biri: "AI karar verme şeffaflık sorunu"
+  → /wiki olustur ai-karar-seffafligi
+baios> geçen ay özetlediğim tüm kaynakları göster
+  → file arm → docs/kaynaklar/ listele
+baios> ilgili wiki sayfalarını LLM context'e ekle ve tez 3. bölümü için taslak hazırla
+```
+
+**Kazanç:** Her kaynak bilgiye kalıcı eklenir. Bir ay sonra LLM değişse bile birikim korunur.
+
+---
+
+## Ortak Bağ: Disiplin
+
+Altı senaryoda da farklı meslek, farklı iş. Ortak olan:
+1. **Proje** — BAIOS her işi bir projede yaşatır.
+2. **Disiplin** — Çalışma yöntemi dosyada, tekrarlanabilir.
+3. **Onay** — Riskli işlem onay ister.
+4. **Context** — LLM her zaman güncel duruma bakıyor.
+5. **Birikim** — Her proje kendi bilgisini birikir, wiki büyür.
+
+---
+
+## Senin senaryon?
+
+[Tutorial ile ilk projeyi aç →](../kaynaklar/tutorial.html) ve kendi disiplinini kur. Sorun çıkarsa sağ alttaki **omgunbay** sohbet penceresinden sor.
+
+---
+
+# /edge/beta-kayit.html
+
+# Edge Beta
+
+🇬🇧 [English](../en/edge/beta-kayit.html)
+
+BAIOS Edge henüz genel sürüme hazır değil, ama **beta programı** açılıyor. Kayıt olursan:
+
+- **İlk beta bildirimi** — hazır olduğunda ilk bilen sen.
+- **Donanım uyumluluk listesi** — hangi cihazların desteklendiği netleşince.
+- **Prototip paylaşımları** — aylık gelişme özeti.
+- **Beta katılımcı çağrısı** — pilot kullanım için davet.
+
+---
+
+## Kayıt
+
+**E-posta:** edge@baios.dev
+
+Konuya **"Edge Beta Kayıt"** yaz. Mesajında şunları paylaşırsan hızlanırız:
+
+- Hangi donanımın var (Pi 4/5, Jetson, ESP32, robot, vb.)
+- Düşündüğün senaryo (akıllı ev, sensör, robot, maker)
+- İletişim için tercih (e-posta yeterli mi, Telegram/Discord gruba katılır mısın)
+
+---
+
+## Ne Zaman?
+
+Edge geliştirme aktif. Kesin tarih yok ama hedefler:
+
+| Aşama | Hedef |
+|---|---|
+| Raspberry Pi 4 prototip | 2026 Q3 |
+| ESP32 köprü modu | 2026 Q4 |
+| Jetson Orin desteği | 2027 Q1 |
+| Beta katılımcılarla pilot | 2027 Q1-Q2 |
+| Genel sürüm | 2027 sonrası |
+
+---
+
+## Bu Arada
+
+Bireysel BAIOS **şimdi kararlı** — PC üstünde kullanabilir, edge prototipini hazırlarken dil disiplinini öğrenebilirsin.
+
+[Bireysel kurulum →](../bireysel/hizli-baslangic.html) &nbsp;&nbsp; [Senaryolar →](../bireysel/senaryolar.html)
+
+---
+
+## Katkıda Bulun
+
+Edge tarafında kod / donanım / dokümantasyon katkısı yapmak istersen GitHub'a:
+
+[github.com/ilkerbay0605-baios-xhalfe/baios](https://github.com/ilkerbay0605-baios-xhalfe/baios)
+
+Edge konuları için issue şablonu: `[edge]` prefix'li açabilirsin.
+
+---
+
+# /edge/index.html
+
+# Edge
+
+🇬🇧 [English](../en/edge/index.html)
+
+Gömülü cihazlar için BAIOS. Küçük kaynaklı donanımda core yetenekler.
+
+> **Durum:** Yakında. Aktif araştırma / erken prototipleme. Beta duyurusuna [buradan](beta-kayit.html) kayıt ol.
+
+---
+
+## Vizyon
+
+BAIOS bir PC katmanı değil. ESP32'ye sıkışmış bir sensör-cihaz, Raspberry Pi üzerinde bir robot, akıllı ev kontrolcüsü — hepsi **aynı çalışma disiplini** ile konuşsun.
+
+- **Doğal dil:** "Salondaki sıcaklık 25 dereceyi geçerse pencereyi aç."
+- **Context:** Cihaz kendi sensörlerini, geçmiş değerlerini, kural setini bilir.
+- **Bağımsız:** Tüm LLM çağrıları yerel (küçük model) veya koşullu bulut.
+- **Kontrollü:** Riskli aksiyonlar (motor çalıştır, kapı aç) onay zinciri ile.
+
+---
+
+## Mini-BAIOS Profili
+
+**Mimari:** Tam BAIOS'un alt kümesi — core + sınırlı ARM seti.
+
+**Hedeflenen kaynaklar:**
+- **ESP32 sınıfı:** 8MB flash, 512KB RAM — sadece kural motoru + MQTT köprüsü, LLM dışarıda.
+- **Raspberry Pi 4 sınıfı:** 1GB RAM — core + yerel 4K LLM + 6-8 ARM.
+- **Jetson Nano / Orin sınıfı:** Tam BAIOS + yerel büyük LLM.
+
+**Seçili ARM'lar (planlı):**
+- `mqtt` — sensör okuma/yazma
+- `homeassistant` — akıllı ev REST
+- `http` — genel
+- `shell` (kısıtlı whitelist)
+- `file` (sadece belirli dizinler)
+- `sql` (SQLite sensör kaydı)
+- `rss` (opsiyonel)
+
+---
+
+## Kullanım Senaryoları
+
+### Akıllı Ev Kontrol
+Raspberry Pi + Home Assistant köprüsü. "Sabah 7'de alarm duyulduğunda perdeleri aç, kahve makinesini çalıştır" gibi dil tabanlı kurallar.
+
+### Sensör Veri Birikimi
+ESP32 cluster → MQTT → Mini-BAIOS → SQLite → günlük özet LLM. Her sabah "dün evin ortalama nem/sıcaklık/ses seviyesi" raporu.
+
+### Robot Komut Köprüsü
+Robot işletim sistemi + BAIOS. Operatör "yerde sol alt köşeyi temizle" diye komut verir, BAIOS komutu ROS mesajlarına çevirir, risk değerlendirmesi yapar.
+
+### Maker & Hobi
+ESP32 + OLED ekran + sensör + BAIOS Mini. Evde her cihazın "açıklaması" olur — cihaza sor, cihaz cevaplar.
+
+[Detaylı örnekler →](ornekler.html)
+
+---
+
+## Ne Sınırlı, Ne Değil
+
+**Edge BAIOS'ta OLMAYAN:**
+- Web UI
+- 17 kanal (çoğu ağır)
+- Tam skill/flow engine
+- Browser (Playwright)
+- Wiki sistemi (kısıtlı olabilir)
+
+**Edge BAIOS'ta OLAN:**
+- Proje + context (light)
+- Seçili ARM'lar
+- Kural motoru
+- Onaylı otomasyon
+- MQTT pub/sub entegrasyon
+- Opsiyonel yerel LLM (küçük model)
+
+---
+
+## Beta Programı
+
+Aktif prototipleme aşaması. İlk destekli donanım:
+- Raspberry Pi 4 / 5
+- Jetson Orin Nano
+- ESP32 (köprü modu)
+
+**Beta katılımcı profili:**
+- Maker, ev otomasyonu meraklısı, robotikçi
+- Kendi donanımı var
+- Feedback paylaşmaya açık
+
+[Beta duyurusu al →](beta-kayit.html)
+
+---
+
+# /edge/ornekler.html
+
+# Edge Örnekleri
+
+🇬🇧 [English](../en/edge/ornekler.html)
+
+Somut kullanım hikayeleri — her biri farklı donanım, farklı iş.
+
+---
+
+## 🏠 Akıllı Ev: "Sabah Rutini"
+
+**Donanım:** Raspberry Pi 4, Home Assistant, Zigbee köprüsü
+
+**Kurgu:**
+- Proje: `ev`
+- ARM: `homeassistant`, `calendar`, `mqtt`
+- Otomasyon: "Sabah alarmı" + "akşam kilitleme"
+
+**Kural (doğal dil):**
+```
+her hafta içi sabah 7:00:
+  1. yatak odası perdesini aç
+  2. kahve makinesini çalıştır (su seviyesi %30'un üstündeyse)
+  3. bana bugünün hava durumunu ve takvim özetini söyle
+```
+
+**BAIOS nasıl yapar:**
+- Cron tetikler → homeassistant (perde) → homeassistant (kahve + sensör) → weather + calendar → TTS
+
+**Neden BAIOS:** Hepsi tek yerden, aynı dilde. Bozulursa komutu değiştir, kod yazma.
+
+---
+
+## 📊 Sensör Veri: "Ev Sağlık Özeti"
+
+**Donanım:** 5× ESP32 sensör (sıcaklık, nem, ses, CO2, ışık) + Raspberry Pi 4 brain
+
+**Kurgu:**
+- ESP32'ler MQTT'ye yayınlıyor (saniyede değer)
+- Pi üstünde Mini-BAIOS MQTT dinliyor
+- SQLite'a kaydediyor
+- Her sabah 8:00 günlük özet LLM'e gidiyor
+
+**Rapor örneği:**
+> "Dün gece salonda CO2 seviyesi 1400 ppm'e çıktı (03:00-05:00). Yatak odasında ses 2 saat boyunca 45dB üstündeydi. Önerim: havalandırmayı akşam 22:00'de 15 dk aç."
+
+**BAIOS skill:** `sensor_gun_ozet` (edge için özel)
+
+---
+
+## 🤖 Robot: "Oda Temizleme Komutları"
+
+**Donanım:** Jetson Orin Nano + LIDAR + ROS 2
+
+**Kurgu:**
+- Operatör sesli komut veriyor
+- BAIOS STT → niyet analizi → ROS 2 goal mesajı
+- Risk kontrolü (kırılacak eşya var mı, şarj yeterli mi)
+- Aksiyon → audit'e kayıt
+
+**Komut örneği:**
+```
+operatör: "mutfağın sağ tarafından başla, 20 dakika içinde salona geç"
+BAIOS: 
+  - rota_planla(start="mutfak_sag", end="salon", sure=20dk)
+  - şarj=%85 → OK
+  - kırılacak_eşya tespit → "dikkat: vazo x=3.2 y=1.8"
+  - onay? → operator OK
+  - ROS goal publish
+```
+
+---
+
+## 🔧 Maker: "Konuşan Akvaryum"
+
+**Donanım:** ESP32 + OLED + sıcaklık/pH sensörü + Mini-BAIOS (Pi Zero üstünde)
+
+**Kurgu:**
+- Akvaryum sensörlerini okur
+- Pi Zero'daki Mini-BAIOS kullanıcının balıklarının türünü/bakım kurallarını bilir
+- Anomali durumunda e-posta/Telegram
+
+**Kullanıcı sohbeti (telefondan):**
+```
+user: "bugün su nasıl?"
+BAIOS: "Sıcaklık 24.8°C (ideal 24-26), pH 7.2 (ideal 7.0-7.5). 
+       Nitrit seviyesi dün 0.1'e çıktı, bugün 0 — güzel. 
+       3 gündür yem değiştirmedin, hatırlatayım mı?"
+```
+
+---
+
+## 🚗 Sürücü Asistanı (araç içi)
+
+**Donanım:** Jetson Nano + CAN-bus adaptör + mikrofon + hoparlör
+
+**Kurgu:**
+- Araç sensörlerine (yakıt, motor sıcaklık, hız) erişim
+- BAIOS sürücü ile doğal dil konuşur
+- Trafik verisi (offline harita veri) + hava durumu
+
+**Senaryo:**
+```
+user: "eve gidiş için yakıt yeter mi?"
+BAIOS: "Evet, kalan yakıtla ~280 km. Eve 95 km. 
+       Yolda 2 benzin istasyonu var, ihtiyaç yok. 
+       Hava bozuyor — yağmur 35 dk sonra başlar, dikkat."
+```
+
+---
+
+## ⚙️ Endüstriyel: Makine Bakım Tahmini
+
+**Donanım:** Fabrika makine PLC + Modbus gateway + Raspberry Pi cluster + Mini-BAIOS
+
+**Kurgu:**
+- PLC sensör verisi → MQTT
+- BAIOS saatlik anomali tespiti (basit ML)
+- Bakım mühendisine Telegram bildirim + dosya log
+
+**Kullanıcı:**
+```
+mühendis: "makine 3 son hafta nasıl?"
+BAIOS: "Titreşim 3. hafta %18 arttı. Son 24 saatte lokal pik 
+       %32. Bu trend devam ederse 9-12 gün içinde rulman 
+       değişimi gerekecek. Stokta yedek var mı kontrol edeyim mi?"
+```
+
+---
+
+## Ortak Özellik: Hepsi Aynı BAIOS
+
+Altı senaryoda da **aynı core** çalışıyor:
+- Proje disiplini
+- Context katmanları
+- Onay zinciri
+- Audit log
+
+Fark sadece **hangi ARM'lar aktif** ve **LLM nerede** (yerel vs bulut).
+
+---
+
+## Beta'ya Katıl
+
+Yukarıdaki senaryolardan birini kurmak istiyorsan:
+[Beta duyurusu al →](beta-kayit.html)
+
+---
+
+# /en/bireysel/hizli-baslangic.html
+
+# Quick Start
+
+🇹🇷 [Türkçe](../../bireysel/hizli-baslangic.html)
+
+In ten minutes you'll install BAIOS, open your first project, and run your first skill.
+
+---
+
+## 1. Installation (1 min)
+
+```bash
+# Early version — install from GitHub (PyPI release coming soon)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+
+On the first run it asks a few short personalization questions (name, language). Once you confirm, the main menu opens.
+
+**Web interface:**
+```bash
+baios serve
+# → http://localhost:8000
+```
+
+---
+
+## 2. Choose an LLM Provider (1 min)
+
+At least one LLM provider is required. Three options:
+
+**OpenAI (if you have an API key):**
+```bash
+baios config set llm.provider openai
+baios config set openai.api_key sk-...
+```
+
+**Anthropic:**
+```bash
+baios config set llm.provider anthropic
+baios config set anthropic.api_key sk-ant-...
+```
+
+**Local Ollama (no internet, free):**
+```bash
+# In a separate window:
+ollama serve
+ollama pull llama3.2
+
+baios config set llm.provider local
+```
+
+> If you have sensitive data, prefer **local**. If you want speed and accuracy, use OpenAI/Anthropic.
+
+---
+
+## 3. Your First Project (2 min)
+
+**Web UI:**
+1. Left menu → **Projeler** → **Yeni**
+2. Name: `denemem`
+3. Description: `BAIOS'u denemek için`
+4. **Oluştur**
+
+**CLI:**
+```bash
+baios> /proje yeni denemem "BAIOS'u denemek için"
+baios> /proje sec denemem
+```
+
+The project directory is created: `~/.baios/projects/denemem/`.
+
+---
+
+## 4. Generate a Working Discipline (2 min)
+
+What is the project for? Tell the Discipline Engine and let the LLM prepare a workflow tailored to you.
+
+**Web UI:**
+1. On the project page, go to the **Çalışma Disiplini** section
+2. **Goal:** "Keep a weekly budget table and produce an end-of-month summary"
+3. **Üret**
+
+The result is `discipline_v1.md` — a step-by-step method in 3-5 phases, with recommended ARMs and skills.
+
+---
+
+## 5. Your First Skill (2 min)
+
+Let's try a simple skill — `arastirma`:
+
+**Web UI:**
+1. Left menu → **Kütüphane** → **Skill**
+2. Find `arastirma` → **Çalıştır**
+3. `konu`: `en iyi sabah rutinleri`
+4. **Çalıştır**
+
+Three steps run:
+1. Web search
+2. LLM summary
+3. Save to file → `~/.baios/projects/denemem/outputs/arastirma_*.md`
+
+---
+
+## 6. Install an ARM (optional, 1 min)
+
+If you want to read Gmail, install the `gmail` ARM:
+
+**Web UI:**
+1. Left menu → **Kütüphane** → **ARM**
+2. `gmail` → **Kur**
+3. Google account OAuth flow
+4. Done
+
+Now `gmail` is available in skills.
+
+---
+
+## 7. Talk from Chat (1 min)
+
+Now you can speak in natural language:
+
+```
+baios> bugünkü e-postalarımı özetle
+  → gmail arm + llm_ozet skill
+baios> istanbul hava durumu
+  → weather arm
+baios> bu araştırma dosyasından 10 flashcard çıkar
+  → flashcard skill
+```
+
+BAIOS reads your intent and runs the appropriate ARM/Skill. For risky operations it asks for approval.
+
+---
+
+## Next Steps
+
+| If you want | See |
+|---|---|
+| More scenarios | [Scenarios](senaryolar.html) |
+| To write your own skill | [Developer guide](../kaynaklar/gelistiriciler.html) |
+| To connect an MCP server | [MCP guide](../kaynaklar/mcp-rehberi.html) |
+| The full component list | [Catalog](../katalog.html) |
+| If you get stuck | The omgunbay chat at the bottom right |
+
+---
+
+## Troubleshooting
+
+**Installation fails:**
+```bash
+# Requires Python 3.12+ and git
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+
+**Web UI won't open:**
+Port 8000 may be used by another application. `baios serve --port 8080`
+
+**LLM error:**
+```bash
+baios config show       # see the current provider
+baios config test llm   # connection test
+```
+
+**Log:**
+```bash
+tail -f ~/.baios/logs/baios.log
+```
+
+---
+
+# /en/bireysel/senaryolar.html
+
+# Scenarios
+
+Instead of an abstract definition of BAIOS, **how it actually works in real work**. Each scenario is a slice from a real day of its user.
+
+🇹🇷 [Türkçe](../../bireysel/senaryolar.html)
+
+---
+
+## 🎓 Teacher — Lesson prep + student tracking
+
+**Goal:** Plan the weekly math lesson, keep attendance, and keep student files up to date.
+
+**BAIOS setup:**
+- Project: `matematik-8-a`
+- Connected ARMs: `file`, `dosya_oku`, `calendar`, `gmail_send`
+- Connected skills: `konu_aciklama`, `flashcard`, `gunluk_ozet`
+
+**A typical day:**
+```
+baios> /proje sec matematik-8-a
+baios> gelecek hafta trigonometri ders planı hazırla
+  → konu_aciklama skill → docs/ders_plan_hafta14.md
+baios> bu konudan 20 flashcard çıkar
+  → flashcard skill → outputs/flashcards_trigonometri.csv
+baios> ayşe'nin son sınav notunu dosyaya ekle 75
+  → file arm → docs/ogrenciler/ayse.md güncel
+baios> /otomasyon kur: her pazar 20:00 — hafta özetini bana e-posta at
+```
+
+---
+
+## 📊 Accountant — Invoice analysis + VAT check
+
+**Goal:** Check end-of-month invoices, verify VAT amounts, produce a report.
+
+**BAIOS setup:**
+- Project: `muhasebe-2026`
+- ARMs: `file`, `dosya_oku` (PDF), `sql` (record db)
+- Flow: `muhasebe_kontrol`
+
+**A typical day:**
+```
+baios> /proje sec muhasebe-2026
+baios> bu ay gelen faturaları docs/faturalar-nisan/ içine koydum, kontrol et
+  → dosya_oku (PDF) → llm analiz → tutarsızlık uyarısı
+  → sql arm → ay toplamı hesapla → rapor.md
+baios> şirket X için nisan özeti hazırla
+  → veri_analiz skill → outputs/sirket_X_nisan.md
+```
+
+**Audit:** Every action is recorded in `~/.baios/audit/` — an answer to the later question of who did what.
+
+---
+
+## ✍️ Content creator — Blog + social posts
+
+**Goal:** A weekly blog post + Twitter/LinkedIn summaries.
+
+**BAIOS setup:**
+- Project: `blog-kisilik-gelisimi`
+- ARMs: `brave_search`, `web_reader`, `file`, `notion`
+- Skills: `arastirma`, `blog_post_taslak`, `url_ozet`, `gorsel_prompt`
+
+**A typical day:**
+```
+baios> yeni konu: "sabah rutini bilimi"
+baios> /skill calistir arastirma konu="sabah rutini bilimi"
+  → brave_search + llm + file → docs/arastirma_sabah_rutini.md
+baios> bu araştırmadan 1200 kelimelik blog post yaz, okuyucu: girişimci
+  → blog_post_taslak skill → outputs/blog_sabah_rutini.md
+baios> aynı konu için LinkedIn post taslağı (3 paragraf)
+baios> blog'a görsel prompt öner
+  → gorsel_prompt skill → dalle ile görsel üret
+```
+
+---
+
+## 🔬 Data scientist — CSV exploration + report
+
+**Goal:** Understand a customer segmentation CSV, write first findings, suggest charts.
+
+**BAIOS setup:**
+- Project: `musteri-segmentasyon-q2`
+- ARMs: `file`, `sql`, `http`
+- Skill: `veri_analiz`
+
+**A typical day:**
+```
+baios> docs/customers.csv yükle
+baios> /skill calistir veri_analiz dosya=docs/customers.csv
+  → sql arm → temel istatistik
+  → llm → bulgu yorumu
+  → file → outputs/bulgular.md + grafik_tarif.md
+baios> bu bulgulara göre 3 slayt taslağı
+baios> /wiki olustur musteri-segmentasyon-bulgular  ← knowledge accumulation
+```
+
+---
+
+## 🧑‍💻 Developer — baios.dev dogfood
+
+**Goal:** Manage the baios.dev website through BAIOS itself (the real story of this site).
+
+**BAIOS setup:**
+- Project: `baios-dev` (from a template)
+- ARMs: `git_ops`, `github`, `deploy`, `browser`, `web_reader`, `file`
+- Skills: `landing_copy_revize`, `blog_post_taslak`, `changelog_uret`, `release_notes`, `site_qa`
+- Flow: `site_release`
+
+**A typical release:**
+```
+baios> /proje sec baios-dev
+baios> yeni blog: "BAIOS neden ajan değil"
+  → blog_post_taslak → outputs/blog_*.md (human approval)
+baios> /flow calistir site_release versiyon=v2.6
+  → changelog + release_notes → git branch → commit → push → PR aç
+baios> PR merge'den sonra /arm deploy trigger main
+baios> /arm deploy wait 300
+baios> /skill calistir site_qa url=https://baios.dev
+```
+
+[Read the detailed story →](../felsefe.html#ajan-değil-katman)
+
+---
+
+## 🎓 Researcher — Source scanning + wiki accumulation
+
+**Goal:** Literature on "artificial intelligence + law" for a doctoral thesis, a continuously growing wiki.
+
+**BAIOS setup:**
+- Project: `doktora-tez-ai-hukuk`
+- ARMs: `brave_search`, `web_reader`, `file`, `notion`
+- Skills: `arastirma`, `url_ozet`
+- Automatic wiki generation
+
+**A typical day:**
+```
+baios> bu akademik makale URL'sini oku ve özetle: https://arxiv.org/abs/...
+  → web_reader + llm_ozet → outputs/kaynak_N.md
+baios> önemli bulgulardan biri: "AI karar verme şeffaflık sorunu"
+  → /wiki olustur ai-karar-seffafligi
+baios> geçen ay özetlediğim tüm kaynakları göster
+  → file arm → docs/kaynaklar/ listele
+baios> ilgili wiki sayfalarını LLM context'e ekle ve tez 3. bölümü için taslak hazırla
+```
+
+**The benefit:** Every source is permanently added to your knowledge. A month later, even if the LLM changes, the accumulation is preserved.
+
+---
+
+## The Common Thread: Discipline
+
+In all six scenarios, a different profession, a different job. What's common:
+1. **Project** — BAIOS keeps every job alive inside a project.
+2. **Discipline** — The working method lives in a file, repeatable.
+3. **Approval** — Risky operations ask for approval.
+4. **Context** — The LLM always looks at the current state.
+5. **Accumulation** — Each project accumulates its own knowledge, the wiki grows.
+
+---
+
+## Your scenario?
+
+[Open your first project with the tutorial →](../kaynaklar/tutorial.html) and set up your own discipline. If you run into trouble, ask from the **omgunbay** chat window at the bottom right.
+
+---
+
+# /en/edge/beta-kayit.html
+
+# Edge Beta
+
+🇹🇷 [Türkçe](../../edge/beta-kayit.html)
+
+BAIOS Edge is not ready for general release yet, but the **beta program** is opening. If you sign up:
+
+- **First beta notification** — be the first to know when it's ready.
+- **Hardware compatibility list** — once it's clear which devices are supported.
+- **Prototype updates** — monthly progress summary.
+- **Beta participant call** — invitation for pilot use.
+
+---
+
+## Sign-Up
+
+**Email:** edge@baios.dev
+
+Put **"Edge Beta Sign-Up"** in the subject. It speeds things up if you share the following in your message:
+
+- Which hardware you have (Pi 4/5, Jetson, ESP32, robot, etc.)
+- The scenario you have in mind (smart home, sensor, robot, maker)
+- Contact preference (is email enough, would you join a Telegram/Discord group)
+
+---
+
+## When?
+
+Edge development is active. There's no fixed date, but the targets are:
+
+| Stage | Target |
+|---|---|
+| Raspberry Pi 4 prototype | 2026 Q3 |
+| ESP32 bridge mode | 2026 Q4 |
+| Jetson Orin support | 2027 Q1 |
+| Pilot with beta participants | 2027 Q1-Q2 |
+| General release | After 2027 |
+
+---
+
+## In the Meantime
+
+Individual BAIOS is **stable now** — you can use it on a PC and learn the language discipline while preparing your edge prototype.
+
+[Individual setup →](../bireysel/hizli-baslangic.html) &nbsp;&nbsp; [Scenarios →](../bireysel/senaryolar.html)
+
+---
+
+## Contribute
+
+If you'd like to contribute code / hardware / documentation on the edge side, head to GitHub:
+
+[github.com/ilkerbay0605-baios-xhalfe/baios](https://github.com/ilkerbay0605-baios-xhalfe/baios)
+
+For edge topics, you can open an issue with the `[edge]` prefix template.
+
+---
+
+# /en/edge/index.html
+
+# Edge
+
+🇹🇷 [Türkçe](../../edge/index.html)
+
+BAIOS for embedded devices. Core capabilities on resource-constrained hardware.
+
+> **Status:** Coming soon. Active research / early prototyping. Sign up for the beta announcement [here](beta-kayit.html).
+
+---
+
+## Vision
+
+BAIOS is not a PC-only layer. A sensor device squeezed into an ESP32, a robot on a Raspberry Pi, a smart-home controller — all of them speaking with the **same working discipline**.
+
+- **Natural language:** "Open the window if the living-room temperature goes above 25 degrees."
+- **Context:** The device knows its own sensors, past values and rule set.
+- **Independent:** All LLM calls run locally (small model) or via conditional cloud.
+- **Controlled:** Risky actions (start a motor, open a door) go through an approval chain.
+
+---
+
+## Mini-BAIOS Profile
+
+**Architecture:** A subset of full BAIOS — core + a limited ARM set.
+
+**Targeted resources:**
+- **ESP32 class:** 8MB flash, 512KB RAM — rule engine + MQTT bridge only, LLM off-device.
+- **Raspberry Pi 4 class:** 1GB RAM — core + local 4K LLM + 6-8 ARMs.
+- **Jetson Nano / Orin class:** Full BAIOS + large local LLM.
+
+**Selected ARMs (planned):**
+- `mqtt` — sensor read/write
+- `homeassistant` — smart-home REST
+- `http` — general
+- `shell` (restricted whitelist)
+- `file` (specific directories only)
+- `sql` (SQLite sensor logging)
+- `rss` (optional)
+
+---
+
+## Use Cases
+
+### Smart-Home Control
+Raspberry Pi + Home Assistant bridge. Language-based rules like "When the alarm sounds at 7 AM, open the curtains and start the coffee machine."
+
+### Sensor Data Accumulation
+ESP32 cluster → MQTT → Mini-BAIOS → SQLite → daily summary LLM. Every morning, a "yesterday's average humidity/temperature/noise level for the house" report.
+
+### Robot Command Bridge
+Robot operating system + BAIOS. The operator gives the command "clean the bottom-left corner of the floor," BAIOS translates the command into ROS messages and performs a risk assessment.
+
+### Maker & Hobby
+ESP32 + OLED screen + sensor + BAIOS Mini. Every device at home gets an "explanation" — ask the device, the device answers.
+
+[Detailed examples →](ornekler.html)
+
+---
+
+## What Is Scoped Down, What Is Not
+
+**NOT in Edge BAIOS:**
+- Web UI
+- 17 channels (most are heavy)
+- Full skill/flow engine
+- Browser (Playwright)
+- Wiki system (may be restricted)
+
+**IN Edge BAIOS:**
+- Project + context (light)
+- Selected ARMs
+- Rule engine
+- Approved automation
+- MQTT pub/sub integration
+- Optional local LLM (small model)
+
+---
+
+## Beta Program
+
+Active prototyping stage. First supported hardware:
+- Raspberry Pi 4 / 5
+- Jetson Orin Nano
+- ESP32 (bridge mode)
+
+**Beta participant profile:**
+- Maker, home-automation enthusiast, roboticist
+- Has their own hardware
+- Open to sharing feedback
+
+[Get the beta announcement →](beta-kayit.html)
+
+---
+
+# /en/edge/ornekler.html
+
+# Edge Examples
+
+🇹🇷 [Türkçe](../../edge/ornekler.html)
+
+Concrete usage stories — each one different hardware, different work.
+
+---
+
+## 🏠 Smart Home: "Morning Routine"
+
+**Hardware:** Raspberry Pi 4, Home Assistant, Zigbee bridge
+
+**Setup:**
+- Project: `ev`
+- ARM: `homeassistant`, `calendar`, `mqtt`
+- Automation: "Morning alarm" + "evening lock-down"
+
+**Rule (natural language):**
+```
+every weekday at 7:00 AM:
+  1. open the bedroom curtain
+  2. start the coffee machine (if the water level is above 30%)
+  3. tell me today's weather and calendar summary
+```
+
+**How BAIOS does it:**
+- Cron triggers → homeassistant (curtain) → homeassistant (coffee + sensor) → weather + calendar → TTS
+
+**Why BAIOS:** Everything from one place, in the same language. If it breaks, change the command, don't write code.
+
+---
+
+## 📊 Sensor Data: "Home Health Summary"
+
+**Hardware:** 5× ESP32 sensors (temperature, humidity, sound, CO2, light) + Raspberry Pi 4 brain
+
+**Setup:**
+- The ESP32s publish to MQTT (values per second)
+- Mini-BAIOS on the Pi listens to MQTT
+- Logs to SQLite
+- Every morning at 8:00 a daily summary goes to the LLM
+
+**Sample report:**
+> "Last night the CO2 level in the living room rose to 1400 ppm (03:00-05:00). In the bedroom, noise stayed above 45dB for 2 hours. My suggestion: open the ventilation for 15 min at 22:00 in the evening."
+
+**BAIOS skill:** `sensor_gun_ozet` (custom for edge)
+
+---
+
+## 🤖 Robot: "Room-Cleaning Commands"
+
+**Hardware:** Jetson Orin Nano + LIDAR + ROS 2
+
+**Setup:**
+- The operator gives a voice command
+- BAIOS STT → intent analysis → ROS 2 goal message
+- Risk check (is there anything breakable, is the charge enough)
+- Action → logged to audit
+
+**Sample command:**
+```
+operator: "start from the right side of the kitchen, move to the living room within 20 minutes"
+BAIOS: 
+  - rota_planla(start="mutfak_sag", end="salon", sure=20dk)
+  - charge=85% → OK
+  - breakable_item detected → "caution: vase x=3.2 y=1.8"
+  - approve? → operator OK
+  - ROS goal publish
+```
+
+---
+
+## 🔧 Maker: "Talking Aquarium"
+
+**Hardware:** ESP32 + OLED + temperature/pH sensor + Mini-BAIOS (on a Pi Zero)
+
+**Setup:**
+- Reads the aquarium sensors
+- The Mini-BAIOS on the Pi Zero knows the species of the user's fish and their care rules
+- Email/Telegram on anomaly
+
+**User chat (from the phone):**
+```
+user: "how's the water today?"
+BAIOS: "Temperature 24.8°C (ideal 24-26), pH 7.2 (ideal 7.0-7.5). 
+       The nitrite level rose to 0.1 yesterday, today it's 0 — good. 
+       You haven't changed the feed for 3 days, shall I remind you?"
+```
+
+---
+
+## 🚗 Driver Assistant (in-vehicle)
+
+**Hardware:** Jetson Nano + CAN-bus adapter + microphone + speaker
+
+**Setup:**
+- Access to vehicle sensors (fuel, engine temperature, speed)
+- BAIOS talks to the driver in natural language
+- Traffic data (offline map data) + weather
+
+**Scenario:**
+```
+user: "is there enough fuel to get home?"
+BAIOS: "Yes, ~280 km with the remaining fuel. Home is 95 km away. 
+       There are 2 gas stations on the way, no need. 
+       The weather is turning — rain starts in 35 min, take care."
+```
+
+---
+
+## ⚙️ Industrial: Machine Maintenance Prediction
+
+**Hardware:** Factory machine PLC + Modbus gateway + Raspberry Pi cluster + Mini-BAIOS
+
+**Setup:**
+- PLC sensor data → MQTT
+- BAIOS hourly anomaly detection (simple ML)
+- Telegram notification + file log to the maintenance engineer
+
+**User:**
+```
+engineer: "how has machine 3 been over the last week?"
+BAIOS: "Vibration rose 18% in week 3. In the last 24 hours the local peak 
+       is 32%. If this trend continues, the bearing will need 
+       replacing within 9-12 days. Shall I check if there's a spare in stock?"
+```
+
+---
+
+## Common Feature: All the Same BAIOS
+
+In all six scenarios the **same core** runs:
+- Project discipline
+- Context layers
+- Approval chain
+- Audit log
+
+The only difference is **which ARMs are active** and **where the LLM runs** (local vs cloud).
+
+---
+
+## Join the Beta
+
+If you want to set up one of the scenarios above:
+[Get the beta announcement →](beta-kayit.html)
+
+---
+
+# /en/entegrasyon/index.html
+
+# Integration Philosophy
+
+🇹🇷 [Türkçe](../../entegrasyon/index.html)
+
+BAIOS does not integrate everything. That is not a shortcoming — it is a deliberate choice.
+
+The principles behind how we handle the connections that touch your business.
+
+---
+
+## 1. Just Tell It
+
+You don't decide how each connection gets built. You **say what you want**, and BAIOS picks the right path.
+
+You say "I want to see my invoices." BAIOS checks whether a trusted path we have prepared exists; if it does, it sets that up. If it doesn't, it prepares a flow made just for you — and it tells you plainly which path it chose and why.
+
+You never make a technical decision. One sentence is enough.
+
+## 2. Two Kinds of Connections
+
+In BAIOS, connections come in two forms:
+
+**Ready modules.** The connections that touch your money, your customers, your legal records — accounting, invoicing, collections, official correspondence. We are preparing these, and will test and maintain them; we design them around KVKK. You only connect.
+
+> These modules are **in the preparation stage.** The first connection (Logo İşbaşı) is being tested; the rest will roll out in turn.
+
+**Made-for-you flows.** When you have a niche need that isn't on the list, BAIOS prepares it for you — on your own machine, under your own control. You don't have to wait.
+
+You never choose between the two; BAIOS picks the right one based on the nature of the work.
+
+## 3. Why We Don't Integrate Everything
+
+We never present anything as "ready" that we cannot stand behind.
+
+Our ready modules are **few and carefully made.** We treat every connection that touches your business with care. Trusted connections instead of thousands of shallow ones.
+
+This is not "more is better"; it is **"more trustworthy is better."**
+
+## 4. No Free Rein on Risky Work
+
+We do not let the AI build the connections that touch your money, your customers, and your legal records on its own.
+
+Connections like these — issuing an invoice, taking a payment, sending official correspondence — run through modules that we **prepare in advance and design to be auditable.** Where the outcome cannot be undone and carries legal weight, there is no room for guesswork.
+
+This is not a limitation — it is **care.** If the work is serious, it is taken seriously.
+
+## 5. Why This Choice?
+
+For every connection, BAIOS shows you which path it took and why.
+
+When it prepares something for you, it shows what it is about to do step by step, in plain language, before it runs; you see it, you approve it, then it runs. No black box — **every step is visible, and you can object to any of them.**
+
+## 6. Own It
+
+Your connections run on your machine, with your keys, under your control.
+
+- Your data stays with you.
+- A connection is set up once, then runs by the rules.
+- Even if you leave BAIOS one day, the setup you built is yours.
+
+**Author once, run forever — own it, don't rent it.**
+
+---
+
+## A Layer That Works Beside You
+
+This approach follows naturally from [our philosophy](../../felsefe.html). BAIOS does not act in your place; it works beside you, transparently and in a way you can undo. Integrations are the same: not fast but **trustworthy**, not many but **carefully made**, not ours but **under your control**.
+
+[Read the philosophy →](../../felsefe.html) · [Capability catalog →](../../katalog.html)
+
+---
+
+# /en/felsefe.html
+
+# Philosophy
+
+🇹🇷 [Türkçe](../felsefe.html)
+
+Five principles that describe not what BAIOS is, but **how it behaves**.
+
+---
+
+## 1. Language First
+
+You write or say what you want. BAIOS understands and does it.
+
+No commands to memorize — natural communication is the goal. Shortcuts (`/projects`, `/skill ...`) exist but are **not required**. You can do the same thing by writing "email Ahmet" or with the `/mail send Ahmet` command. BAIOS turns both into the same working language.
+
+## 2. No Action Without Approval
+
+No risky operation happens without your approval.
+
+- Deleting or overwriting files
+- Deploy, build, triggering a remote server
+- API calls (paid ones especially)
+- Commit, push, PR merge
+
+Before every operation a **proposal** is shown; you approve, BAIOS acts, the result is recorded. In approved automations (pull a report every morning, back up every evening), if the risk level is low it does not ask again — **decided once, runs by the rules**.
+
+## 3. Simplicity
+
+- Solve instead of asking the user. Take the information from context.
+- Give a 5-line answer, not 50 lines of markdown.
+- Risk tables, semantic boundaries, proposal formats — these are used **only for genuinely risky** operations (deleting files, deploy). Do not use them for information questions.
+- Do not write "no actionable step." If there is no action, move on quietly.
+- Don't offer A/B/C choices unless truly necessary — suggest the best one directly.
+
+## 4. Context Is Everything
+
+BAIOS does not depend on what the model you're talking to happens to know. **BAIOS builds the context on every conversation** and injects it into the model.
+
+- **System layer:** BAIOS version, available ARMs, skills, flows, user identity.
+- **Project layer:** Active project, project files, project discipline, connected components.
+- **Temporary layer:** Recent operations, the last five minutes of work.
+- **Wiki layer:** Knowledge-base pages relevant to the query.
+
+Even if the model changes, the context is preserved — **even switching from OpenAI to Ollama, the conversation continues where it left off**.
+
+## 5. Model Independence
+
+BAIOS works with any model: OpenAI, Anthropic, local Ollama, MiniMax, others.
+
+- The model is only a **tool**. BAIOS's structure is independent of it.
+- If a provider fails, the **fallback chain** automatically moves to the next.
+- Cost-sensitive? Cheap model. Sensitive data? Local — the choice is yours.
+- One command: `baios config set llm.provider ollama`
+
+---
+
+## A Layer, Not a Black Box
+
+BAIOS does not say *"leave it to me and it'll get done."* It is **a discipline that works beside you**. You think; BAIOS produces a recorded, repeatable, auditable version of your thinking.
+
+Why this difference matters:
+- When something acts in your place and errs, it's hard to undo.
+- When a layer errs, it can be undone step by step.
+- A black box hides its reasoning.
+- A layer is transparent — you see every step, and you can object to every step.
+
+---
+
+## Three Users, Three Layers
+
+- **Individual:** One user, one machine. Early access; with personas built for your profession (lawyer, accountant, SMB owner, researcher…).
+- **Enterprise (team / RBAC / audit):** Teams, roles, audit, multi-tenant. **Planned after the SMB release.** [Get in touch](../kurumsal/iletisim.html).
+- **Edge:** ESP32, Raspberry Pi, embedded devices. Limited core. Coming soon.
+
+[Read the architecture →](mimari.html)
+
+---
+
+# /en/gizlilik.html
+
+# Privacy & Terms
+
+🇹🇷 [Türkçe](../gizlilik.html)
+
+Last updated: 2026-06-04 · Early version.
+
+---
+
+## Data Controller
+
+baios.dev is operated by İlker Bayraktar. Contact: **[email protected]**
+(Contact and KVKK requests go to this address.)
+
+## Cookies and Tracking
+
+**This site uses no cookies and runs no analytics/tracking.** No advertising or
+profiling data is collected during your visit. Server access logs (IP, date) may
+be kept only for security and technical operation.
+
+## Personal Data We Process
+
+We only process data you **send us yourself**:
+
+- **Contact / early-test inquiry:** When you email us, your address and message
+  are processed to answer your request (KVKK art. 5/2-c and 5/2-f).
+
+## Logo İşbaşı Connection (SSO)
+
+The `baios.dev/entegrasyon/isbasi/callback/` page receives the `code` returned
+from Logo İşbaşı authorization **only in your browser** and forwards it to the
+**BAIOS running locally on your own computer**. **This data is not stored, logged,
+or shared with third parties on baios.dev servers.** Access to your İşbaşı account
+happens on your machine, with your key; you are the data controller of your own data.
+
+## Your KVKK Rights (art. 11)
+
+You can exercise your rights to access, correct, delete, and object to processing
+of your personal data via **[email protected]**.
+
+## Terms of Use & Disclaimer
+
+- BAIOS is an **early version**; features are under development and may change.
+- BAIOS outputs (summaries, drafts, analyses, calculations) are **informational**;
+  they do not replace legal, financial, or accounting advice. Consult a qualified
+  professional before any use with legal or financial consequences.
+- The software is provided "as is"; use is at the user's own responsibility.
+
+## Open Source
+
+BAIOS is open source [on GitHub under MIT](https://github.com/ilkerbay0605-baios-xhalfe/baios).
+
+[Home →](index.html)
+
+---
+
+# /en/index.html
+
+<div class="hero">
+<h1>BAIOS</h1>
+<p><strong>A controlled working discipline that runs in human language, model-independent.</strong></p>
+<p>🇹🇷 <a href="../index.html">Türkçe</a></p>
+<p>We used to have notebooks, pens, and tools on our desk. Then came folders and windows. Now, with AI, a new working desk is taking shape — and at this desk we finally speak the same language. BAIOS is not a doer that runs off on its own; it is a layer that works between the model and the human, carrying out controlled, recorded, and reversible actions.</p>
+<p><strong>An assistant built for your profession — KVKK-compliant, your data stays with you.</strong> From lawyers to accountants, SMB owners to researchers — everyone's work is different; BAIOS works with each in their own language.</p>
+<p>Not a rival to Anthropic Claude, a partner-compatible <strong>complement</strong>. Author once, run forever — <strong>own it, don't rent it.</strong></p>
+</div>
+
+## Core Principles
+
+- **Language first** — No commands to memorize. Write or say what you want; BAIOS understands.
+- **No action without approval** — Deleting files, deploy, API calls… all ask for your approval.
+- **Simplicity** — A 5-line answer, not 50.
+- **Context is everything** — User, project, files, wiki knowledge — all sent to the model automatically.
+- **Model independence** — OpenAI, Anthropic, local Ollama. BAIOS is independent of the model.
+
+[Read the philosophy in detail →](felsefe.html) &nbsp;&nbsp; [Architecture →](mimari.html)
+
+---
+
+## Who Is It For?
+
+Whatever your profession, BAIOS comes tailored to that work — each persona with its own sector templates, KVKK-compliant, your data stays with you.
+
+- ⚖️ **Lawyer** — case file analysis, petition drafts, legislation research
+- 📊 **Accountant** — monthly close, VAT return preparation
+- 🏷️ **SMB owner** — campaign plan, stock notes, customer follow-up
+- 🌍 **Exporter** — customs declarations, FX tracking
+- 💎 **Jeweler / retailer** — inventory management, customer loyalty
+- ✍️ **Content creator** — blog plan, article drafts
+- 🔬 **Researcher** — literature summaries, citation management
+- 📈 **Data analyst** — CSV → statistics → report
+- 💻 **Developer** — feature/bugfix flow, repo documentation
+- 📚 **Writer / teacher** — outlines, summaries, lesson material
+
+> Outputs are for informational purposes; uses with financial/legal consequences require expert review ([Privacy & Terms](gizlilik.html)).
+
+<div style="text-align:center;margin:1.5rem 0;">
+<a href="#install" class="cta">Early Access — GitHub</a>
+</div>
+
+**Roadmap:** team/enterprise (multi-user, RBAC, audit) and edge versions are planned **after the SMB release**. [Get in touch](../kurumsal/iletisim.html).
+
+---
+
+<a name="install"></a>
+## Individual Setup
+
+```bash
+# Early version — install from GitHub (PyPI release coming soon)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+
+Terminal, web UI, or Telegram/Discord/Slack — whichever you prefer.
+
+```
+baios> /projects
+baios> /skill run research
+baios> weather in istanbul
+baios> /wiki create customer analysis
+```
+
+[Tutorial — your first project in 10 minutes →](../kaynaklar/tutorial.html)
+
+---
+
+## How Does BAIOS Work?
+
+**Project discipline:** Each project lives with its own context, materials, and connected ARMs/skills. BAIOS knows the project's structure and suggests smart actions.
+
+**Components:**
+- **ARM** — Adapters that connect to the outside world (Gmail, GitHub, files, shell…)
+- **Skill** — Repeatable workflow templates (research → summarize → save)
+- **Flow** — Large flows with conditions, loops, multiple skills
+- **Automation** — Scheduled or triggered tasks
+- **MCP** — BAIOS is both an MCP server and client (connects to any MCP server)
+
+[Read the architecture in detail →](mimari.html) &nbsp;&nbsp; [Ready component catalog →](../katalog.html)
+
+---
+
+## Real Usage Scenarios
+
+[Scenarios →](../bireysel/senaryolar.html)
+
+---
+
+## Open & Transparent
+
+- **MIT License** — [Source code on GitHub](https://github.com/ilkerbay0605-baios-xhalfe/baios)
+- **Automated tests on every commit**
+- **Turkish documentation**
+- **baios.dev itself is run with BAIOS** — dogfood
+
+<div style="text-align:center;margin:2rem 0;">
+<a href="../kaynaklar/tutorial.html" class="cta">Get Started</a>
+&nbsp;
+<a href="https://github.com/ilkerbay0605-baios-xhalfe/baios" class="cta-secondary">GitHub</a>
+</div>
+
+<div class="chat-hint">
+<strong>Need help?</strong> Use the <em>omgunbay</em> chat window at the bottom right to ask anything about BAIOS.
+</div>
+
+---
+
+# /en/katalog.html
+
+# Catalog
+
+🇹🇷 [Türkçe](../katalog.html)
+
+The components BAIOS offers. New components are added through the community store.
+
+<!-- AUTO:counts START -->
+**49 ARMs · 33 Skills · 3 Flows · 16 messaging channels (+ CLI, Web) · 13 Turkish SMB integrations** — figures generated from the live codebase on each build.
+<!-- AUTO:counts END -->
+
+---
+
+## Turkish SMB Integrations
+
+The connections that touch your business — accounting, e-invoicing, payments, e-commerce. See [Integration Philosophy](entegrasyon/index.html).
+
+<!-- AUTO:connectors START -->
+| Integration | Category | Status |
+|---|---|---|
+| **Logo İşbaşı** | Muhasebe / e-Fatura | ◷ First connection (testing) |
+| **Paraşüt** | Muhasebe / e-Fatura | 🔜 Coming soon |
+| **GİB e-Fatura** | Resmi / Vergi | 🔜 Coming soon |
+| **KEP (Kayıtlı E-Posta)** | Resmi / Vergi | 🔜 Coming soon |
+| **iyzico** | Ödeme / Tahsilat | 🔜 Coming soon |
+| **PayTR** | Ödeme / Tahsilat | 🔜 Coming soon |
+| **Trendyol** | E-Ticaret | 🔜 Coming soon |
+| **Hepsiburada** | E-Ticaret | 🔜 Coming soon |
+| **Netgsm (SMS)** | İletişim | 🔜 Coming soon |
+| **WhatsApp Business** | İletişim | 🔜 Coming soon |
+| **DocuSign** | İmza / Belge | 🔜 Coming soon |
+| **Canva** | İçerik / Tasarım | 🔜 Coming soon |
+| **HubSpot** | CRM | 🔜 Coming soon |
+
+> Turkish SMB integrations are being prepared and rolled out in turn; the first live connection (Logo İşbaşı) is in testing.
+<!-- AUTO:connectors END -->
+
+---
+
+## ARM — Adapters
+
+### API-Based
+
+| ARM | What It Does | Setup |
+|---|---|---|
+| brave_search | Web search (Brave Search API) | API key |
+| weather | Weather (OpenWeatherMap) | API key |
+| dalle | Image generation (OpenAI DALL-E) | API key |
+| deepl | Translation (DeepL) | API key |
+| youtube | Video search (YouTube Data) | API key |
+| telegram | Telegram bot messaging | Bot token |
+| gmail | Read Gmail (IMAP) | OAuth |
+| gmail_read | Gmail read alias (→ gmail) | OAuth |
+| gmail_send | Send Gmail | App password |
+| whatsapp | WhatsApp (Twilio) | Twilio token |
+| notion | Notion page/db | Token |
+| github | Issue + PR management | Token |
+| homeassistant | Smart-home REST API | Token + URL |
+| deploy | GitHub Actions workflow_dispatch | Token + repo |
+| tts_openai | OpenAI TTS (6 voices) | API key |
+| tts_elevenlabs | ElevenLabs premium TTS | API key |
+| stt_whisper | OpenAI Whisper API transcription | API key |
+
+### Local
+
+| ARM | What It Does | Risk |
+|---|---|---|
+| file | Full file CRUD (read/write/delete/move/copy) | Low |
+| dosya_oku | Read-only (PDF/MD/TXT/CSV) | Low |
+| shell | Controlled command (whitelist) | **High** |
+| git_ops | Sandboxed git (status/diff/commit/push opt-in) | Medium |
+| browser | Playwright (navigate/screenshot/PDF) | Medium |
+| web_reader | URL → clean markdown (Jina Reader) | Low |
+| http | GET/POST/PUT/DELETE + headers + body | Low |
+| calendar | Local JSON calendar (de-dup + Turkish month parsing) | Low |
+| sql | SQLite / PostgreSQL / MySQL queries | Low |
+| mqtt | MQTT sensor read/write | Low |
+| cloud | S3 + Google Drive | Low |
+| rss | Read RSS/Atom feeds | Low |
+| llm_ozet | Summarize with the model (model-agnostic) | Low |
+| obsidian | Local Obsidian vault (read/write/search/backlinks) | Low |
+| tts_edge | Microsoft Edge TTS (free cloud, Turkish) | Low |
+| tts_browser | Web Speech API bridge (client-side) | Low |
+| tts_piper | Piper TTS (local, ONNX — model download) | Medium |
+| stt_browser | Web Speech Recognition bridge | Low |
+| stt_faster_whisper | faster-whisper local STT (CTranslate2) | Medium |
+| feedback | User feedback | Low |
+
+---
+
+## Channels
+
+Where you reach BAIOS from:
+
+| Channel | Status |
+|---|---|
+| **CLI** (terminal) | ✅ Active |
+| **Web UI** (localhost:8000) | ✅ Active |
+| Telegram | ✅ |
+| Discord | ✅ |
+| Slack | ✅ |
+| WhatsApp | ✅ |
+| Signal | ✅ |
+| Matrix | ✅ |
+| Teams | ✅ |
+| Email (IMAP+SMTP) | ✅ |
+| IRC | ✅ |
+| Nostr | ✅ |
+| Google Chat | ✅ |
+| LINE | ✅ |
+| Viber | ✅ |
+| Twitch | ✅ |
+| Reddit | ✅ |
+
+---
+
+## Skill — Repeatable Workflows
+
+### Content Creation
+- **arastirma** — search a topic on the web → summarize with the model → save
+- **blog_taslak** — topic + audience → 800–1200 word draft
+- **blog_post_taslak** — (SM5) a more refined blog draft
+- **icerik_uretim** — multi-step content creation
+- **landing_copy_revize** — revise landing copy for the audience
+- **url_ozet** — URL → markdown → summary
+- **gorsel_prompt** — generate an image prompt for DALL-E
+
+### Professional Work
+- **muhasebe** — invoice/CSV → analysis → report
+- **fatura_olustur** — line items → invoice PDF
+- **harcama_takip** — add an expense item + category
+- **veri_analiz** — read CSV → basic statistics → chart description
+- **rakip_izleme** — competitor site → change detection
+- **fiyat_takip** — URL list → track prices → alert
+
+### Daily
+- **haber_ozet** — RSS/feed → model summary → email
+- **gunluk_ozet** — summarize the day's emails/messages
+- **toplanti_ozet** — summarize a transcript
+- **takip_mail** — customer → follow-up email draft
+- **ilac_hatirlatma** — timed reminder
+- **dosya_organize** — organize a folder by type
+
+### Developer / Education
+- **flashcard** — text → Anki card set
+- **konu_aciklama** — topic → graded explanation
+- **git_changelog** — git log → user-friendly change list
+
+### baios.dev (SM5)
+- **site_qa** — website quality check (SEO, links, screenshots)
+- **changelog_uret** — commit range → Turkish changelog
+- **release_notes** — version → release notes
+
+---
+
+## Flow — Large Multi-Skill Flows
+
+| Flow | What It Does |
+|---|---|
+| **avukat_dosya** | Scan power of attorney → analyze the case file → search legislation → draft a petition |
+| **muhasebe_kontrol** | Invoice/CSV → consistency check → alert |
+| **site_release** | (SM7) changelog → release notes → branch → commit → push → PR → QA |
+
+---
+
+## Model Provider — 4
+
+| Provider | Models | Use |
+|---|---|---|
+| **OpenAI** | GPT-4/4o/5/mini | General purpose |
+| **Anthropic** | Claude Opus / Sonnet | Long context, detailed analysis |
+| **Local** (Ollama) | Llama 3, Mistral, Qwen | Privacy, offline |
+| **Local_4K** | Short-context local models | Low RAM |
+
+Switch with one command: `baios config set llm.provider <name>`.
+
+---
+
+## Community Store
+
+A community store — skill/ARM/flow/automation definitions added by users. Browse with `/store`, install with `/store install <name>`.
+
+> Core ARMs + optional extra components from the community store. Current counts above (from the live codebase).
+
+---
+
+## Want to Add a Component?
+
+- **Write a skill JSON** — build your own workflow in 10 minutes. [Guide](../kaynaklar/gelistiriciler.html)
+- **Write an ARM in Python** — a handler for a new integration. [Guide](../kaynaklar/gelistiriciler.html)
+- **Add an MCP server** — BAIOS turns that MCP into an ARM automatically. [Guide](../kaynaklar/mcp-rehberi.html)
+- **Open a PR** — contribute to the community store. [GitHub](https://github.com/ilkerbay0605-baios-xhalfe/baios)
+
+---
+
+# /en/kaynaklar/gelistiriciler.html
+
+# For Developers
+
+🇹🇷 [Türkçe](../../kaynaklar/gelistiriciler.html)
+
+If you want to contribute to BAIOS or write your own enterprise component, this is the place.
+
+---
+
+## Get the Code
+
+```bash
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios
+pip install -e .
+python -m pytest tests/ -q    # test baseline 1025+
+./run.sh start                # web UI
+```
+
+**Python:** 3.12+
+
+**Development environment:** Linux / macOS (Windows: WSL recommended).
+
+---
+
+## Directory Structure
+
+```
+baios/
+├── baios/
+│   ├── arm/             ← 28 ARM handler + catalog + builder
+│   ├── skills/          ← skill engine + templates + flows
+│   ├── project/         ← project management + discipline engine
+│   ├── web/             ← FastAPI backend + routers
+│   ├── wiki/            ← wiki system (system + project)
+│   ├── automation/      ← scheduler + trigger engine
+│   ├── notification/    ← 17 channels
+│   ├── context.py       ← LLM context builder
+│   └── llm.py           ← provider-agnostic LLM wrapper
+├── frontend/            ← React (Vite) web UI
+├── site/                ← baios.dev static
+├── tests/               ← 1025+ tests
+├── agents/              ← BKS, PROJE_PLANI, DEGISIKLIK_YONETIMI
+└── scripts/             ← impact_check, drift_check, sm8_dogfood
+```
+
+---
+
+## Write a New Skill
+
+**1. Create a JSON file:**
+
+`baios/skills/templates/ornek_skill.json`
+
+```json
+{
+  "name": "ornek_skill",
+  "label": "Örnek Skill",
+  "description": "Konuyu araştırır + özetler + dosyaya kaydeder.",
+  "category": "arastirma",
+  "required_arms": ["brave_search"],
+  "input_params": ["konu"],
+  "steps": [
+    {
+      "action": "arm:brave_search",
+      "params": {"query": "{konu}"},
+      "description": "Web arama"
+    },
+    {
+      "action": "llm:Sonuçları 5 maddede Türkçe özetle.",
+      "use_previous": true,
+      "description": "LLM özet"
+    },
+    {
+      "action": "file:outputs/ornek_{konu}.md",
+      "use_previous": true,
+      "description": "Kaydet"
+    }
+  ]
+}
+```
+
+**2. Test it:**
+
+```bash
+python -m pytest tests/test_site_qa_skill.py -v  # structural test example
+curl -X POST http://localhost:8000/api/skills/ornek_skill/run \
+     -H 'Content-Type: application/json' \
+     -d '{"params":{"konu":"python test patterns"}, "project":"denemem"}'
+```
+
+**3. Update the docs:**
+- Add to the skill list in `agents/EZME_KORUMA.md`
+- Update the skill count in `PROJE_PLANI.md`
+
+**Step types:**
+- `arm:<name>` — run an ARM (config comes from the ARM's own setup)
+- `llm:<prompt>` — process with the LLM (use `use_previous: true` to append the previous output to the prompt)
+- `file:<path>` — save (if the path is in a project context it goes to project/outputs)
+- `skill:<name>` — call another skill
+
+**Parameters:** placeholders like `{konu}`. They are cleaned up in file names (slugify).
+
+---
+
+## Write a New ARM
+
+**Fast path: Builder endpoint (SM1.5):**
+
+```bash
+curl -X POST http://localhost:8000/api/arms/create \
+     -H 'Content-Type: application/json' \
+     -d '{
+       "name": "my_arm",
+       "label": "My ARM",
+       "description": "My custom ARM",
+       "type": "local",
+       "install_level": 0
+     }'
+```
+
+This does three things:
+- Creates a `baios/arm/my_arm_arm.py` stub handler
+- Adds a record to `baios/arm/catalog.json`
+- Adds a register block to `baios/arm/handlers.py`
+- Registers it in the live `_HANDLERS` dict (no restart needed)
+
+**Fill in the stub:**
+
+```python
+# baios/arm/my_arm_arm.py
+
+def handle_my_arm(action: str, config: dict, query: str):
+    from baios.arm.handlers import HandlerResult
+    
+    # action: "search", "create", "list" etc. — determined in the skill template
+    # config: contents of ~/.baios/arm_configs/my_arm.json
+    # query: user question
+    
+    if action == "search":
+        result = f"Aradığın: {query}"
+        return HandlerResult(True, result)
+    
+    return HandlerResult(False, "", f"Bilinmeyen aksiyon: {action}")
+```
+
+**Write a test:**
+
+```python
+# tests/test_my_arm.py
+def test_my_arm_search():
+    from baios.arm.handlers import execute_arm
+    r = execute_arm("my_arm", "search", {}, "test")
+    assert r.success is True
+```
+
+---
+
+## Write a New Flow
+
+A flow runs multiple skills/ARMs conditionally.
+
+`baios/skills/flows/my_flow.json`
+
+```json
+{
+  "name": "my_flow",
+  "description": "Önce araştır, sonra blog yaz, sonra QA yap",
+  "steps": [
+    {
+      "id": "s1",
+      "type": "skill",
+      "skill_name": "arastirma",
+      "params": {"konu": "{konu}"},
+      "save_as": "rapor"
+    },
+    {
+      "id": "s2",
+      "type": "skill",
+      "skill_name": "blog_post_taslak",
+      "params": {"konu": "{konu}", "okuyucu": "genel"},
+      "save_as": "blog"
+    }
+  ]
+}
+```
+
+**Conditional step:**
+
+```json
+{
+  "id": "kontrol",
+  "type": "condition",
+  "condition": "Blog taslak kalitesi yeterli mi? {blog}",
+  "if_true": "yayinla",
+  "if_false": "yeniden_yaz"
+}
+```
+
+---
+
+## Change Management (P12)
+
+Before every commit:
+
+```bash
+python3 scripts/impact_check.py      # impact of changed files
+python3 scripts/drift_check.py       # doc consistency
+python -m pytest tests/ -q           # full test run
+```
+
+Critical rules (`agents/DEGISIKLIK_YONETIMI.md`):
+- ARM added → update the count in 4 test files + EZME + PLAN
+- Skill added → test_e2e_full_flow + EZME
+- Endpoint added → Pydantic validation required + test
+
+---
+
+## Opening a PR
+
+1. Branch: `feat/skill-ornek` or `fix/arm-bug-123`
+2. Commit format: `feat: <CycleID> — <description>` (CycleID is in BKS)
+3. `python3 scripts/drift_check.py` must be clean
+4. Tests: `0 fail` required (flake is an exception, record it in `agents/cycle_active.md`)
+5. Open the PR: `gh pr create` or GitHub UI
+6. Maintainer review
+7. Merge
+
+---
+
+## Contribution Ideas
+
+- A new channel (there are 17 today — you could be the 18th)
+- A new ARM (which service is missing?)
+- A skill pack (industry-specific — health, education, law)
+- A wiki module (under `baios/wiki/`)
+- An edge prototype (Pi/ESP32)
+- Frontend improvement (React)
+- Channel tests (E2E)
+- Documentation (Turkish → English translation)
+
+---
+
+## Help
+
+- **GitHub Issues:** [github.com/ilkerbay0605-baios-xhalfe/baios/issues](https://github.com/ilkerbay0605-baios-xhalfe/baios/issues)
+- **Discussions:** coming soon
+- **omgunbay chatbot:** RAG over the BAIOS documentation, button at the bottom right.
+
+---
+
+# /en/kaynaklar/mcp-rehberi.html
+
+# MCP — Model Context Protocol
+
+🇹🇷 [Türkçe](../../kaynaklar/mcp-rehberi.html)
+
+BAIOS is both an **MCP server** and an **MCP client**. What does that mean, and what is it good for?
+
+---
+
+## What Is MCP?
+
+Model Context Protocol — a protocol proposed by Anthropic that lets LLM tools do server-client communication in a **standardized way**.
+
+**A simple analogy:**
+- Ethernet connects devices physically.
+- HTTP makes software talk over the web.
+- MCP makes LLM applications talk to tools/data over the **same protocol**.
+
+**Result:** Whoever writes an MCP server (Slack, Jira, Figma) makes it usable by every MCP-compatible application (Claude Desktop, VS Code, BAIOS). Many MCP servers are already available, and the number grows every day.
+
+---
+
+## BAIOS's MCP Role
+
+### As a server
+
+BAIOS exposes itself like an MCP server — **other tools from outside can reach BAIOS's ARMs/Skills/Flows.**
+
+**Scenario:**
+- From Claude Desktop you say "open a PR in İlker's baios-dev project"
+- Claude Desktop connects to BAIOS's MCP server
+- BAIOS's `github` ARM runs → the PR is opened
+
+### As a client
+
+BAIOS connects to external MCP servers. When you add an MCP server, that tool **automatically becomes an ARM**.
+
+**Scenario:**
+- You add the Figma MCP server (`npx @figma/mcp-server`)
+- BAIOS detects it → the `figma` ARM appears on its own (as `api_figma`)
+- You can use `arm:api_figma` in your skills
+
+---
+
+## Current Status
+
+| Capability | Status |
+|---|---|
+| BAIOS MCP server (exposed outward) | ✅ Basic |
+| BAIOS MCP client (discovers external MCPs) | ✅ Phase 12 |
+| Auto ARM (MCP → ARM conversion) | ✅ |
+| MCP discovery | ✅ |
+| Official MCP compatibility certificate | Planned |
+
+---
+
+## Adding an MCP Server
+
+### 1. Install the MCP server
+
+Each MCP server has its own documentation. Example — GitHub MCP:
+
+```bash
+npm install -g @modelcontextprotocol/server-github
+```
+
+### 2. Register it with BAIOS
+
+**Web UI:** Settings → MCP Servers → **Add**
+
+**CLI:**
+```bash
+baios> /mcp ekle github-resmi "npx -y @modelcontextprotocol/server-github" stdio
+  Environment variable:
+  GITHUB_TOKEN=ghp_...
+```
+
+### 3. See it as an ARM
+
+```bash
+baios> /arm listele
+# api_github_resmi — Auto ARM (MCP: github-resmi)
+```
+
+Now you can use it in your skills:
+```json
+{
+  "action": "arm:api_github_resmi",
+  "params": {"query": "list my repositories"}
+}
+```
+
+---
+
+## Popular MCP Servers
+
+> Compatibility testing is ongoing. The set fully tested at 100% is currently limited; **try the ones below with confidence**:
+
+- **filesystem** — local file operations (a complement to BAIOS's own `file` ARM)
+- **github** — GitHub API
+- **slack** — Slack workspace
+- **google-drive** — GDrive
+- **postgres** — PostgreSQL
+- **brave-search** — web search
+- **puppeteer** — web scraping
+
+Up-to-date list: [modelcontextprotocol.io/servers](https://modelcontextprotocol.io)
+
+---
+
+## Use BAIOS From Outside
+
+Add BAIOS to Claude Desktop as an MCP server:
+
+**1. Start BAIOS MCP server mode:**
+```bash
+baios mcp-server --port 7777
+```
+
+**2. In Claude Desktop config:**
+```json
+{
+  "mcpServers": {
+    "baios": {
+      "command": "baios",
+      "args": ["mcp-server", "--stdio"]
+    }
+  }
+}
+```
+
+**3. In Claude Desktop:**
+```
+Can you summarize the last 10 commits in the baios-dev project for me?
+→ Claude uses BAIOS's git_ops ARM
+```
+
+---
+
+## Security
+
+- MCP servers run **locally** (stdio) or over TLS.
+- BAIOS routes MCP calls through the same approval chain (risky operation → approval).
+- The audit log records both the request coming from MCP and BAIOS's response.
+- A malicious MCP server? On the BAIOS side, **only permitted actions** get through.
+
+---
+
+## Contributing
+
+If you wrote your own MCP server and want a BAIOS compatibility test:
+- **GitHub Issue:** open it with the `[mcp-compat]` label
+- Share an example configuration + a few test commands
+- We add the test result to the repo
+
+---
+
+## Related
+
+- [Catalog — Auto ARM section](../katalog.html)
+- [Developer guide](gelistiriciler.html)
+- [Architecture — MCP section](../mimari.html#mcp)
+
+---
+
+# /en/kaynaklar/omgunbay.html
+
+# omgunbay
+
+🇹🇷 [Türkçe](../../kaynaklar/omgunbay.html)
+
+The answer to **"What happens if you ask BAIOS about BAIOS?"**
+
+---
+
+## What Is It?
+
+omgunbay — the official BAIOS chatbot. It works with RAG (retrieval-augmented generation) over all BAIOS documentation (BKS, PROJE_PLANI, BAIOS_PRINCIPLES, tutorial, resources).
+
+**In plain words:** ask anything about BAIOS, and it looks at the written documents and answers. It does not make things up; when it does not know, it says "I don't know."
+
+---
+
+## Where Can I Find It?
+
+### 1. The chat window at the bottom right of baios.dev
+
+On every page of this site (very soon) — open the chat button at the bottom right and start. No sign-up required.
+
+### 2. Telegram
+
+`@omgunbay_bot` — start the conversation on Telegram with /start.
+
+### 3. Inside BAIOS
+
+In your own BAIOS installation:
+```
+baios> /chat omgunbay "yeni skill nasıl yazılır?"
+```
+
+---
+
+## How Does It Work?
+
+**Knowledge base:**
+- `BAIOS_PRINCIPLES.md` — philosophy, principles
+- `PROJE_PLANI.md` — roadmap, phase plans
+- `agents/BKS.md` — version, status
+- `site/docs/*` — this site itself
+- `baios_bireysel_cli_tutorial.md` — CLI tutorial
+- Source code comments (partial)
+
+**Process:**
+1. Converts your question into an embedding
+2. Finds the most relevant passages in the knowledge base
+3. Tells the LLM "answer based on these passages"
+4. States which source it drew on in the answer
+
+**Assurance:**
+- Says "I don't know" for topics outside the knowledge base
+- Cites sources
+- The answer is verifiable
+
+---
+
+## What Can You Ask?
+
+### Getting started
+- "What is BAIOS, what is it for?"
+- "Which LLMs does it support?"
+- "What would my first project look like?"
+
+### Technical
+- "What is the difference between a skill and a flow?"
+- "What does ARM install_level 0 mean?"
+- "What are the context layers, in order?"
+
+### Usage
+- "Which skills should I use as a blog writer?"
+- "How do I set up OAuth for the Gmail ARM?"
+- "How do I stop an automation?"
+
+### Contributing
+- "How do I write my own ARM?"
+- "What is the PR process?"
+- "How do I run the tests?"
+
+---
+
+## What It Does Not Do
+
+- **It does not analyze project data** — it only talks about BAIOS.
+- **It does not give live weather / news** — the knowledge base is static.
+- **It does not store conversation history** (optional — can be stored in enterprise mode).
+- **It does not take action** — it only gives a written answer. You cannot say "open a PR"; you need to go to the BAIOS CLI/web for that.
+
+---
+
+## Feedback
+
+If omgunbay gives a wrong answer:
+- The **👎** button inside the chat
+- GitHub issue: `[omgunbay]` label
+- What the correct answer should have been — write it, so the knowledge base gets updated
+
+---
+
+## Developer Note
+
+The omgunbay source code is in `baios/omgunbay.py`. It is a simple RAG implementation — it is re-indexed when the knowledge base is refreshed.
+
+**Extending the knowledge base:** When you add a new tutorial or a new document, the index is updated with `baios omgunbay rebuild`.
+
+---
+
+# /en/kaynaklar/sss.html
+
+# FAQ
+
+🇹🇷 [Türkçe](../../kaynaklar/sss.html)
+
+Here we briefly gather what is already in the documentation. For a deeper answer, follow the link to the relevant page.
+
+---
+
+## Basics
+
+**What is BAIOS, in one sentence?**
+A controlled work discipline that runs in human language and is LLM-independent.
+
+**Is it an assistant that acts on its own?**
+No. BAIOS is a layer — you do the thinking, BAIOS applies it with discipline. [Details](../felsefe.html#ajan-değil-katman)
+
+**Is it paid?**
+MIT license, free and open source. LLM calls may be paid depending on the provider (OpenAI/Anthropic). If you use local Ollama, there is no charge at all.
+
+**Turkish or English?**
+Both. Documentation is Turkish-first; in-code messages are mostly Turkish. The i18n infrastructure is ready.
+
+---
+
+## Installation
+
+**How do I install it?**
+```bash
+# early version — from GitHub (PyPI release coming soon)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+[Tutorial](tutorial.html)
+
+**Does it work on Windows?**
+We recommend WSL2. Pure Windows paths are not tested; please report issues.
+
+**Python version?**
+3.12+.
+
+**Is Ollama required?**
+No. If you have an OpenAI/Anthropic API key, that is enough. Ollama is only for a local LLM.
+
+---
+
+## Project & Discipline
+
+**What is a project?**
+A purpose-oriented set of files + context + a connected collection of ARMs/Skills. It lives in the `~/.baios/projects/<slug>/` directory. [Architecture](../mimari.html#proje-disiplini)
+
+**How many projects can I have?**
+No limit. You can open hundreds of projects.
+
+**Can I move a project?**
+Yes — `baios proje export <slug>` produces a ZIP, which can be loaded on another machine with `baios proje import`.
+
+**Is project discipline mandatory?**
+No, it is optional. But very useful — the LLM's suggestions to you become project-specific.
+
+---
+
+## ARM & Skill
+
+**What is an ARM?**
+An adapter — the Python module that connects BAIOS to external services (Gmail, GitHub, file, shell). [Catalog](../katalog.html#arm--28-adaptör)
+
+**How many ARMs are there?**
+28 core + 8 optional in the community store.
+
+**Difference between a skill and an ARM?**
+- **ARM:** does a single job (one API call, one file operation)
+- **Skill:** a template that combines multiple steps
+
+**How do I write my own skill?**
+With a JSON file. [Developer guide](gelistiriciler.html#yeni-skill-yaz)
+
+**Can I give my skill JSON to a friend?**
+Yes — a single file, copy-paste and it works. You can also upload it to the community store.
+
+---
+
+## LLM
+
+**Which LLMs are supported?**
+OpenAI (GPT-4/4o/5), Anthropic (Claude Opus/Sonnet), Ollama (Llama 3, Mistral, Qwen), Local_4K (small models).
+
+**Switching providers?**
+```bash
+baios config set llm.provider anthropic
+```
+The conversation continues from where it left off — the context is preserved.
+
+**Does the LLM have a hallucination problem?**
+BAIOS's current capabilities are injected into the context (SM-FIX1). The LLM won't say "this skill doesn't exist" — it knows whether it is in the list or not. Even so, human approval is taken on every important output.
+
+**What is fallback?**
+If the priority provider goes down, the next one is tried. Uninterrupted service.
+
+---
+
+## Data & Privacy
+
+**Where is my data?**
+Local: `~/.baios/`. It goes to an external service only at the moment of an LLM call (to OpenAI if you chose OpenAI).
+
+**Is there a BAIOS server, does it take my data?**
+**No.** BAIOS is entirely local. Telemetry is optional and off by default.
+
+**Are my API keys safe?**
+Encrypted in the vault with Fernet + PBKDF2. The master password is yours.
+
+**Would it accidentally run `rm -rf`?**
+No. The shell ARM uses an allowlist; `rm` is on the blocklist. In general, the rule is "no risky action without approval."
+
+---
+
+## Automation
+
+**Is it like cron?**
+Yes + more. Time, webhook, file change, RSS, MQTT — all can be triggers.
+
+**What if there is an error?**
+Every run is recorded in the audit. If there is an error, an email/Telegram notification (configurable).
+
+**Stop an automation?**
+```
+baios> /otomasyon durdur <ad>
+```
+
+---
+
+## Integration
+
+**Are Slack/Discord/Telegram supported?**
+Yes, all 17 channels. Bot setup in order at [catalog → channels](../katalog.html#kanallar--17).
+
+**Can it connect to Notion?**
+Yes, with the `notion` ARM.
+
+**Can an MCP server be added?**
+Yes, Many MCP tools can be connected to BAIOS as ARMs. [MCP guide](mcp-rehberi.html)
+
+**Triggering GitHub Actions?**
+workflow_dispatch with the `deploy` ARM.
+
+---
+
+## Enterprise
+
+**Can it be used in a team?**
+Active development — Phase 13 multi-tenant + RBAC + LDAP. [Enterprise](../../kurumsal/index.html)
+
+**On-prem?**
+Yes, with docker-compose.
+
+**SOC2?**
+Targeted for 2027. [Compliance](../../kurumsal/compliance.html)
+
+**Price?**
+Individual MIT (free). Enterprise support + training + custom development is a separate commercial agreement. [Contact](../../kurumsal/iletisim.html)
+
+---
+
+## Edge
+
+**Does it run on ESP32?**
+Active research. Bridge mode (ESP32 sensor + Pi orchestrator) will be ready first. [Edge](../edge/index.html)
+
+**Raspberry Pi?**
+Targeted for Pi 4 / 5; still an early prototype.
+
+---
+
+## Contribution & Community
+
+**Can I open a PR?**
+Of course. [Developer guide](gelistiriciler.html#pr-açma)
+
+**Where are bugs reported?**
+GitHub Issues: [github.com/ilkerbay0605-baios-xhalfe/baios/issues](https://github.com/ilkerbay0605-baios-xhalfe/baios/issues)
+
+**Are there Discussions?**
+Being actively prepared.
+
+**What is omgunbay?**
+The chatbot, RAG over the BAIOS documentation. [omgunbay](omgunbay.html)
+
+---
+
+## Still Can't Find It?
+
+- The **omgunbay** chat window at the bottom right (coming soon)
+- Open a GitHub Issue
+- The `~/.baios/logs/baios.log` file (a clue about the problem)
+
+---
+
+# /en/kaynaklar/tutorial.html
+
+# Tutorial
+
+The BAIOS guide from start to finish. Complete it in 45 minutes and you will have set up your own workflow.
+
+🇹🇷 [Türkçe](../../kaynaklar/tutorial.html)
+
+---
+
+## 0. Before You Start
+
+**Requirements:**
+- Python 3.12+
+- An LLM provider (API key OR local Ollama)
+- 15 minutes of focus
+
+**Result:** You will become a BAIOS user with your own project, connected ARMs, and a working skill.
+
+---
+
+## Part 1 — Installation (5 min)
+
+### 1.1 Install BAIOS
+
+```bash
+# early version — from GitHub (PyPI release coming soon)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+
+On first launch it asks for personalization:
+- Name
+- Language (Turkish recommended)
+- Your preferred communication tone (friendly / formal / technical)
+
+### 1.2 Choose an LLM provider
+
+**Local (free, no internet needed):**
+```bash
+# New terminal:
+ollama serve
+ollama pull llama3.2
+
+# BAIOS terminal:
+baios config set llm.provider local
+```
+
+**OpenAI (speed + quality):**
+```bash
+baios config set llm.provider openai
+baios config set openai.api_key sk-...
+```
+
+**Anthropic (long context):**
+```bash
+baios config set llm.provider anthropic
+baios config set anthropic.api_key sk-ant-...
+```
+
+### 1.3 Test it
+
+```bash
+baios> merhaba
+```
+
+A conversation should start. For the web UI:
+```bash
+baios serve
+# → http://localhost:8000
+```
+
+---
+
+## Part 2 — First Project (5 min)
+
+### 2.1 Create a project
+
+Think of a project tied to a purpose. For example **"weekly budget tracking"** or **"math lessons"** or **"blog post pool"**.
+
+```
+baios> /proje yeni butce "Aylık gelir-gider takibi"
+baios> /proje sec butce
+```
+
+Or from the web UI: **Projects → New**.
+
+### 2.2 Project files
+
+The project directory was created automatically:
+```
+~/.baios/projects/butce/
+├── project_context.md       ← purpose, rules
+├── project_tmp_context.md   ← temporary notes
+├── project_config.json      ← connected ARMs/Skills
+├── docs/                    ← put your materials here
+└── outputs/                 ← skill outputs
+```
+
+### 2.3 Add material (optional)
+
+If you have a budget Excel:
+```bash
+cp ~/bütçe.csv ~/.baios/projects/butce/docs/
+```
+
+### 2.4 Generate discipline
+
+**Web UI:** Project page → **Work Discipline** → Write a goal → **Generate**
+
+**CLI:**
+```bash
+baios> /disiplin uret "Aylık bütçe tutmak ve ay sonu özet çıkarmak"
+```
+
+The result is `discipline_v1.md` — the LLM prepared a workflow tailored to you.
+
+---
+
+## Part 3 — First ARM Setup (5 min)
+
+### 3.1 What do you need?
+
+Think: which external service does your project need?
+- Read Gmail? → `gmail` ARM
+- Pull info from the web? → `brave_search` ARM
+- Weather? → `weather` ARM
+- Just work with files? → **no ARM needed** (the file ARM is automatically available)
+
+### 3.2 Install an ARM
+
+**Web UI:** Library → ARM tab → find it → **Install**
+
+**CLI:**
+```bash
+baios> /arm kur weather
+# → asks for an API key → get one free from OpenWeatherMap: https://openweathermap.org/api
+```
+
+### 3.3 Connect it to the project
+
+```bash
+baios> /proje bagla arm weather
+```
+
+Now the `weather` ARM is available in the project context — the LLM knows about it.
+
+---
+
+## Part 4 — Running Your First Skill (10 min)
+
+### 4.1 Choose a skill
+
+`arastirma` is a simple and nice one to start with:
+- You provide a topic
+- It searches the web
+- The LLM summarizes
+- It saves to a file
+
+### 4.2 Run it
+
+**Web UI:** Library → Skill → `arastirma` → **Run**
+- `konu`: something that interests you, e.g. "which plants grow in the kitchen"
+
+**CLI:**
+```bash
+baios> /skill calistir arastirma konu="hangi bitkiler mutfakta yetişir"
+```
+
+### 4.3 Inspect the result
+
+The output is in the project directory:
+```
+~/.baios/projects/butce/outputs/arastirma_hangi_bitkiler_mutfakta_yetisir.md
+```
+
+In the web UI you can open it from **Projects → butce → Files**.
+
+---
+
+## Part 5 — Natural Language Conversation (5 min)
+
+Now stop memorizing commands and talk naturally:
+
+```
+baios> istanbul hava nasıl bugün?
+baios> bütçe CSV'sinden toplam harcamayı hesapla
+baios> "yeni teklif" ile başlayan mailleri listele (gmail ARM kuruluysa)
+baios> bu araştırma dosyasından 5 madde özet çıkar
+```
+
+BAIOS reads the intent, selects the right ARM/Skill, and asks for approval on a risky operation.
+
+---
+
+## Part 6 — First Automation (10 min)
+
+Automate a repeated task.
+
+### 6.1 Define an automation
+
+```
+baios> /otomasyon kur
+  Trigger: every Sunday 20:00
+  Action: produce a budget summary + email it (to me)
+```
+
+### 6.2 See it run
+
+```
+baios> /otomasyon listele
+```
+
+It runs automatically the first Sunday at 20:00. You receive the output by email.
+
+### 6.3 Change / stop
+
+```
+baios> /otomasyon durdur butce_ozet_haftalik
+baios> /otomasyon sil butce_ozet_haftalik
+```
+
+---
+
+## Part 7 — Wiki (5 min)
+
+Make the knowledge accumulating in the project permanent:
+
+```
+baios> /wiki olustur butce-kategoriler
+```
+
+BAIOS reviews the project contents + conversation history and prepares a wiki page. On every LLM call, the relevant pages automatically go into the context.
+
+The accumulation builds up — the older your project gets, the smarter it becomes.
+
+---
+
+## Next Steps
+
+| If you want | Go to |
+|---|---|
+| Profession-specific scenarios | [Scenarios](../bireysel/senaryolar.html) |
+| To write your own skill | [Developer guide](gelistiriciler.html) |
+| To connect an MCP server | [MCP guide](mcp-rehberi.html) |
+| omgunbay chatbot | [omgunbay](omgunbay.html) |
+| Frequently asked | [FAQ](sss.html) |
+
+---
+
+## Troubleshooting
+
+**Skill error "Missing ARM":** install it with `/arm kur <name>`.
+
+**LLM not responding:** `baios config show` → is the provider correct, is the key valid.
+
+**File not found:** Is a project selected? `/proje durum`.
+
+**Port conflict:** `baios serve --port 8080`.
+
+**Log:** `tail -f ~/.baios/logs/baios.log`
+
+---
+
+# /en/mimari.html
+
+# Architecture
+
+🇹🇷 [Türkçe](../mimari.html)
+
+BAIOS's anatomy map — for those who want to **understand** it, not just use it.
+
+---
+
+## Project Discipline
+
+Each project is its own world. When BAIOS opens a project, it reads these files:
+
+```
+~/.baios/projects/<slug>/
+├── project_context.md      ← permanent: purpose, rules, roles
+├── project_tmp_context.md  ← temporary: recent operations, working notes
+├── project_config.json     ← connected ARMs, skills, flows, automations
+├── discipline_v<N>.md       ← working method produced with the model
+├── docs/                    ← project materials
+└── outputs/                 ← skill/flow outputs
+```
+
+**Discipline Engine:** It combines the project's materials, its goal, and BAIOS's current capabilities, and has the model produce a **step-by-step working method**. Each version is written to a file and versioned.
+
+When the project changes, the discipline can be regenerated. Old versions stay in the archive.
+
+---
+
+## Context Layers
+
+BAIOS does not send the model a single block of text — it sends it **in layers**:
+
+| Layer | Content | When |
+|---|---|---|
+| **System** | BAIOS version, ARM/skill/flow counts, installed ARMs, active automations | Every message |
+| **Project** | Active project info, project_context.md content, connected components | If a project is active |
+| **Temporary** | project_tmp_context.md — recent operations | If a project is active |
+| **Wiki** | Wiki pages relevant to the query (RAG) | If a relevant page exists |
+| **Conversation** | Last N messages | Every message |
+| **User message** | The current question/request | Every message |
+
+**Why it matters:**
+- The model won't make the "BAIOS doesn't have that skill" mistake (the list is in front of it).
+- If the project changes, the context changes on its own.
+- When a new ARM is added, all model conversations know it automatically — no stale list.
+
+---
+
+## ARM — Adapter
+
+ARM = the adapter that connects BAIOS to the outside world.
+
+**Categories:**
+- **API-based:** Gmail, GitHub, Telegram, Notion, Brave Search, OpenWeather…
+- **Local:** shell, file, file_read, web_reader, browser, sql, http, rss
+- **Cloud/IoT:** cloud (S3/GDrive), MQTT, HomeAssistant
+- **System:** git_ops, deploy, feedback…
+
+**Setup levels (install_level):**
+- `0` — No setup, runs directly (file, shell, web_reader)
+- `1` — Needs an API key (brave_search, weather)
+- `2` — OAuth / multi-field setup (gmail, notion, github)
+- `3` — Risky (shell)
+
+**Each ARM:**
+- Handler Python function: `handle_<name>(action, config, query)`
+- Catalog entry: `baios/arm/catalog.json`
+- Version: `baios/arm/versions_local.json`
+- Setup flow: the fields to ask for (token, repo, etc.)
+
+To write a new ARM, see the [developer guide](../kaynaklar/gelistiriciler.html).
+
+---
+
+## Skill — Repeatable Workflow
+
+Skill = a template that runs step by step. A JSON file.
+
+```json
+{
+  "name": "research",
+  "required_arms": ["brave_search"],
+  "input_params": ["topic"],
+  "steps": [
+    {"action": "arm:brave_search", "params": {"query": "{topic}"}},
+    {"action": "llm:Summarize the results in 5 bullet points."},
+    {"action": "file:outputs/research_{topic}.md"}
+  ]
+}
+```
+
+**Step types:**
+- `arm:<name>` — run an ARM
+- `llm:<prompt>` — process with the model (use_previous: also send the previous output)
+- `file:<path>` — save
+- `skill:<name>` — call another skill
+
+**Parameters:** placeholders like `{topic}`, `{audience}` are filled at call time.
+
+Skill JSON files **can be sent to your friends** and added to the community store.
+
+---
+
+## Flow — Large Multi-Skill Flow
+
+A flow runs multiple skills/ARMs **with conditions and loops**.
+
+**Example: the `site_release` flow (for baios.dev)**
+```
+generate_changelog → release_notes → git_ops(branch) → git_ops(commit)
+  → git_ops(push) → github(pr_create) → site_qa
+```
+
+Each step can be conditional: "if QA fails, open a rollback branch."
+
+---
+
+## Automation — Time/Trigger
+
+Automation runs a skill/flow on a schedule or by an event.
+
+- **Cron:** `0 8 * * *` — every morning at 08:00
+- **Webhook:** incoming HTTP → trigger a flow
+- **File change:** watch `~/downloads/`, analyze if a new PDF appears
+- **RSS:** new item → summarize + email
+- **MQTT:** sensor threshold → notification
+
+Every automation is **approved** — rule-based; if the risk is low it runs without re-asking.
+
+---
+
+## MCP — Model Context Protocol
+
+BAIOS is both an **MCP server** and an **MCP client**.
+
+- **Server:** tools like Claude Desktop and VS Code can use BAIOS over MCP — "open a PR in ilker's baios-dev project."
+- **Client:** BAIOS connects to any MCP server (Figma, Jira, Notion API, GitHub MCP, Slack MCP…). Adding an MCP server = adding a new ARM to BAIOS.
+
+Details: [MCP guide](../kaynaklar/mcp-rehberi.html).
+
+---
+
+## Security
+
+- **Vault:** API keys encrypted with Fernet + PBKDF2. Plaintext fallback only if the vault is locked.
+- **Path traversal protection:** Every file path is resolved and checked to be inside the base dir.
+- **Shell whitelist:** Only whitelisted commands. `rm -rf`, `sudo` are blocked.
+- **git_ops sandbox:** Only permitted repos. `push` opt-in, `--force` opt-in.
+- **Audit log:** Every action recorded under `~/.baios/audit/`. Tamper-proof for enterprise.
+- **Input validation:** Every API endpoint validated with Pydantic.
+
+---
+
+## Ecosystem
+
+- **Python:** 3.12+
+- **FastAPI** backend
+- **React** frontend (optional — CLI + web)
+- **17 channels:** CLI, Web, Telegram, Discord, Slack, WhatsApp, Signal, Matrix, Teams, Email, IRC, Nostr, Google Chat, LINE, Viber, Twitch, Reddit
+- **4 model providers:** OpenAI, Anthropic, Local (Ollama), Local_4K
+
+[Ready component catalog →](../katalog.html)
+
+---
+
+# /entegrasyon/index.html
+
+# Entegrasyon Felsefesi
+
+🇬🇧 [English](../en/entegrasyon/index.html)
+
+BAIOS her şeyi entegre etmez. Bu bir eksiklik değil — **bilinçli bir tercih.**
+
+İşine dokunan bağlantıları nasıl ele aldığımızı anlatan ilkeler.
+
+---
+
+## 1. Söyle, Yapayım
+
+Hangi bağlantının nasıl kurulacağına sen karar vermezsin. **Ne istediğini söylersin**, BAIOS doğru yolu seçer.
+
+"Faturalarımı görmek istiyorum" dersin. BAIOS bunun için hazırladığımız güvenli bir yol mu var diye bakar; varsa onu kurar, yoksa sana özel bir akış hazırlar — ve hangisini neden seçtiğini sana açıkça söyler.
+
+Teknik bir karar vermen gerekmez. Tek bir cümle yeter.
+
+## 2. İki Tür Bağlantı
+
+BAIOS'ta bağlantılar iki biçimde gelir:
+
+**Hazır modüller.** Paranıza, müşterinize, yasal verinize dokunan bağlantılar — muhasebe, fatura, tahsilat, resmi yazışma. Bunları biz hazırlıyoruz, test edip bakımını üstleneceğiz, KVKK'yı gözeterek tasarlıyoruz. Sen yalnız bağlarsın.
+
+> Bu modüller **hazırlık aşamasındadır.** İlk bağlantı (Logo İşbaşı) test edilmektedir; sırayla devreye alınacaktır.
+
+**Sana özel akışlar.** Listede olmayan niş bir ihtiyacın olduğunda, BAIOS onu senin için hazırlar — kendi makinende, kendi kontrolünde. Beklemek zorunda kalmazsın.
+
+İkisi arasında seçim yapman gerekmez; BAIOS işin niteliğine göre doğru olanı seçer.
+
+## 3. Neden Her Şeyi Entegre Etmiyoruz
+
+Sana garanti edemeyeceğimiz hiçbir şeyi "hazır" diye sunmayız.
+
+Hazır modüllerimiz **az ve özenlidir.** İşine dokunan her bağlantıyı dikkatle ele alırız. Binlerce yüzeysel bağlantı yerine, güvendiğimiz bağlantılar.
+
+Bu, "ne kadar çoksa o kadar iyi" değil; **"ne kadar güveniliyorsa o kadar iyi"** anlayışıdır.
+
+## 4. Riskli İşe AI Serbest Bırakılmaz
+
+Para, müşteri ve yasal veriye dokunan bağlantıları yapay zekânın kendi başına kurmasına izin vermeyiz.
+
+Bu tür bağlantılar — fatura kesmek, tahsilat yapmak, resmi yazışma göndermek — **önceden hazırladığımız, denetlenebilir olacak şekilde tasarlanan** modüller üzerinden çalışır. Sonucu geri alınamayan, hukuki sonuç doğuran işlerde tahmine yer yoktur.
+
+Bu bir kısıt değil, **özendir.** İşin ciddiyse, ciddiye alınır.
+
+## 5. Neden Bunu Seçtim?
+
+Her bağlantıda BAIOS hangi yolu seçtiğini ve nedenini sana gösterir.
+
+Bir işlemi senin için hazırladığında, çalıştırmadan önce ne yapacağını adım adım, sade Türkçe gösterir; sen görür, onaylar, sonra çalışır. Kara kutu yok — **her adım görünür, her adıma itiraz edebilirsin.**
+
+## 6. Sahip Ol
+
+Bağlantıların senin makinende, senin anahtarınla, senin kontrolünde çalışır.
+
+- Verin sende kalır.
+- Bağlantı bir kez kurulur, kurallı çalışır.
+- Bir gün BAIOS'u bıraksan bile kurduğun düzen senindir.
+
+**Author once, run forever — Sahip ol, kiralanma.**
+
+---
+
+## Aynı Çizgi: Katman, Ajan Değil
+
+Bu yaklaşım [felsefemizin](../felsefe.html) doğal sonucu. BAIOS senin yerine "git halledilsin" demez; senin yanında, şeffaf ve geri-alınabilir biçimde çalışır. Entegrasyonlar da öyle: hızlı değil **güvenilir**, çok değil **özenli**, senin değil **senin kontrolünde**.
+
+[Felsefeyi oku →](../felsefe.html) · [Yetenek kataloğu →](../katalog.html)
+
+---
+
+# /entegrasyon/isbasi/callback/index.html
+
+<!-- title: BAIOS — Logo İşbaşı Bağlantısı -->
+<!-- description: Logo İşbaşı SSO bağlantısı tamamlanıyor. -->
+
+# Logo İşbaşı Bağlantısı
+
+<div id="isbasi-cb-status">Bağlantı tamamlanıyor…</div>
+
+<div id="isbasi-cb-detail" style="margin-top:12px;font-family:monospace;font-size:13px;"></div>
+
+<p style="margin-top:16px;color:#666;font-size:13px;">
+Bu sayfa Logo İşbaşı yetkilendirmesinden sonra otomatik açılır. Bilgiler yerel
+BAIOS uygulamanıza iletilir; sayfa kapatılabilir.
+</p>
+
+<p style="margin-top:12px;color:#888;font-size:12px;">
+<strong>KVKK aydınlatma:</strong> Bu sayfa, İşbaşı'tan dönen yetkilendirme kodunu
+<strong>yalnızca tarayıcınızda</strong> alıp <strong>kendi bilgisayarınızdaki</strong>
+yerel BAIOS uygulamasına iletir. Kod baios.dev sunucularında <strong>saklanmaz,
+kaydedilmez, üçüncü tarafa aktarılmaz</strong>. Ayrıntı: <a href="../../../gizlilik.html">Gizlilik &amp; Kullanım</a>.
+</p>
+
+<script>
+(function () {
+  var q = new URLSearchParams(window.location.search);
+  // Gerçek İşbaşı akışı: ?code={UserAppKey} (yalnız code; tenantId login
+  // yanıtından gelir, callback'te opsiyonel).
+  var code = q.get("code") || "";
+  var tenantId = q.get("tenantId") || q.get("tenantid") || "";
+  var error = q.get("error") || "";
+  var statusEl = document.getElementById("isbasi-cb-status");
+  var detailEl = document.getElementById("isbasi-cb-detail");
+
+  if (error) {
+    statusEl.textContent = "Yetkilendirme hatası: " + error;
+    return;
+  }
+  if (!code) {
+    statusEl.textContent = "Eksik parametre (code bulunamadı).";
+    return;
+  }
+  detailEl.textContent = "code alındı." + (tenantId ? " · tenantId: " + tenantId : "");
+
+  // Yerel BAIOS backend'ine ilet (localhost secure-context istisnası; CORS izinli).
+  var url = "http://localhost:8000/api/xhalfe/isbasi/callback?code="
+    + encodeURIComponent(code);
+  if (tenantId) url += "&tenantId=" + encodeURIComponent(tenantId);
+  fetch(url)
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      statusEl.textContent = "✓ İşbaşı bağlantısı alındı. BAIOS uygulamanıza dönebilirsiniz.";
+    })
+    .catch(function () {
+      statusEl.textContent =
+        "Bilgiler alındı ancak yerel BAIOS uygulamasına ulaşılamadı. "
+        + "BAIOS çalışıyor mu kontrol edip tekrar deneyin.";
+    });
+})();
+</script>
+
+
+---
+
+# /felsefe.html
+
+# Felsefe
+
+🇬🇧 [English](en/felsefe.html)
+
+BAIOS'un ne olduğunu değil, **nasıl davrandığını** anlatan beş prensip.
+
+---
+
+## 1. Dil Odaklılık
+
+Kullanıcı ne istediğini yazar veya söyler. BAIOS anlar ve yapar.
+
+Komut ezberletmez — doğal iletişim hedefler. Kısayollar (`/projeler`, `/skill ...`) vardır ama **zorunlu değildir**. Aynı işi hem "Ahmet'e e-posta at" diye yazarak hem de `/mail gonder Ahmet` komutuyla yapabilirsin. BAIOS iki yolu da aynı çalışma diline çevirir.
+
+## 2. Onaysız Aksiyon Yok
+
+Hiçbir riskli işlem kullanıcı onayı olmadan yapılmaz.
+
+- Dosya silme, üzerine yazma
+- Deploy, build, uzak sunucu tetikleme
+- API çağrısı (ücretli olanlar özellikle)
+- Commit, push, PR merge
+
+Her işlem yapılmadan önce **proposal** gösterilir; sen onaylarsın, BAIOS yapar, sonuç kaydedilir. Onaylı otomasyonlarda (her sabah rapor çek, her akşam yedekle) risk seviyesi düşükse tekrar onay istenmez — **bir kez kararlaştırıldı, kurallı çalışır**.
+
+## 3. Basitlik
+
+- Kullanıcıya soru sormak yerine çöz. Bilgiyi context'ten al.
+- 50 satır markdown yerine 5 satır cevap ver.
+- Risk tablosu, semantic boundary, proposal formatı — bunlar **sadece gerçekten riskli** işlemlerde kullanılır (dosya silme, deploy). Bilgi sorularında KULLANMA.
+- "Uygulanabilir aksiyon yok" YAZMA. Aksiyon yoksa sessizce geç.
+- Gerçekten gerekli değilse A/B/C seçeneği sunma — doğrudan en iyi olanı öner.
+
+## 4. Context Her Şeydir
+
+BAIOS, konuştuğun LLM'in ne bildiğine bağımlı değildir. **Her konuşmada context'i BAIOS kurar**, LLM'e enjekte eder.
+
+- **Sistem katmanı:** BAIOS sürümü, mevcut ARM'lar, skill'ler, flow'lar, kullanıcı kimliği.
+- **Proje katmanı:** Aktif proje, proje dosyaları, proje disiplini, bağlı bileşenler.
+- **Geçici katman:** Son işlemler, son 5 dakikanın iş akışı.
+- **Wiki katmanı:** Sorguyla ilgili bilgi tabanı sayfaları.
+
+LLM değişse bile context korunur — **OpenAI'dan Ollama'ya geçsen bile konuşmanın kaldığı yerden devam eder**.
+
+## 5. LLM Bağımsızlık
+
+BAIOS herhangi bir LLM ile çalışır: OpenAI, Anthropic, yerel Ollama, MiniMax, başkaları.
+
+- LLM sadece **araçtır**. BAIOS'un yapısı LLM'den bağımsızdır.
+- Bir provider çökerse **fallback zinciri** otomatik diğerine geçer.
+- Maliyet hassassan ucuz modele, hassas veri varsa yerele — tercih sende.
+- Tek komut: `baios config set llm.provider ollama`
+
+---
+
+## Ajan Değil, Katman
+
+BAIOS bir ajan değildir. Ajan *"sen git halledilsin"* diyendir; BAIOS ise **senin yanında çalışan disiplindir**. Sen düşünürsün, BAIOS senin düşüncenin kayıtlı, tekrarlanabilir, denetlenebilir versiyonunu üretir.
+
+Bu fark neden önemli:
+- Ajan hata yaparsa geri alman zor.
+- Katman hata yaparsa adım adım geri alınabilir.
+- Ajan kara kutudur.
+- Katman şeffaftır — her adımı görürsün, her adıma itiraz edebilirsin.
+
+---
+
+## Üç Kullanıcı, Üç Farklı Katman
+
+- **Bireysel:** Tek kullanıcı, tek makine. Erken sürüm; mesleğine özel persona'larla (avukat, muhasebeci, KOBİ sahibi, araştırmacı…).
+- **Kurumsal (ekip / RBAC / audit):** Ekip, rol, denetim, multi-tenant. **SMB sürümünden sonra planlı.** [İletişime geçin](kurumsal/iletisim.html).
+- **Edge:** ESP32, Raspberry Pi, gömülü cihazlar. Sınırlı core. Yakında.
+
+[Mimariyi oku →](mimari.html)
+
+---
+
+# /gizlilik.html
+
+# Gizlilik & Kullanım
+
+🇬🇧 [English](en/gizlilik.html)
+
+Son güncelleme: 2026-06-04 · Erken sürüm.
+
+---
+
+## Veri Sorumlusu
+
+baios.dev İlker Bayraktar tarafından yürütülmektedir. İletişim: **[email protected]**
+(İletişim ve KVKK başvuruları bu adresten yapılır.)
+
+## Çerez ve İzleme
+
+**Bu site çerez kullanmaz, analitik/izleme aracı çalıştırmaz.** Ziyaretiniz
+sırasında reklam/profilleme amaçlı veri toplanmaz. Sunucu erişim kayıtları
+(IP, tarih) yalnızca güvenlik ve teknik işletim için tutulabilir.
+
+## Toplanan Kişisel Veri
+
+Yalnızca **kendi isteğinizle ilettiğiniz** veriyi işleriz:
+
+- **İletişim / erken-test başvurusu:** Bize e-posta gönderdiğinizde adres ve
+  içeriğiniz, talebinizi yanıtlamak amacıyla işlenir (KVKK m.5/2-c ve m.5/2-f).
+
+## Logo İşbaşı Bağlantısı (SSO)
+
+`baios.dev/entegrasyon/isbasi/callback/` sayfası, Logo İşbaşı yetkilendirmesinden
+dönen `code` değerini **yalnızca tarayıcınızda** alır ve **kendi bilgisayarınızda
+çalışan yerel BAIOS uygulamanıza** iletir. **Bu veri baios.dev sunucularında
+saklanmaz, kaydedilmez, üçüncü tarafa aktarılmaz.** İşbaşı hesabınıza erişim,
+sizin makinenizde, sizin anahtarınızla gerçekleşir; veri sorumlusu, kendi
+verisini işleyen kullanıcı olarak sizsiniz.
+
+## KVKK Haklarınız (m.11)
+
+Kişisel verinize erişme, düzeltme, silme ve işlemeye itiraz haklarınızı
+**[email protected]** üzerinden kullanabilirsiniz.
+
+## Kullanım Şartları & Sorumluluk Reddi
+
+- BAIOS **erken sürümdür**; özellikler geliştirme aşamasındadır ve değişebilir.
+- BAIOS'un ürettiği çıktılar (özet, taslak, analiz, hesap) **bilgilendirme
+  amaçlıdır**; hukuki, mali veya muhasebe danışmanlığı yerine geçmez. Mali/hukuki
+  sonuç doğuran kullanımlardan önce yetkili bir uzmana danışın.
+- Yazılım "olduğu gibi" sunulur; kullanım kullanıcının sorumluluğundadır.
+
+## Açık Kaynak
+
+BAIOS [MIT lisansıyla GitHub'da](https://github.com/ilkerbay0605-baios-xhalfe/baios) açık kaynaktır.
+
+[Ana sayfa →](index.html)
+
+---
+
+# /index.html
+
+<div class="hero">
+<h1>BAIOS</h1>
+<p><strong>İnsan dilinde çalışan, LLM bağımsız, kontrollü bir çalışma disiplini.</strong></p>
+<p>🇬🇧 <a href="en/index.html">English</a></p>
+<p>Eskiden masamızda defter, kalem, araçlar vardı. Sonra klasörler ve pencereler oldu. Şimdi AI ile yeni bir çalışma masası doğuyor — ve bu masada artık aynı dilde konuşuyoruz. BAIOS bir ajan değil; LLM ile insan arasında çalışan, kontrollü, kayıtlı ve geri alınabilir aksiyonlar gerçekleştiren bir katmandır.</p>
+<p><strong>Mesleğin için hazır, KVKK-uyumlu, verisi sende kalan bir asistan.</strong> Avukattan muhasebeciye, KOBİ sahibinden araştırmacıya — herkesin işi farklı; BAIOS her birine kendi diliyle çalışır.</p>
+<p>Anthropic Claude'a rakip değil, <strong>partner-uyumlu complement</strong>. Author once, run forever — <strong>sahip ol, kiralanma.</strong></p>
+</div>
+
+## Temel Prensipler
+
+- **Dil odaklılık** — Komut ezberletmez. Ne istediğini yaz veya söyle, BAIOS anlar.
+- **Onaysız aksiyon yok** — Dosya silme, deploy, API çağrısı… hepsi kullanıcı onayı ister.
+- **Basitlik** — 5 satır cevap, 50 satır değil.
+- **Context her şeydir** — Kullanıcı, proje, dosyalar, wiki birikimi — hepsi LLM'e otomatik gider.
+- **LLM bağımsızlık** — OpenAI, Anthropic, yerel Ollama. BAIOS LLM'den bağımsızdır.
+
+[Felsefeyi detaylı oku →](felsefe.html) &nbsp;&nbsp; [Mimari →](mimari.html)
+
+---
+
+## Kimler İçin?
+
+Mesleğin ne olursa olsun, BAIOS o işe özel gelir — her persona kendi sektör şablonlarıyla, KVKK-uyumlu, verisi sende.
+
+- ⚖️ **Avukat** — dava dosyası analizi, dilekçe taslağı, mevzuat araştırması
+- 📊 **Muhasebeci** — aylık kapanış, KDV beyanname hazırlığı
+- 🏷️ **KOBİ sahibi** — kampanya planı, stok notu, müşteri takibi
+- 🌍 **İhracatçı** — gümrük beyanname, döviz takibi
+- 💎 **Kuyumcu / perakendeci** — stok yönetimi, müşteri sadakati
+- ✍️ **İçerik üreticisi** — blog planı, yazı taslağı
+- 🔬 **Araştırmacı** — literatür özeti, alıntı yönetimi
+- 📈 **Veri analisti** — CSV → istatistik → rapor
+- 💻 **Yazılımcı** — özellik/bugfix akışı, repo dokümantasyonu
+- 📚 **Yazar / öğretmen** — taslak, özet, ders materyali
+
+> Çıktılar bilgilendirme amaçlıdır; mali/hukuki sonuç doğuran kullanımda uzman onayı gerekir ([Gizlilik & Kullanım](gizlilik.html)).
+
+<div style="text-align:center;margin:1.5rem 0;">
+<a href="#kurulum" class="cta">Erken Erişim — GitHub</a>
+</div>
+
+**Yol haritası:** Ekip/kurumsal katman (çok-kullanıcı, RBAC, denetim) ve uç-cihaz (edge) sürümü **SMB sürümünden sonra** planlanıyor. [İletişim](kurumsal/iletisim.html).
+
+---
+
+<a name="kurulum"></a>
+## Bireysel Kurulum
+
+```bash
+# Erken sürüm — GitHub'dan kurulum (PyPI yayını yakında)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+
+Terminal, web UI veya Telegram/Discord/Slack — hangisini tercih edersen.
+
+```
+baios> /projeler
+baios> /skill calistir arastirma
+baios> istanbul hava durumu
+baios> /wiki olustur müşteri analizi
+```
+
+[Tutorial — 10 dakikada ilk proje →](kaynaklar/tutorial.html)
+
+---
+
+## BAIOS Nasıl Çalışır?
+
+**Proje disiplini:** Her proje kendi context'i, materyali, bağlı ARM/Skill'leri ile yaşar. BAIOS projenin yapısını bilerek akıllı aksiyonlar önerir.
+
+**Bileşenler:**
+- **ARM** — Dış dünyaya bağlanan adaptörler (Gmail, GitHub, dosya, shell…)
+- **Skill** — Tekrarlanabilir iş akışı şablonları (araştır → özetle → kaydet)
+- **Flow** — Koşullu, döngülü, çok-skill'li büyük akışlar
+- **Otomasyon** — Zamanlanmış veya tetiklenen görevler
+- **MCP** — BAIOS hem MCP sunucusu hem istemcisi (herhangi bir MCP sunucusuna bağlanır)
+
+[Mimariyi detaylı oku →](mimari.html) &nbsp;&nbsp; [Hazır bileşen kataloğu →](katalog.html)
+
+---
+
+## Gerçek Kullanım Senaryoları
+
+[Senaryolar →](bireysel/senaryolar.html)
+
+---
+
+## Açık & Şeffaf
+
+- **MIT Lisans** — [GitHub'da kaynak kod](https://github.com/ilkerbay0605-baios-xhalfe/baios)
+- **Her commit'te otomatik test**
+- **Türkçe dokümantasyon**
+- **baios.dev kendisi BAIOS ile yönetiliyor** — dogfood
+
+<div style="text-align:center;margin:2rem 0;">
+<a href="kaynaklar/tutorial.html" class="cta">Hemen Başla</a>
+&nbsp;
+<a href="https://github.com/ilkerbay0605-baios-xhalfe/baios" class="cta-secondary">GitHub</a>
+</div>
+
+<div class="chat-hint">
+<strong>Sorun mu var?</strong> Sağ alttaki <em>omgunbay</em> sohbet penceresinden BAIOS hakkında her şeyi sorabilirsin.
+</div>
+
+---
+
+# /katalog.html
+
+# Katalog
+
+🇬🇧 [English](en/katalog.html)
+
+BAIOS'un sunduğu bileşenler. Yeni bileşenler community store üzerinden eklenir.
+
+<!-- AUTO:counts START -->
+**49 ARM · 33 Skill · 3 Flow · 16 mesajlaşma kanalı (+ CLI, Web) · 13 Türk KOBİ entegrasyonu** — sayılar her build'de canlı koddan üretilir.
+<!-- AUTO:counts END -->
+
+---
+
+## Türk KOBİ Entegrasyonları
+
+İşine dokunan bağlantılar — muhasebe, e-fatura, ödeme, e-ticaret. Bkz. [Entegrasyon Felsefesi](entegrasyon/index.html).
+
+<!-- AUTO:connectors START -->
+| Entegrasyon | Kategori | Durum |
+|---|---|---|
+| **Logo İşbaşı** | Muhasebe / e-Fatura | ◷ İlk bağlantı (test) |
+| **Paraşüt** | Muhasebe / e-Fatura | 🔜 Yakında |
+| **GİB e-Fatura** | Resmi / Vergi | 🔜 Yakında |
+| **KEP (Kayıtlı E-Posta)** | Resmi / Vergi | 🔜 Yakında |
+| **iyzico** | Ödeme / Tahsilat | 🔜 Yakında |
+| **PayTR** | Ödeme / Tahsilat | 🔜 Yakında |
+| **Trendyol** | E-Ticaret | 🔜 Yakında |
+| **Hepsiburada** | E-Ticaret | 🔜 Yakında |
+| **Netgsm (SMS)** | İletişim | 🔜 Yakında |
+| **WhatsApp Business** | İletişim | 🔜 Yakında |
+| **DocuSign** | İmza / Belge | 🔜 Yakında |
+| **Canva** | İçerik / Tasarım | 🔜 Yakında |
+| **HubSpot** | CRM | 🔜 Yakında |
+
+> Türk KOBİ entegrasyonları sırayla hazırlanıp devreye alınıyor; ilk canlı bağlantı (Logo İşbaşı) test aşamasında.
+<!-- AUTO:connectors END -->
+
+---
+
+## ARM — Adaptörler
+
+### API Tabanlı
+
+| ARM | Ne İşe Yarar | Kurulum |
+|---|---|---|
+| brave_search | Web arama (Brave Search API) | API key |
+| weather | Hava durumu (OpenWeatherMap) | API key |
+| dalle | Görsel üretim (OpenAI DALL-E) | API key |
+| deepl | Çeviri (DeepL) | API key |
+| youtube | Video arama (YouTube Data) | API key |
+| telegram | Telegram bot mesajlaşma | Bot token |
+| gmail | Gmail oku (IMAP) | OAuth |
+| gmail_read | Gmail okuma alias (→ gmail) | OAuth |
+| gmail_send | Gmail gönder | App password |
+| whatsapp | WhatsApp (Twilio) | Twilio token |
+| notion | Notion page/db | Token |
+| github | Issue + PR yönetimi | Token |
+| homeassistant | Akıllı ev REST API | Token + URL |
+| deploy | GitHub Actions workflow_dispatch | Token + repo |
+| tts_openai | OpenAI TTS (6 ses) | API key |
+| tts_elevenlabs | ElevenLabs premium TTS | API key |
+| stt_whisper | OpenAI Whisper API transkripsiyon | API key |
+
+### Yerel
+
+| ARM | Ne İşe Yarar | Risk |
+|---|---|---|
+| file | Tam dosya CRUD (oku/yaz/sil/taşı/kopyala) | Düşük |
+| dosya_oku | Sadece okuma (PDF/MD/TXT/CSV) | Düşük |
+| shell | Kontrollü komut (beyaz liste) | **Yüksek** |
+| git_ops | Sandbox'lı git (status/diff/commit/push opt-in) | Orta |
+| browser | Playwright (navigate/screenshot/PDF) | Orta |
+| web_reader | URL → temiz markdown (Jina Reader) | Düşük |
+| http | GET/POST/PUT/DELETE + header + body | Düşük |
+| calendar | Yerel JSON takvim (de-dup + Türkçe ay parse) | Düşük |
+| sql | SQLite / PostgreSQL / MySQL sorgu | Düşük |
+| mqtt | MQTT sensör oku/yaz | Düşük |
+| cloud | S3 + Google Drive | Düşük |
+| rss | RSS/Atom feed oku | Düşük |
+| llm_ozet | LLM ile özet (LLM-agnostic) | Düşük |
+| obsidian | Yerel Obsidian vault (oku/yaz/ara/backlinks) | Düşük |
+| tts_edge | Microsoft Edge TTS (ücretsiz bulut, Türkçe) | Düşük |
+| tts_browser | Web Speech API köprüsü (istemci-tarafi) | Düşük |
+| tts_piper | Piper TTS (yerel, ONNX — model indirme) | Orta |
+| stt_browser | Web Speech Recognition köprüsü | Düşük |
+| stt_faster_whisper | faster-whisper yerel STT (CTranslate2) | Orta |
+| feedback | Kullanıcı geri bildirimi | Düşük |
+
+---
+
+## Kanallar
+
+BAIOS'a nereden eriştiğin:
+
+| Kanal | Durum |
+|---|---|
+| **CLI** (terminal) | ✅ Aktif |
+| **Web UI** (localhost:8000) | ✅ Aktif |
+| Telegram | ✅ |
+| Discord | ✅ |
+| Slack | ✅ |
+| WhatsApp | ✅ |
+| Signal | ✅ |
+| Matrix | ✅ |
+| Teams | ✅ |
+| E-posta (IMAP+SMTP) | ✅ |
+| IRC | ✅ |
+| Nostr | ✅ |
+| Google Chat | ✅ |
+| LINE | ✅ |
+| Viber | ✅ |
+| Twitch | ✅ |
+| Reddit | ✅ |
+
+---
+
+## Skill — Tekrarlanabilir İş Akışları
+
+### İçerik Üretimi
+- **arastirma** — konu web'de ara → LLM özetle → kaydet
+- **blog_taslak** — konu + kitle → 800-1200 kelime taslak
+- **blog_post_taslak** — (SM5) daha rafine blog taslağı
+- **icerik_uretim** — çok-adımlı içerik üretim
+- **landing_copy_revize** — landing metnini kitleye göre revize
+- **url_ozet** — URL → markdown → özet
+- **gorsel_prompt** — DALL-E için görsel prompt üret
+
+### Profesyonel İşler
+- **muhasebe** — fatura/CSV → analiz → rapor
+- **fatura_olustur** — kalem listesi → fatura PDF
+- **harcama_takip** — harcama kalemi ekle + kategori
+- **veri_analiz** — CSV oku → temel istatistik → görsel tarif
+- **rakip_izleme** — rakip site → değişiklik tespit
+- **fiyat_takip** — URL liste → fiyat izle → uyarı
+
+### Günlük
+- **haber_ozet** — RSS/feed → LLM özet → e-posta
+- **gunluk_ozet** — günün e-postalarını/mesajlarını özetle
+- **toplanti_ozet** — transkripti özetle
+- **takip_mail** — müşteri → takip e-postası taslağı
+- **ilac_hatirlatma** — zamanlı bildirim
+- **dosya_organize** — klasörü tipine göre düzenle
+
+### Geliştirici / Eğitim
+- **flashcard** — metin → Anki kart seti
+- **konu_aciklama** — konu → kademeli açıklama
+- **git_changelog** — git log → kullanıcı dostu değişiklik listesi
+
+### baios.dev (SM5)
+- **site_qa** — web sitesi kalite kontrolü (SEO, link, screenshot)
+- **changelog_uret** — commit aralığı → Türkçe changelog
+- **release_notes** — versiyon → release notes
+
+---
+
+## Flow — Çok-Skill'li Akışlar
+
+| Flow | Ne Yapar |
+|---|---|
+| **avukat_dosya** | Vekalet tara → dosya analiz → mevzuat ara → dilekçe tasla |
+| **muhasebe_kontrol** | Fatura/CSV → tutarlılık kontrolü → uyarı |
+| **site_release** | (SM7) changelog → release notes → branch → commit → push → PR → QA |
+
+---
+
+## LLM Provider — 4
+
+| Provider | Modeller | Kullanım |
+|---|---|---|
+| **OpenAI** | GPT-4/4o/5/mini | Genel amaç |
+| **Anthropic** | Claude Opus / Sonnet | Uzun context, detaylı analiz |
+| **Local** (Ollama) | Llama 3, Mistral, Qwen | Gizlilik, offline |
+| **Local_4K** | Kısa context yerel modeller | Düşük RAM |
+
+Tek komutla geçiş: `baios config set llm.provider <ad>`.
+
+---
+
+## Community Store
+
+Topluluk store — kullanıcı tarafından eklenen skill/ARM/flow/otomasyon tanımları. `/store` komutu ile göz at, `/store install <ad>` ile kur.
+
+> Çekirdek ARM'lar + topluluk store'dan opsiyonel ek bileşenler. Güncel sayılar yukarıda (canlı koddan).
+
+---
+
+## Bileşen Eklemek İstiyor Musun?
+
+- **Skill JSON yaz** — 10 dakikada kendi iş akışını oluştur. [Rehber](kaynaklar/gelistiriciler.html)
+- **ARM Python yaz** — yeni entegrasyon için handler. [Rehber](kaynaklar/gelistiriciler.html)
+- **MCP sunucusu ekle** — BAIOS o MCP'yi otomatik ARM yapar. [Rehber](kaynaklar/mcp-rehberi.html)
+- **PR aç** — community store'a katkı. [GitHub](https://github.com/ilkerbay0605-baios-xhalfe/baios)
+
+---
+
+# /kaynaklar/gelistiriciler.html
+
+# Geliştiriciler İçin
+
+🇬🇧 [English](../en/kaynaklar/gelistiriciler.html)
+
+BAIOS'a katkı vermek veya kendi kurumsal bileşenini yazmak istiyorsan burası.
+
+---
+
+## Kod İndir
+
+```bash
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios
+pip install -e .
+python -m pytest tests/ -q    # test baseline 1025+
+./run.sh start                # web UI
+```
+
+**Python:** 3.12+
+
+**Geliştirme ortamı:** Linux / macOS (Windows: WSL önerilen).
+
+---
+
+## Dizin Yapısı
+
+```
+baios/
+├── baios/
+│   ├── arm/             ← 28 ARM handler + catalog + builder
+│   ├── skills/          ← skill engine + templates + flows
+│   ├── project/         ← proje yönetimi + discipline engine
+│   ├── web/             ← FastAPI backend + routers
+│   ├── wiki/            ← wiki sistemi (sistem + proje)
+│   ├── automation/      ← scheduler + trigger engine
+│   ├── notification/    ← 17 kanal
+│   ├── context.py       ← LLM context builder
+│   └── llm.py           ← provider-agnostic LLM wrapper
+├── frontend/            ← React (Vite) web UI
+├── site/                ← baios.dev statik
+├── tests/               ← 1025+ test
+├── agents/              ← BKS, PROJE_PLANI, DEGISIKLIK_YONETIMI
+└── scripts/             ← impact_check, drift_check, sm8_dogfood
+```
+
+---
+
+## Yeni Skill Yaz
+
+**1. JSON dosyası oluştur:**
+
+`baios/skills/templates/ornek_skill.json`
+
+```json
+{
+  "name": "ornek_skill",
+  "label": "Örnek Skill",
+  "description": "Konuyu araştırır + özetler + dosyaya kaydeder.",
+  "category": "arastirma",
+  "required_arms": ["brave_search"],
+  "input_params": ["konu"],
+  "steps": [
+    {
+      "action": "arm:brave_search",
+      "params": {"query": "{konu}"},
+      "description": "Web arama"
+    },
+    {
+      "action": "llm:Sonuçları 5 maddede Türkçe özetle.",
+      "use_previous": true,
+      "description": "LLM özet"
+    },
+    {
+      "action": "file:outputs/ornek_{konu}.md",
+      "use_previous": true,
+      "description": "Kaydet"
+    }
+  ]
+}
+```
+
+**2. Test et:**
+
+```bash
+python -m pytest tests/test_site_qa_skill.py -v  # yapısal test örneği
+curl -X POST http://localhost:8000/api/skills/ornek_skill/run \
+     -H 'Content-Type: application/json' \
+     -d '{"params":{"konu":"python test patterns"}, "project":"denemem"}'
+```
+
+**3. Belge güncelle:**
+- `agents/EZME_KORUMA.md` skill listesine ekle
+- `PROJE_PLANI.md` skill sayısını güncelle
+
+**Adım tipleri:**
+- `arm:<name>` — ARM çalıştır (config ARM'ın kendi kurulumundan)
+- `llm:<prompt>` — LLM ile işle (`use_previous: true` ile önceki çıktıyı prompt'a ekle)
+- `file:<yol>` — kaydet (yol proje bağlamında ise proje/outputs'a gider)
+- `skill:<name>` — başka skill çağır
+
+**Parametreler:** `{konu}` gibi placeholder'lar. Dosya adlarında temizlenir (slugify).
+
+---
+
+## Yeni ARM Yaz
+
+**Hızlı yol: Builder endpoint (SM1.5):**
+
+```bash
+curl -X POST http://localhost:8000/api/arms/create \
+     -H 'Content-Type: application/json' \
+     -d '{
+       "name": "my_arm",
+       "label": "My ARM",
+       "description": "My custom ARM",
+       "type": "local",
+       "install_level": 0
+     }'
+```
+
+Bu, üç şeyi yapar:
+- `baios/arm/my_arm_arm.py` stub handler oluşturur
+- `baios/arm/catalog.json`'a kayıt ekler
+- `baios/arm/handlers.py`'ye register bloğu ekler
+- Canlı `_HANDLERS` dict'ine register eder (restart gerek yok)
+
+**Stub'u doldur:**
+
+```python
+# baios/arm/my_arm_arm.py
+
+def handle_my_arm(action: str, config: dict, query: str):
+    from baios.arm.handlers import HandlerResult
+    
+    # action: "search", "create", "list" vb. — skill şablonunda belirlenir
+    # config: ~/.baios/arm_configs/my_arm.json içeriği
+    # query: kullanıcı sorusu
+    
+    if action == "search":
+        result = f"Aradığın: {query}"
+        return HandlerResult(True, result)
+    
+    return HandlerResult(False, "", f"Bilinmeyen aksiyon: {action}")
+```
+
+**Test yaz:**
+
+```python
+# tests/test_my_arm.py
+def test_my_arm_search():
+    from baios.arm.handlers import execute_arm
+    r = execute_arm("my_arm", "search", {}, "test")
+    assert r.success is True
+```
+
+---
+
+## Yeni Flow Yaz
+
+Flow = birden fazla skill/ARM'ı koşullu çalıştırır.
+
+`baios/skills/flows/my_flow.json`
+
+```json
+{
+  "name": "my_flow",
+  "description": "Önce araştır, sonra blog yaz, sonra QA yap",
+  "steps": [
+    {
+      "id": "s1",
+      "type": "skill",
+      "skill_name": "arastirma",
+      "params": {"konu": "{konu}"},
+      "save_as": "rapor"
+    },
+    {
+      "id": "s2",
+      "type": "skill",
+      "skill_name": "blog_post_taslak",
+      "params": {"konu": "{konu}", "okuyucu": "genel"},
+      "save_as": "blog"
+    }
+  ]
+}
+```
+
+**Koşullu adım:**
+
+```json
+{
+  "id": "kontrol",
+  "type": "condition",
+  "condition": "Blog taslak kalitesi yeterli mi? {blog}",
+  "if_true": "yayinla",
+  "if_false": "yeniden_yaz"
+}
+```
+
+---
+
+## Değişiklik Yönetimi (P12)
+
+Her commit öncesi:
+
+```bash
+python3 scripts/impact_check.py      # değişen dosya etkisi
+python3 scripts/drift_check.py       # belge tutarlılığı
+python -m pytest tests/ -q           # tam test
+```
+
+Kritik kurallar (`agents/DEGISIKLIK_YONETIMI.md`):
+- ARM eklendi → 4 test dosyası count güncelle + EZME + PLAN
+- Skill eklendi → test_e2e_full_flow + EZME
+- Endpoint eklendi → Pydantic validation zorunlu + test
+
+---
+
+## PR Açma
+
+1. Branch: `feat/skill-ornek` veya `fix/arm-bug-123`
+2. Commit formatı: `feat: <DöngüID> — <açıklama>` (DöngüID BKS'de)
+3. `python3 scripts/drift_check.py` temiz olmalı
+4. Test: `0 fail` zorunlu (flake istisna, `agents/cycle_active.md`'ye kaydet)
+5. PR aç: `gh pr create` veya GitHub UI
+6. Maintainer review
+7. Merge
+
+---
+
+## Katkı Fikirleri
+
+- Yeni kanal (şu an 17 var — sen 18'i olabilirsin)
+- Yeni ARM (hangi servis eksik?)
+- Skill paketi (sektör özel — sağlık, eğitim, hukuk)
+- Wiki modülü (`baios/wiki/` altında)
+- Edge prototipi (Pi/ESP32)
+- Frontend iyileştirme (React)
+- Kanal testleri (E2E)
+- Dokümantasyon (Türkçe → İngilizce çevirisi)
+
+---
+
+## Yardım
+
+- **GitHub Issues:** [github.com/ilkerbay0605-baios-xhalfe/baios/issues](https://github.com/ilkerbay0605-baios-xhalfe/baios/issues)
+- **Discussions:** aktif olacak
+- **omgunbay chatbot:** BAIOS dokümantasyonu üzerinde RAG, sağ alt buton.
+
+---
+
+# /kaynaklar/mcp-rehberi.html
+
+# MCP — Model Context Protocol
+
+🇬🇧 [English](../en/kaynaklar/mcp-rehberi.html)
+
+BAIOS hem **MCP sunucusu** hem **MCP istemcisi**. Bu ne demek, ne işe yarar?
+
+---
+
+## MCP Nedir?
+
+Model Context Protocol — Anthropic'in önerdiği, LLM araçlarının **standart şekilde** sunucu-istemci iletişimi yapmasını sağlayan protokol.
+
+**Basit benzetme:**
+- Ethernet cihazları fiziksel olarak bağlar.
+- HTTP yazılımları web üzerinden konuşturur.
+- MCP, LLM uygulamaları ile araçları/verileri **aynı protokolde** konuşturur.
+
+**Sonuç:** Bir MCP sunucusu yazan (Slack, Jira, Figma) onu bütün MCP-uyumlu uygulamaların (Claude Desktop, VS Code, BAIOS) kullanmasını sağlar. Çok sayıda MCP sunucusu mevcut, her gün artıyor.
+
+---
+
+## BAIOS'un MCP Rolü
+
+### Sunucu olarak
+
+BAIOS kendisini MCP sunucusu gibi sunar — **dışarıdan başka araçlar BAIOS'un ARM/Skill/Flow'larına erişebilir.**
+
+**Senaryo:**
+- Claude Desktop'tan "İlker'in baios-dev projesinde PR aç" dersin
+- Claude Desktop BAIOS'un MCP sunucusuna bağlanır
+- BAIOS'un `github` ARM'ı çalışır → PR açılır
+
+### İstemci olarak
+
+BAIOS dış MCP sunucularına bağlanır. Bir MCP sunucusu ekleyince o tool **otomatik ARM olur**.
+
+**Senaryo:**
+- Figma MCP sunucusunu ekliyorsun (`npx @figma/mcp-server`)
+- BAIOS algılıyor → `figma` ARM kendiliğinden geliyor (`api_figma` olarak)
+- Skill'lerinde `arm:api_figma` kullanabilirsin
+
+---
+
+## Mevcut Durum
+
+| Yetenek | Durum |
+|---|---|
+| BAIOS MCP sunucu (dışarıya açık) | ✅ Temel |
+| BAIOS MCP istemci (dış MCP'leri keşfeder) | ✅ Faz 12 |
+| Auto ARM (MCP → ARM dönüşümü) | ✅ |
+| MCP keşif + discovery | ✅ |
+| Resmi MCP uyumluluk sertifikası | Planlı |
+
+---
+
+## MCP Sunucu Ekleme
+
+### 1. MCP sunucusunu kur
+
+Her MCP sunucusunun kendi dokümantasyonu var. Örnek — GitHub MCP:
+
+```bash
+npm install -g @modelcontextprotocol/server-github
+```
+
+### 2. BAIOS'a tanıt
+
+**Web UI:** Ayarlar → MCP Sunucuları → **Ekle**
+
+**CLI:**
+```bash
+baios> /mcp ekle github-resmi "npx -y @modelcontextprotocol/server-github" stdio
+  Environment variable:
+  GITHUB_TOKEN=ghp_...
+```
+
+### 3. ARM olarak görün
+
+```bash
+baios> /arm listele
+# api_github_resmi — Auto ARM (MCP: github-resmi)
+```
+
+Artık skill'lerinde kullanabilirsin:
+```json
+{
+  "action": "arm:api_github_resmi",
+  "params": {"query": "list my repositories"}
+}
+```
+
+---
+
+## Popüler MCP Sunucuları
+
+> Uyumluluk testi aktif. Şu an %100 test edilen sınırlı; aşağıdaki listede olanları **güvenle dene**:
+
+- **filesystem** — yerel dosya işlemleri (BAIOS'un kendi `file` ARM'ına alternatif)
+- **github** — GitHub API
+- **slack** — Slack workspace
+- **google-drive** — GDrive
+- **postgres** — PostgreSQL
+- **brave-search** — web arama
+- **puppeteer** — web scraping
+
+Güncel liste: [modelcontextprotocol.io/servers](https://modelcontextprotocol.io)
+
+---
+
+## BAIOS'u Dışarıdan Kullan
+
+Claude Desktop'a BAIOS'u MCP sunucusu olarak ekle:
+
+**1. BAIOS MCP sunucu modunu başlat:**
+```bash
+baios mcp-server --port 7777
+```
+
+**2. Claude Desktop config'te:**
+```json
+{
+  "mcpServers": {
+    "baios": {
+      "command": "baios",
+      "args": ["mcp-server", "--stdio"]
+    }
+  }
+}
+```
+
+**3. Claude Desktop'ta:**
+```
+Bana baios-dev projesinde son 10 commit'i özetler misin?
+→ Claude, BAIOS'un git_ops ARM'ını kullanır
+```
+
+---
+
+## Güvenlik
+
+- MCP sunucuları **yerel** çalışır (stdio) veya TLS ile.
+- BAIOS, MCP çağrılarını aynı onay zincirinden geçirir (riskli işlem → onay).
+- Audit log'a hem MCP'den gelen istek hem BAIOS'un cevabı kayıt.
+- Zararlı MCP sunucusu? BAIOS tarafında **yalnızca izinli eylemler** geçer.
+
+---
+
+## Katkı
+
+Kendi MCP sunucunu yazdıysan ve BAIOS uyumluluk testi istersen:
+- **GitHub Issue:** `[mcp-compat]` etiketiyle aç
+- Örnek yapılandırma + birkaç test komutu paylaş
+- Test sonucu repo'ya ekleriz
+
+---
+
+## İlgili
+
+- [Katalog — Auto ARM bölümü](../katalog.html)
+- [Geliştirici rehberi](gelistiriciler.html)
+- [Mimari — MCP bölümü](../mimari.html#mcp)
+
+---
+
+# /kaynaklar/omgunbay.html
+
+# omgunbay
+
+🇬🇧 [English](../en/kaynaklar/omgunbay.html)
+
+**"BAIOS'u BAIOS'a sorarsan ne olur?"** sorusunun cevabı.
+
+---
+
+## Nedir?
+
+omgunbay — BAIOS'un resmi chatbot'u. Tüm BAIOS dokümantasyonu (BKS, PROJE_PLANI, BAIOS_PRINCIPLES, tutorial, kaynaklar) üzerinde RAG (retrieval-augmented generation) ile çalışır.
+
+**Basit söylüşle:** BAIOS hakkında ne sorarsan sor, yazılı belgelere bakıp cevap verir. Uydurmaz, bilmediğine "bilmiyorum" der.
+
+---
+
+## Nerede Bulabilirim?
+
+### 1. baios.dev sağ-alt sohbet penceresi
+
+Bu sitenin her sayfasında (çok yakında) — sağ alttaki sohbet butonunu aç, başla. Kayıt istemez.
+
+### 2. Telegram
+
+`@omgunbay_bot` — Telegram'da /start ile konuşmaya başla.
+
+### 3. BAIOS içinde
+
+Kendi BAIOS kurulumunda:
+```
+baios> /chat omgunbay "yeni skill nasıl yazılır?"
+```
+
+---
+
+## Nasıl Çalışır?
+
+**Bilgi tabanı:**
+- `BAIOS_PRINCIPLES.md` — felsefe, prensipler
+- `PROJE_PLANI.md` — roadmap, faz planları
+- `agents/BKS.md` — sürüm, durum
+- `site/docs/*` — bu sitenin kendisi
+- `baios_bireysel_cli_tutorial.md` — CLI öğretici
+- Kaynak kod yorumları (kısmi)
+
+**Çalışma:**
+1. Sorduğun soruyu embedding'e çevirir
+2. Bilgi tabanında en alakalı pasajları bulur
+3. LLM'e "bu pasajlara dayanarak cevap ver" der
+4. Cevapta hangi kaynaktan yararlandığını belirtir
+
+**Güvence:**
+- Bilgi tabanı dışı konuda "bilmiyorum" der
+- Kaynak alıntılar
+- Yanıtı kontrol edilebilir
+
+---
+
+## Ne Sorabilirsin?
+
+### Başlangıç
+- "BAIOS nedir, neye yarar?"
+- "Hangi LLM'leri destekler?"
+- "İlk projem nasıl olur?"
+
+### Teknik
+- "Skill ile flow farkı ne?"
+- "ARM install_level 0 ne demek?"
+- "Context katmanları sırasıyla nedir?"
+
+### Kullanım
+- "Blog yazar için hangi skill'leri kullanmalıyım?"
+- "Gmail ARM için OAuth nasıl ayarlanır?"
+- "Otomasyon nasıl durdurulur?"
+
+### Katkı
+- "Kendi ARM'ımı nasıl yazarım?"
+- "PR açma süreci nedir?"
+- "Test nasıl çalıştırılır?"
+
+---
+
+## Ne Yapmaz?
+
+- **Proje verisi analiz etmez** — yalnızca BAIOS hakkında konuşur.
+- **Canlı hava durumu / haber söylemez** — bilgi tabanı statik.
+- **Sohbet geçmişi saklamaz** (opsiyonel — kurumsal modda saklanabilir).
+- **Aksiyona girmez** — yalnızca yazılı cevap verir. "PR aç" diyemezsin, BAIOS CLI/web'e gitmen gerek.
+
+---
+
+## Geri Bildirim
+
+omgunbay hatalı cevap verirse:
+- Sohbet içinden **👎** düğmesi
+- GitHub issue: `[omgunbay]` etiketi
+- Doğru cevap ne olmalıydı — yaz, bilgi tabanı güncellensin
+
+---
+
+## Geliştirici Notu
+
+omgunbay kaynak kodu `baios/omgunbay.py` içinde. Basit bir RAG implementasyonu — bilgi tabanı yenilediğinde yeniden indekslenir.
+
+**Bilgi tabanı genişletme:** Yeni tutorial, yeni doküman eklediğinde `baios omgunbay rebuild` ile indeks güncellenir.
+
+---
+
+# /kaynaklar/sss.html
+
+# SSS
+
+🇬🇧 [English](../en/kaynaklar/sss.html)
+
+Cevabı zaten dokümantasyonda olanı burada kısaca topluyoruz. Daha derin cevap için ilgili sayfaya link.
+
+---
+
+## Temel
+
+**BAIOS nedir, tek cümleyle?**
+İnsan dilinde çalışan, LLM bağımsız, kontrollü bir çalışma disiplini.
+
+**Ajan mı?**
+Hayır. BAIOS bir katmandır — sen düşünürsün, BAIOS disiplinli şekilde uygular. [Detay](../felsefe.html#ajan-değil-katman)
+
+**Ücretli mi?**
+MIT lisansı, ücretsiz ve açık kaynak. LLM çağrıları provider'a göre ücretli olabilir (OpenAI/Anthropic). Yerel Ollama kullanırsan hiç ücret yok.
+
+**Türkçe mi, İngilizce mi?**
+Her ikisi. Dokümantasyon Türkçe öncelikli; kod içi mesajlar çoğunluğu Türkçe. i18n altyapısı hazır.
+
+---
+
+## Kurulum
+
+**Nasıl kurulur?**
+```bash
+# erken sürüm — GitHub'dan (PyPI yayını yakında)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+[Tutorial](tutorial.html)
+
+**Windows'ta çalışır mı?**
+WSL2 öneriyoruz. Saf Windows yolları test edilmedi, sorun bildirin.
+
+**Python sürümü?**
+3.12+.
+
+**Ollama şart mı?**
+Hayır. OpenAI/Anthropic API key'in varsa o yeter. Sadece yerel LLM istiyorsan Ollama.
+
+---
+
+## Proje & Disiplin
+
+**Proje ne demek?**
+Bir amaca yönelik dosyalar + context + bağlı ARM/Skill topluluğu. `~/.baios/projects/<slug>/` dizininde yaşar. [Mimari](../mimari.html#proje-disiplini)
+
+**Kaç projem olabilir?**
+Sınır yok. Yüzlerce proje açabilirsin.
+
+**Projeyi taşıyabilir miyim?**
+Evet — `baios proje export <slug>` ZIP üretir, başka makinede `baios proje import` ile yüklenir.
+
+**Proje disiplini zorunlu mu?**
+Hayır, opsiyonel. Ama çok faydalı — LLM'in sana önerileri projeye özel olur.
+
+---
+
+## ARM & Skill
+
+**ARM nedir?**
+Adaptör — BAIOS'u dış servislere (Gmail, GitHub, dosya, shell) bağlayan Python modülü. [Katalog](../katalog.html#arm--28-adaptör)
+
+**Kaç ARM var?**
+28 core + community store'da 8 opsiyonel.
+
+**Skill ile ARM farkı?**
+- **ARM:** tek iş yapar (bir API çağrısı, bir dosya işlemi)
+- **Skill:** birden fazla adımı birleştiren şablon
+
+**Kendi skill'imi nasıl yazarım?**
+JSON dosyası ile. [Geliştirici rehberi](gelistiriciler.html#yeni-skill-yaz)
+
+**Skill JSON'u arkadaşıma verebilir miyim?**
+Evet — tek dosya, kopyala-yapıştır çalışır. Community store'a da yükleyebilirsin.
+
+---
+
+## LLM
+
+**Hangi LLM'ler destekleniyor?**
+OpenAI (GPT-4/4o/5), Anthropic (Claude Opus/Sonnet), Ollama (Llama 3, Mistral, Qwen), Local_4K (küçük modeller).
+
+**Provider değiştirmek?**
+```bash
+baios config set llm.provider anthropic
+```
+Konuşma kaldığı yerden devam eder — context korunur.
+
+**LLM'in uydurma (hallucination) sorunu olur mu?**
+Context'te BAIOS'un güncel kapasiteleri enjekte edilir (SM-FIX1). LLM "bu skill yok" demez — listede var mı yok mu bilir. Yine de her önemli çıktıda insan onayı alınır.
+
+**Fallback nedir?**
+Öncelikli provider çökerse sıradaki denenir. Kesintisiz hizmet.
+
+---
+
+## Veri & Gizlilik
+
+**Verim nerede?**
+Yerel: `~/.baios/`. Dış servise sadece LLM çağrısı anında gider (sen OpenAI seçtiysen OpenAI'a).
+
+**BAIOS sunucusu var mı, verimi alır mı?**
+**Hayır.** BAIOS tamamen yerel. Telemetri opsiyonel, varsayılan kapalı.
+
+**API key'lerim güvende mi?**
+Vault'ta Fernet + PBKDF2 ile şifreli. Master password senin.
+
+**Yanlışlıkla `rm -rf` çalıştırır mı?**
+Hayır. Shell ARM beyaz liste; `rm` kara listede. Genelde "onaysız riskli aksiyon yok" kuralı.
+
+---
+
+## Otomasyon
+
+**Cron gibi mi?**
+Evet + fazlası. Zaman, webhook, dosya değişimi, RSS, MQTT — hepsi tetikleyici olabilir.
+
+**Hata olursa?**
+Her çalışma audit'e kayıt. Hata olursa e-posta/Telegram bildirimi (ayarlanabilir).
+
+**Otomasyonu durdur?**
+```
+baios> /otomasyon durdur <ad>
+```
+
+---
+
+## Entegrasyon
+
+**Slack/Discord/Telegram destekleniyor mu?**
+Evet, 17 kanal hepsi. Bot kurulumu sırasıyla [katalog → kanallar](../katalog.html#kanallar--17).
+
+**Notion'a bağlanabilir mi?**
+Evet, `notion` ARM'ı ile.
+
+**MCP sunucusu eklenebilir mi?**
+Evet, Birçok MCP aracı BAIOS'a ARM olarak bağlanabilir. [MCP rehberi](mcp-rehberi.html)
+
+**GitHub Actions tetikleme?**
+`deploy` ARM ile workflow_dispatch.
+
+---
+
+## Kurumsal
+
+**Ekipte kullanılabilir mi?**
+Aktif geliştirme — Faz 13 multi-tenant + RBAC + LDAP. [Kurumsal](../kurumsal/index.html)
+
+**On-prem?**
+Evet, docker-compose ile.
+
+**SOC2?**
+2027 hedefi. [Compliance](../kurumsal/compliance.html)
+
+**Fiyat?**
+Bireysel MIT (ücretsiz). Kurumsal destek + eğitim + özel geliştirme ayrı ticari anlaşma. [İletişim](../kurumsal/iletisim.html)
+
+---
+
+## Edge
+
+**ESP32'de çalışır mı?**
+Aktif araştırma. Köprü modu (ESP32 sensör + Pi orchestrator) önce hazır olacak. [Edge](../edge/index.html)
+
+**Raspberry Pi?**
+Pi 4 / 5 için hedefte; henüz erken prototip.
+
+---
+
+## Katkı & Topluluk
+
+**PR açabilir miyim?**
+Tabii. [Geliştirici rehberi](gelistiriciler.html#pr-açma)
+
+**Bug nerede bildirilir?**
+GitHub Issues: [github.com/ilkerbay0605-baios-xhalfe/baios/issues](https://github.com/ilkerbay0605-baios-xhalfe/baios/issues)
+
+**Discussions var mı?**
+Aktif hazırlanıyor.
+
+**omgunbay nedir?**
+Chatbot, BAIOS dokümantasyonu üzerinde RAG. [omgunbay](omgunbay.html)
+
+---
+
+## Hâlâ bulamadın mı?
+
+- Sağ alttaki **omgunbay** sohbet penceresi (yakında)
+- GitHub Issue aç
+- `~/.baios/logs/baios.log` dosyası (sorun hakkında ipucu)
+
+---
+
+# /kaynaklar/tutorial.html
+
+# Tutorial
+
+🇬🇧 [English](../en/kaynaklar/tutorial.html)
+
+Baştan sona BAIOS rehberi. 45 dakikada tamamlayınca kendi iş akışını kurmuş olursun.
+
+---
+
+## 0. Başlamadan
+
+**İhtiyaç:**
+- Python 3.12+
+- Bir LLM provider (API key VEYA yerel Ollama)
+- 15 dakika odak
+
+**Sonuç:** Kendi projesi, bağlı ARM'ları, çalışan bir skill'i olan bir BAIOS kullanıcısı olmuş olacaksın.
+
+---
+
+## Bölüm 1 — Kurulum (5 dk)
+
+### 1.1 BAIOS'u yükle
+
+```bash
+# erken sürüm — GitHub'dan (PyPI yayını yakında)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+```
+
+İlk açılışta kişiselleştirme sorar:
+- İsim
+- Dil (Türkçe önerilen)
+- Tercih ettiğin iletişim üslubu (dostça / resmi / teknik)
+
+### 1.2 LLM provider seç
+
+**Yerel (ücretsiz, internet gerekmez):**
+```bash
+# Yeni terminal:
+ollama serve
+ollama pull llama3.2
+
+# BAIOS terminal:
+baios config set llm.provider local
+```
+
+**OpenAI (hız + kalite):**
+```bash
+baios config set llm.provider openai
+baios config set openai.api_key sk-...
+```
+
+**Anthropic (uzun context):**
+```bash
+baios config set llm.provider anthropic
+baios config set anthropic.api_key sk-ant-...
+```
+
+### 1.3 Test et
+
+```bash
+baios> merhaba
+```
+
+Konuşma başlamalı. Web UI için:
+```bash
+baios serve
+# → http://localhost:8000
+```
+
+---
+
+## Bölüm 2 — İlk Proje (5 dk)
+
+### 2.1 Proje oluştur
+
+Amacına göre bir proje düşün. Örneğin **"haftalık bütçe takibi"** veya **"matematik dersleri"** veya **"blog yazı havuzu"**.
+
+```
+baios> /proje yeni butce "Aylık gelir-gider takibi"
+baios> /proje sec butce
+```
+
+Veya web UI'den **Projeler → Yeni**.
+
+### 2.2 Proje dosyaları
+
+Proje dizini otomatik oluştu:
+```
+~/.baios/projects/butce/
+├── project_context.md       ← amaç, kurallar
+├── project_tmp_context.md   ← geçici notlar
+├── project_config.json      ← bağlı ARM/Skill
+├── docs/                    ← materyallerini koy
+└── outputs/                 ← skill çıktıları
+```
+
+### 2.3 Materyal ekle (opsiyonel)
+
+Bütçe Excel'in varsa:
+```bash
+cp ~/bütçe.csv ~/.baios/projects/butce/docs/
+```
+
+### 2.4 Disiplin üret
+
+**Web UI:** Proje sayfası → **Çalışma Disiplini** → Hedef yaz → **Üret**
+
+**CLI:**
+```bash
+baios> /disiplin uret "Aylık bütçe tutmak ve ay sonu özet çıkarmak"
+```
+
+Sonuç `discipline_v1.md` — LLM sana özel iş akışı hazırladı.
+
+---
+
+## Bölüm 3 — İlk ARM Kurulumu (5 dk)
+
+### 3.1 Neye ihtiyacın var?
+
+Düşün: projen hangi dış servise ihtiyaç duyar?
+- Gmail okumak mı? → `gmail` ARM
+- Web'den bilgi çekmek mi? → `brave_search` ARM
+- Hava durumu mu? → `weather` ARM
+- Sadece dosyalarla çalışmak mı? → **ARM gerekmez** (file ARM otomatik var)
+
+### 3.2 ARM kur
+
+**Web UI:** Kütüphane → ARM sekmesi → arayı bul → **Kur**
+
+**CLI:**
+```bash
+baios> /arm kur weather
+# → API key sorar → OpenWeatherMap'ten ücretsiz al: https://openweathermap.org/api
+```
+
+### 3.3 Projeye bağla
+
+```bash
+baios> /proje bagla arm weather
+```
+
+Artık proje context'inde `weather` ARM mevcut — LLM bunu bilir.
+
+---
+
+## Bölüm 4 — İlk Skill Çalıştırma (10 dk)
+
+### 4.1 Skill seç
+
+Başlangıç için `arastirma` basit ve güzel:
+- Bir konu verirsin
+- Web'de arar
+- LLM özetler
+- Dosyaya kaydeder
+
+### 4.2 Çalıştır
+
+**Web UI:** Kütüphane → Skill → `arastirma` → **Çalıştır**
+- `konu`: seni ilgilendiren bir şey, örn. "hangi bitkiler mutfakta yetişir"
+
+**CLI:**
+```bash
+baios> /skill calistir arastirma konu="hangi bitkiler mutfakta yetişir"
+```
+
+### 4.3 Sonucu incele
+
+Çıktı proje dizininde:
+```
+~/.baios/projects/butce/outputs/arastirma_hangi_bitkiler_mutfakta_yetisir.md
+```
+
+Web UI'de **Projeler → butce → Dosyalar** sekmesinden açabilirsin.
+
+---
+
+## Bölüm 5 — Doğal Dil Konuşma (5 dk)
+
+Artık komut ezberlemeyi bırak, doğal konuş:
+
+```
+baios> istanbul hava nasıl bugün?
+baios> bütçe CSV'sinden toplam harcamayı hesapla
+baios> "yeni teklif" ile başlayan mailleri listele (gmail ARM kuruluysa)
+baios> bu araştırma dosyasından 5 madde özet çıkar
+```
+
+BAIOS niyeti okur, doğru ARM/Skill'i seçer, riskli işlemde onay ister.
+
+---
+
+## Bölüm 6 — İlk Otomasyon (10 dk)
+
+Tekrarlanan bir işi otomatikleştir.
+
+### 6.1 Otomasyon tanımla
+
+```
+baios> /otomasyon kur
+  Tetikleyici: her pazar 20:00
+  Aksiyon: bütçe özeti çıkar + e-posta at (bana)
+```
+
+### 6.2 Çalışmasını gör
+
+```
+baios> /otomasyon listele
+```
+
+İlk pazar 20:00'de otomatik çalışır. Çıktıyı e-posta alırsın.
+
+### 6.3 Değiştir / durdur
+
+```
+baios> /otomasyon durdur butce_ozet_haftalik
+baios> /otomasyon sil butce_ozet_haftalik
+```
+
+---
+
+## Bölüm 7 — Wiki (5 dk)
+
+Projede biriken bilgiyi kalıcı hale getir:
+
+```
+baios> /wiki olustur butce-kategoriler
+```
+
+BAIOS proje içeriklerini + konuşma geçmişini inceleyip bir wiki sayfası hazırlar. Her LLM çağrısında ilgili sayfalar otomatik context'e gider.
+
+Birikim birikir — projen ne kadar eskidse o kadar akıllı.
+
+---
+
+## Sonraki Adımlar
+
+| İstiyorsan | Git |
+|---|---|
+| Meslek özel senaryolar | [Senaryolar](../bireysel/senaryolar.html) |
+| Kendi skill'ini yazmak | [Geliştirici rehberi](gelistiriciler.html) |
+| MCP sunucu bağlamak | [MCP rehberi](mcp-rehberi.html) |
+| omgunbay chatbot | [omgunbay](omgunbay.html) |
+| Sık sorulan | [SSS](sss.html) |
+
+---
+
+## Sorun Giderme
+
+**Skill hatası "Eksik ARM":** `/arm kur <ad>` ile kur.
+
+**LLM cevap vermiyor:** `baios config show` → provider doğru mu, key geçerli mi.
+
+**Dosya bulunamadı:** Proje seçili mi? `/proje durum`.
+
+**Port çakışması:** `baios serve --port 8080`.
+
+**Log:** `tail -f ~/.baios/logs/baios.log`
+
+---
+
+# /kurumsal/compliance.html
+
+# Compliance Yaklaşımı
+
+BAIOS'un veri, güvenlik ve denetim konusundaki duruşu. Ayrıntılı belge (sertifika, SOC2 rapor) kurumsal sözleşme kapsamında paylaşılır.
+
+---
+
+## Veri Saklama
+
+**Bireysel kullanımda:**
+- Tüm veri `~/.baios/` altında yerel.
+- LLM çağrıları dışında **hiçbir dış servise veri gitmez**.
+- Telemetri opsiyonel — `baios config set telemetry.enabled false` ile kapatılır.
+
+**Kurumsal kullanımda:**
+- On-prem veya müşterinin kendi bulut hesabı.
+- BAIOS **veri işlemez** — altyapı müşterinin.
+- Kişisel veri geçiş noktaları (sadece LLM çağrı anı) kayıt altında.
+
+---
+
+## LLM Provider Tercihi
+
+- **OpenAI / Anthropic:** Hızlı, kaliteli, ama veri US'de işleniyor.
+- **Azure OpenAI:** EU bölgesi seçilebilir, kurumsal SLA.
+- **Yerel Ollama:** Veri makinenin dışına çıkmaz.
+- **Kurumsal gateway:** Şirketin kendi LLM proxy'si.
+
+Policy olarak provider kısıtlaması konulabilir: *"Gizlilik seviyesi X üstü proje sadece yerel LLM kullanabilir."*
+
+---
+
+## KVKK Uyumu
+
+**Tasarım prensibi:**
+- **Data minimization** — LLM'e yalnızca gerektiği kadar context gider, tüm dosya değil.
+- **Purpose limitation** — her ARM kullanımında amaç audit log'da.
+- **Right to erasure** — `baios proje sil <slug>` tüm proje verisini siler.
+- **Data portability** — `baios proje export` ZIP olarak çıkarır.
+
+**Belge:** Kurumsal sözleşme kapsamında KVKK uyum raporu hazırlanır.
+
+---
+
+## GDPR Uyumu
+
+Aynı prensipler GDPR için de geçerli:
+- Data Processing Agreement (DPA) sağlanır.
+- EU veri bölgesi kısıtlaması opsiyonu.
+- Silme / taşınabilirlik hakları desteklenir.
+
+---
+
+## SOC2
+
+**Hedef:** Tip II hazırlık (Faz 13 sonrası).
+
+**Hazırlanan kontroller:**
+- Access control (RBAC, MFA)
+- Audit logging (tamper-proof)
+- Change management (git commit + PR review)
+- Incident response playbook
+- Vendor management (LLM provider risk değerlendirmesi)
+
+---
+
+## Güvenlik Mimarisi
+
+**Vault:**
+- API key'ler Fernet + PBKDF2 ile şifreli.
+- Master password — kullanıcı veya kurumsal merkezi.
+- Vault kilitliyken plaintext fallback kapatılabilir.
+
+**Network:**
+- TLS zorunlu (on-prem kurulumda self-signed veya kurumsal CA).
+- Web UI önünde reverse proxy (nginx/caddy).
+- API key olmadan endpoint yok.
+
+**İşletim:**
+- Her ARM çağrısı audit'e kayıt (kim, ne zaman, hangi parametre).
+- Her dosya yazma resolve edilmiş yol kontrolü (path traversal yasak).
+- Shell ARM beyaz liste; kurumsal sürümde komple kapatılabilir.
+
+---
+
+## Penetrasyon Testi
+
+**Bireysel:**
+- Open source, herkes kaynak kodu inceleyebilir.
+- Security advisory: `security@baios.dev` (yapılandırılıyor).
+
+**Kurumsal:**
+- Pilot müşterilerle beraber dış pentest planlanacak.
+- Bulgular koordineli açıklama (CVD) ile paylaşılacak.
+
+---
+
+## Sertifika Yol Haritası
+
+| Sertifika | Hedef |
+|---|---|
+| ISO 27001 hazırlık | Faz 13 sonrası |
+| SOC2 Tip II | 2027 |
+| TS EN ISO 27001 (yurt içi) | 2027 |
+
+---
+
+## Detaylı Bilgi
+
+Kurumsal sözleşme kapsamında DPA, SOC2 rapor, penetrasyon test sonuçları paylaşılır.
+
+[İletişime geç →](iletisim.html)
+
+---
+
+# /kurumsal/iletisim.html
+
+# İletişime Geç
+
+Kurumsal kullanım, özel yapılandırma veya pilot programa katılım için:
+
+---
+
+## E-posta
+
+**kurumsal@baios.dev**
+
+Mesajına dahil etmeni öneririz:
+- Ekip büyüklüğü (yaklaşık kullanıcı sayısı)
+- Kullanmak istediğiniz ortam (on-prem / bulut / hibrit)
+- Ana kullanım amacı (AI-destekli iş disiplini, otomasyon, ekip wiki vb.)
+- Zorunlu gördüğünüz 1-2 compliance gereksinimi (KVKK, GDPR, SOC2, sektörel)
+- Tercih ettiğiniz geri dönüş şekli (e-posta / görüşme)
+
+---
+
+## Görüşme
+
+İlk tanışma görüşmesi için:
+**[Calendly takvimi — yapılandırılıyor]**
+
+30 dakikalık ücretsiz görüşme. Gündem:
+- Kurumunuzun AI/iş disiplini ihtiyacı
+- BAIOS'un ne karşılayacağı, ne karşılamayacağı
+- Pilot program opsiyonları
+- Zaman ve maliyet beklentisi
+
+---
+
+## Pilot Program
+
+Aktif geliştirme döneminde seçili şirketlerle pilot yürütüyoruz:
+
+- **Koşul:** Gerçek kullanım senaryosu + feedback paylaşma.
+- **Yararı:** İlk yıl ücretsiz, özel destek, yön verme fırsatı.
+- **Süreç:** 2-3 haftalık kurulum + 8-12 haftalık kullanım + retrospektif.
+
+Pilot'a başvurmak için yukarıdaki e-postaya "pilot başvuru" ile yaz.
+
+---
+
+## Hizmet Paketleri (Planlı)
+
+> **Not:** Fiyat detayları kurumsal sözleşme görüşmesinde netleşir. Aşağıdaki kapsam göstergedir.
+
+### Starter — Küçük ekipler (5-20 kullanıcı)
+- Self-serve kurulum rehberi
+- E-posta desteği (24 saat yanıt)
+- Aylık check-in
+- Topluluk tabanlı güncellemeler
+
+### Business — Orta ölçek (20-200 kullanıcı)
+- On-prem kurulum desteği
+- LDAP/SSO entegrasyon
+- 4 saatlik eğitim oturumu (ekip lead'leri için)
+- SLA: iş günü 4 saat yanıt
+- Quarterly review
+
+### Enterprise — Büyük kuruluş (200+)
+- Özel deployment mimarisi
+- Dedicated customer success manager
+- 24/7 kritik olay desteği
+- Custom SLA
+- Yıllık roadmap toplantısı
+- Özel skill/ARM geliştirme
+
+---
+
+## Eğitim & Danışmanlık
+
+- **BAIOS Temel** (2 saat) — ekip üyelerine genel tanıtım
+- **Proje Disiplini Kurma** (4 saat) — lead'lere derin anlatım
+- **Skill & ARM Geliştirme** (1 gün) — geliştirici ekibi için
+- **Workflow Tasarım Atölyesi** (0.5 gün) — belirli kurumsal akışı BAIOS'a dökme
+
+---
+
+## Özel Geliştirme
+
+Kurumsal entegrasyon için özel ARM/skill geliştirme:
+- Kurumsal ERP/CRM entegrasyonu
+- Özel LLM gateway
+- Sektör-spesifik skill paketleri
+- Mevcut araçlarla (Jira, ServiceNow, Workday) köprüler
+
+---
+
+## Yasal
+
+**BAIOS**, MIT lisansı ile açık kaynak sunulur. Kurumsal destek, eğitim ve özel geliştirme ayrı ticari hizmettir.
+
+Hizmet sağlayıcı bilgileri, sözleşme şablonları ve KVKK aydınlatma metni [iletişim formunda veya görüşme sonrasında paylaşılır].
+
+---
+
+# /kurumsal/index.html
+
+# Kurumsal
+
+Ekipler ve kuruluşlar için BAIOS. LDAP ile yönetilen kullanıcılar, ortak projeler, tamper-proof audit log, kurumsal compliance.
+
+> **Durum:** Kurumsal katman **SMB (bireysel) sürümünden sonra** planlanıyor. Önceliğimiz bireysel ürünün olgunlaşması; kurumsal özellikler hazırlandıkça davetli pilotlar başlatılacak.
+
+---
+
+## Neden BAIOS?
+
+Çoğu AI aracı **"bir AI sohbet botu + API"** — her ekip kendi tekerleğini yeniden icat eder. BAIOS farkı:
+
+- **Ekibin çalışma disiplini kod olur** — bir defa yazılır, herkes aynı şekilde kullanır.
+- **Audit log tamper-proof** — kim ne zaman ne yaptı, değiştirilemez kayıt.
+- **LLM maliyeti kontrollü** — provider değiştirme + quota + model seçimi.
+- **Vendor lock-in yok** — OpenAI'dan Ollama'ya tek komut geçiş.
+- **On-prem çalışır** — hassas veri şirket dışına çıkmaz.
+
+---
+
+## Planlanan Özellikler
+
+> Tümü **SMB sürümünden sonra** planlanıyor — aşağıdaki tüm kalemler hedeftir, henüz teslim edilmemiştir.
+
+| Özellik | Durum |
+|---|---|
+| LDAP / AD entegrasyon | Planlı |
+| Multi-tenant izolasyon | Planlı |
+| Rol tabanlı yetki (RBAC) | Planlı |
+| KVKK / GDPR / SOC2 audit | Planlı |
+| Kurumsal onboarding wizard | Planlı |
+| On-prem deployment rehberi | Planlı |
+| Stripe kurumsal faturalandırma | Planlı |
+| Marketplace (satıcı/alıcı) | Planlı |
+
+[Özellik roadmap'i →](ozellikler.html) &nbsp;&nbsp; [Compliance →](compliance.html)
+
+---
+
+## Kurumsal Yol Haritası
+
+1. **Bireysel (SMB) ürün** — erken sürüm; önce bunu olgunlaştırıyoruz
+2. **Kurumsal beta** — SMB sürümünden sonra, davetli şirketlerle pilot
+3. **Genel erişim** — SLA, destek, eğitim paketleri
+
+**Şu an pilot programına katılmak istiyorsan** veya kurumunuzda özel yapılandırma gerekiyorsa:
+
+<div style="text-align:center;margin:2rem 0;">
+<a href="iletisim.html" class="cta">İletişime Geçin</a>
+</div>
+
+---
+
+## Sık Sorular (kurumsal özel)
+
+**Verilerimiz nerede tutulur?**
+Bireysel ürün tamamen yerel (`~/.baios/`). Kurumsal için on-prem veya sizin bulut hesabınız — BAIOS sunucusu değil.
+
+**Hangi LLM'leri kullanabiliriz?**
+Hepsini. OpenAI, Anthropic, Azure OpenAI, yerel Ollama, Bedrock. Tek arayüzden hepsi çalışır.
+
+**LLM maliyetini nasıl kontrol ederiz?**
+Provider × quota × model × kullanıcı matrisinde limit. Audit log ile raporlama.
+
+**Audit log'u manipüle edilebilir mi?**
+Kurumsal sürümde tamper-proof (hash zinciri + opsiyonel HSM). Bireyselde basit JSON log.
+
+**Mevcut araçlarımıza entegre olur mu?**
+LDAP/AD, Slack, Teams, Notion, GitHub, GitLab, SSO (SAML/OIDC) ve Türk KOBİ ekosistemi (Paraşüt, GİB, Logo İşbaşı) — hepsi planda. Özel entegrasyonlar için [iletişim](iletisim.html).
+
+---
+
+# /kurumsal/ozellikler.html
+
+# Kurumsal Özellikler
+
+Hazır olanlar + planlı olanlar. **Kurumsal kalemler SMB sürümünden sonra planlanıyor** — aşağıda "Planlı" etiketli her şey hedeftir, henüz teslim edilmemiştir.
+
+---
+
+## Kimlik & Yetki
+
+| Özellik | Durum |
+|---|---|
+| LDAP / Active Directory sync | Planlı |
+| SSO — SAML 2.0 | Planlı |
+| SSO — OIDC (Google/Okta/Azure AD) | Planlı |
+| Rol tabanlı yetki (admin/editor/viewer) | Planlı |
+| Proje-bazında roller | Planlı |
+| Multi-factor auth | Planlı |
+| API key yönetimi (kullanıcı başına) | Planlı |
+
+## İzolasyon & Multi-Tenant
+
+| Özellik | Durum |
+|---|---|
+| Ekip namespace izolasyonu | Planlı |
+| Proje-bazında paylaşım kontrolü | Planlı |
+| Cross-tenant veri erişimi yasağı | Planlı |
+| Kota & limit (LLM token, ARM çağrı) | Planlı |
+
+## Compliance & Audit
+
+| Özellik | Durum |
+|---|---|
+| Tamper-proof audit log (hash zinciri) | Planlı |
+| KVKK uyumluluk raporu | Planlı |
+| GDPR veri silme + export | Planlı |
+| SOC2 Tip II hazırlık | Planlı |
+| Audit log dışa aktarma (SIEM entegrasyonu) | Planlı |
+| Data retention policy | Planlı |
+
+## Entegrasyonlar
+
+| Entegrasyon | Durum |
+|---|---|
+| Slack (mesajlaşma + bot) | ✅ Bireysel |
+| Microsoft Teams | ✅ Bireysel |
+| GitHub / GitLab (kurumsal) | ✅ + RBAC Planlı |
+| Notion kurumsal | ✅ |
+| Paraşüt (ön muhasebe) | Planlı |
+| GİB e-Belge / e-Fatura | Planlı |
+| Logo İşbaşı | Planlı |
+
+## Deployment
+
+| Özellik | Durum |
+|---|---|
+| Docker Compose (tek sunucu) | ✅ |
+| Kubernetes Helm chart | Planlı |
+| On-prem kurulum rehberi | Planlı |
+| Airgapped / offline mode | Planlı |
+| Yüksek erişilebilirlik (HA) | Planlı |
+
+## LLM Yönetimi
+
+| Özellik | Durum |
+|---|---|
+| Çoklu provider (OpenAI + Anthropic + Local) | ✅ |
+| Fallback zinciri | ✅ |
+| Kullanıcı × model limiti | Planlı |
+| Azure OpenAI | Planlı |
+| AWS Bedrock | Planlı |
+| Kurumsal LLM gateway | Planlı |
+
+## Faturalandırma & Lisans
+
+| Özellik | Durum |
+|---|---|
+| Stripe abonelik | Planlı |
+| Kullanım bazlı faturalama | Planlı |
+| Kurumsal fatura (IBAN, havale) | Planlı |
+| Academic / non-profit lisans | Planlı |
+
+---
+
+## Mevcut Olmayan (bilerek): Ajan Tabanlı Otomasyon
+
+BAIOS **ajan değildir**. Kurumsal ortamda bu iyi haber:
+- Kontrolsüz otomatik aksiyon yok
+- Onay zinciri zorunlu
+- Her adım audit'e kaydedilir
+
+Ajan-bazlı (kontrolsüz otomatik aksiyon) RPA istiyorsan BAIOS doğru araç değil. **Ekibin çalışma disiplinini kodlayan, LLM'i güvenli şekilde kullanan** bir katman istiyorsan BAIOS birebir.
+
+---
+
+## Özel Gereksinim mi Var?
+
+[Enterprise yapılandırma için iletişime geç →](iletisim.html)
+
+---
+
+# /mimari.html
+
+# Mimari
+
+🇬🇧 [English](en/mimari.html)
+
+BAIOS'un anatomi haritası — kullanırken değil, **anlamak isteyenler** için.
+
+---
+
+## Proje Disiplini
+
+Her proje kendi dünyasıdır. BAIOS projeyi açınca şu dosyaları okur:
+
+```
+~/.baios/projects/<slug>/
+├── project_context.md      ← kalıcı: amaç, kurallar, roller
+├── project_tmp_context.md  ← geçici: son işlemler, çalışma notu
+├── project_config.json     ← bağlı ARM, Skill, Flow, otomasyon
+├── discipline_v<N>.md      ← LLM ile üretilmiş çalışma yöntemi
+├── docs/                   ← proje materyalleri
+└── outputs/                ← skill/flow çıktıları
+```
+
+**Discipline Engine:** Proje materyallerini + hedefini + mevcut BAIOS kapasitelerini birleştirir, LLM'e **adım adım çalışma yöntemi** ürettirir. Her versiyonu dosyaya yazar, versiyonlanır.
+
+Proje değiştiğinde disiplin yeniden üretilebilir. Eski versiyonlar arşivde kalır.
+
+---
+
+## Context Katmanları
+
+BAIOS LLM'e tek parça metin göndermez — **katmanlı** gönderir:
+
+| Katman | İçerik | Ne zaman |
+|---|---|---|
+| **Sistem** | BAIOS sürümü, ARM/Skill/Flow sayıları, kurulu ARM'lar, aktif otomasyonlar | Her mesaj |
+| **Proje** | Aktif proje bilgisi, project_context.md içeriği, bağlı bileşenler | Proje aktifse |
+| **Geçici** | project_tmp_context.md — son işlemler | Proje aktifse |
+| **Wiki** | Sorguyla ilgili wiki sayfaları (RAG) | Uygun sayfa varsa |
+| **Konuşma** | Son N mesaj | Her mesaj |
+| **Kullanıcı mesajı** | Güncel soru/istek | Her mesaj |
+
+**Neden önemli:**
+- LLM "BAIOS'ta şu skill yok" hatası yapmaz (liste önünde).
+- Proje değişse context kendiliğinden değişir.
+- Yeni ARM eklendiğinde tüm LLM konuşmaları otomatik bilir — stale liste yok.
+
+---
+
+## ARM — Adaptör
+
+ARM = BAIOS'u dış dünyaya bağlayan adaptör.
+
+**Kategoriler:**
+- **API tabanlı:** Gmail, GitHub, Telegram, Notion, Brave Search, OpenWeather…
+- **Yerel:** shell, file, dosya_oku, web_reader, browser, sql, http, rss
+- **Cloud/IoT:** cloud (S3/GDrive), MQTT, HomeAssistant
+- **Sistem:** git_ops, deploy, feedback…
+
+**Kurulum seviyeleri (install_level):**
+- `0` — Kurulumsuz, doğrudan çalışır (file, shell, web_reader)
+- `1` — API key gerekir (brave_search, weather)
+- `2` — OAuth / çok alanlı kurulum (gmail, notion, github)
+- `3` — Riskli (shell)
+
+**Her ARM:**
+- Handler Python fonksiyonu: `handle_<name>(action, config, query)`
+- Catalog kaydı: `baios/arm/catalog.json`
+- Versiyon: `baios/arm/versions_local.json`
+- Setup flow: sorulacak alanlar (token, repo vb.)
+
+Yeni ARM yazmak için [geliştirici rehberi](kaynaklar/gelistiriciler.html).
+
+---
+
+## Skill — Tekrarlanabilir İş Akışı
+
+Skill = adım adım işleyen şablon. JSON dosyası.
+
+```json
+{
+  "name": "arastirma",
+  "required_arms": ["brave_search"],
+  "input_params": ["konu"],
+  "steps": [
+    {"action": "arm:brave_search", "params": {"query": "{konu}"}},
+    {"action": "llm:Sonuçları 5 maddede Türkçe özetle."},
+    {"action": "file:outputs/arastirma_{konu}.md"}
+  ]
+}
+```
+
+**Adım tipleri:**
+- `arm:<name>` — ARM çalıştır
+- `llm:<prompt>` — LLM ile işle (use_previous: öncekini de gönder)
+- `file:<yol>` — kaydet
+- `skill:<name>` — başka skill çağır
+
+**Parametreler:** `{konu}`, `{hedef_kitle}` gibi placeholder'lar çağrıda doldurulur.
+
+Skill JSON'ları **arkadaşlarına gönderilebilir**, community store'a eklenebilir.
+
+---
+
+## Flow — Çok-Skill'li Büyük Akış
+
+Flow, birden fazla skill'i/ARM'ı **koşullu, döngülü** çalıştırır.
+
+**Örnek: `site_release` flow (baios.dev için)**
+```
+changelog_uret → release_notes → git_ops(branch) → git_ops(commit)
+  → git_ops(push) → github(pr_create) → site_qa
+```
+
+Her adım koşullu olabilir: "QA başarısızsa rollback branch aç".
+
+---
+
+## Otomasyon — Zaman/Tetik
+
+Otomasyon = skill/flow'u zamanlanmış veya olay-tetikli çalıştırır.
+
+- **Cron:** `0 8 * * *` — her sabah 08:00
+- **Webhook:** gelen HTTP → flow tetikle
+- **Dosya değişimi:** `~/indirdiklerim/` izle, yeni PDF varsa analiz et
+- **RSS:** yeni item → özetle + e-posta
+- **MQTT:** sensör threshold → bildirim
+
+Her otomasyon **onaylıdır** — kural-bazlı, risk düşükse onaysız çalışır.
+
+---
+
+## MCP — Model Context Protocol
+
+BAIOS hem **MCP sunucusu** hem **MCP istemcisi**.
+
+- **Sunucu:** Claude Desktop, VS Code gibi araçlar BAIOS'u MCP üzerinden kullanabilir — "ilker'in projesi baios-dev'de PR aç".
+- **İstemci:** BAIOS herhangi bir MCP sunucusuna (Figma, Jira, Notion API, GitHub MCP, Slack MCP…) bağlanır. Bir MCP sunucusu eklemek = BAIOS'a yeni ARM eklemek.
+
+Detay: [MCP rehberi](kaynaklar/mcp-rehberi.html).
+
+---
+
+## Güvenlik
+
+- **Vault:** Fernet + PBKDF2 ile API key'ler şifreli. Plaintext fallback yalnızca vault kilitliyse.
+- **Path traversal koruması:** Her dosya yolu resolve edilip base dir içinde mi kontrol edilir.
+- **Shell whitelist:** Yalnızca beyaz listedeki komutlar. `rm -rf`, `sudo` engellidir.
+- **git_ops sandbox:** Sadece izinli repo'lar. `push` opt-in, `--force` opt-in.
+- **Audit log:** Her aksiyon `~/.baios/audit/` altına kayıt. Kurumsal için tamper-proof.
+- **Input validation:** Her API endpoint Pydantic ile doğrulanır.
+
+---
+
+## Ekosistem
+
+- **Python:** 3.12+
+- **FastAPI** backend
+- **React** frontend (opsiyonel — CLI + web)
+- **17 kanal:** CLI, Web, Telegram, Discord, Slack, WhatsApp, Signal, Matrix, Teams, E-posta, IRC, Nostr, Google Chat, LINE, Viber, Twitch, Reddit
+- **4 LLM provider:** OpenAI, Anthropic, Local (Ollama), Local_4K
+
+[Hazır bileşen kataloğu →](katalog.html)
+
+---

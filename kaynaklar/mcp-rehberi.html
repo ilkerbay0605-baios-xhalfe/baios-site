@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCP Rehberi — BAIOS</title>
+<meta name="description" content="BAIOS MCP sunucusu + istemcisi. herhangi bir MCP aracına köprü.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MCP Rehberi — BAIOS">
+<meta property="og:description" content="BAIOS MCP sunucusu + istemcisi. herhangi bir MCP aracına köprü.">
+<meta property="og:url" content="https://baios.dev/kaynaklar/mcp-rehberi.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="tr_TR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MCP Rehberi — BAIOS">
+<meta name="twitter:description" content="BAIOS MCP sunucusu + istemcisi. herhangi bir MCP aracına köprü.">
+<link rel="canonical" href="https://baios.dev/kaynaklar/mcp-rehberi.html">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"BAIOS MCP sunucusu + istemcisi. herhangi bir MCP aracına köprü.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "Kaynaklar", "item": "https://baios.dev/kaynaklar/index.html"}, {"@type": "ListItem", "position": 3, "name": "MCP Rehberi", "item": "https://baios.dev/kaynaklar/mcp-rehberi.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../index.html">BAIOS</a>
+  <nav>
+    <a href="../bireysel/hizli-baslangic.html">Bireysel</a>
+    <a href="../kurumsal/index.html">Kurumsal</a>
+    <a href="../edge/index.html">Edge</a>
+    <a href="../felsefe.html">Felsefe</a>
+    <a href="../mimari.html">Mimari</a>
+    <a href="../katalog.html">Katalog</a>
+    <a href="../kaynaklar/tutorial.html">Kaynaklar</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> BAIOS MCP sunucusu + istemcisi. herhangi bir MCP aracına köprü.</div><h1 id="mcp-model-context-protocol">MCP — Model Context Protocol</h1>
+<p>🇬🇧 <a href="../en/kaynaklar/mcp-rehberi.html">English</a></p>
+<p>BAIOS hem <strong>MCP sunucusu</strong> hem <strong>MCP istemcisi</strong>. Bu ne demek, ne işe yarar?</p>
+<hr>
+<h2 id="mcp-nedir">MCP Nedir?</h2>
+<p>Model Context Protocol — Anthropic'in önerdiği, LLM araçlarının <strong>standart şekilde</strong> sunucu-istemci iletişimi yapmasını sağlayan protokol.</p>
+<p><strong>Basit benzetme:</strong>
+<ul><li>Ethernet cihazları fiziksel olarak bağlar.</li>
+<li>HTTP yazılımları web üzerinden konuşturur.</li>
+<li>MCP, LLM uygulamaları ile araçları/verileri <strong>aynı protokolde</strong> konuşturur.</li>
+</ul>
+<strong>Sonuç:</strong> Bir MCP sunucusu yazan (Slack, Jira, Figma) onu bütün MCP-uyumlu uygulamaların (Claude Desktop, VS Code, BAIOS) kullanmasını sağlar. Çok sayıda MCP sunucusu mevcut, her gün artıyor.</p>
+<hr>
+<h2 id="baiosun-mcp-rolu">BAIOS'un MCP Rolü</h2>
+<h3 id="sunucu-olarak">Sunucu olarak</h3>
+<p>BAIOS kendisini MCP sunucusu gibi sunar — <strong>dışarıdan başka araçlar BAIOS'un ARM/Skill/Flow'larına erişebilir.</strong></p>
+<p><strong>Senaryo:</strong>
+<ul><li>Claude Desktop'tan "İlker'in baios-dev projesinde PR aç" dersin</li>
+<li>Claude Desktop BAIOS'un MCP sunucusuna bağlanır</li>
+<li>BAIOS'un <code>github</code> ARM'ı çalışır → PR açılır</li>
+</ul>
+<h3 id="istemci-olarak">İstemci olarak</h3></p>
+<p>BAIOS dış MCP sunucularına bağlanır. Bir MCP sunucusu ekleyince o tool <strong>otomatik ARM olur</strong>.</p>
+<p><strong>Senaryo:</strong>
+<ul><li>Figma MCP sunucusunu ekliyorsun (<code>npx @figma/mcp-server</code>)</li>
+<li>BAIOS algılıyor → <code>figma</code> ARM kendiliğinden geliyor (<code>api_figma</code> olarak)</li>
+<li>Skill'lerinde <code>arm:api_figma</code> kullanabilirsin</li>
+</ul>
+<hr>
+<h2 id="mevcut-durum">Mevcut Durum</h2></p>
+<table>
+<thead><tr><th>Yetenek</th><th>Durum</th></tr></thead>
+<tbody>
+<tr><td>BAIOS MCP sunucu (dışarıya açık)</td><td>✅ Temel</td></tr>
+<tr><td>BAIOS MCP istemci (dış MCP'leri keşfeder)</td><td>✅ Faz 12</td></tr>
+<tr><td>Auto ARM (MCP → ARM dönüşümü)</td><td>✅</td></tr>
+<tr><td>MCP keşif + discovery</td><td>✅</td></tr>
+<tr><td>Resmi MCP uyumluluk sertifikası</td><td>Planlı</td></tr>
+</tbody></table>
+<hr>
+<h2 id="mcp-sunucu-ekleme">MCP Sunucu Ekleme</h2>
+<h3 id="1-mcp-sunucusunu-kur">1. MCP sunucusunu kur</h3>
+<p>Her MCP sunucusunun kendi dokümantasyonu var. Örnek — GitHub MCP:</p>
+<p><pre><code>npm install -g @modelcontextprotocol/server-github
+</code></pre></p>
+<h3 id="2-baiosa-tanit">2. BAIOS'a tanıt</h3>
+<p><strong>Web UI:</strong> Ayarlar → MCP Sunucuları → <strong>Ekle</strong></p>
+<p><strong>CLI:</strong>
+<pre><code>baios> /mcp ekle github-resmi "npx -y @modelcontextprotocol/server-github" stdio
+  Environment variable:
+  GITHUB_TOKEN=ghp_...
+</code></pre></p>
+<h3 id="3-arm-olarak-gorun">3. ARM olarak görün</h3>
+<p><pre><code>baios> /arm listele
+# api_github_resmi — Auto ARM (MCP: github-resmi)
+</code></pre></p>
+<p>Artık skill'lerinde kullanabilirsin:
+<pre><code>{
+  "action": "arm:api_github_resmi",
+  "params": {"query": "list my repositories"}
+}
+</code></pre></p>
+<hr>
+<h2 id="populer-mcp-sunuculari">Popüler MCP Sunucuları</h2>
+<blockquote>Uyumluluk testi aktif. Şu an %100 test edilen sınırlı; aşağıdaki listede olanları **güvenle dene**:</blockquote>
+<ul><li>**filesystem** — yerel dosya işlemleri (BAIOS'un kendi `file` ARM'ına alternatif)</li>
+<li>**github** — GitHub API</li>
+<li>**slack** — Slack workspace</li>
+<li>**google-drive** — GDrive</li>
+<li>**postgres** — PostgreSQL</li>
+<li>**brave-search** — web arama</li>
+<li>**puppeteer** — web scraping</li>
+</ul>
+Güncel liste: [modelcontextprotocol.io/servers](https://modelcontextprotocol.io)
+<hr>
+<h2 id="baiosu-disaridan-kullan">BAIOS'u Dışarıdan Kullan</h2>
+<p>Claude Desktop'a BAIOS'u MCP sunucusu olarak ekle:</p>
+<p><strong>1. BAIOS MCP sunucu modunu başlat:</strong>
+<pre><code>baios mcp-server --port 7777
+</code></pre></p>
+<p><strong>2. Claude Desktop config'te:</strong>
+<pre><code>{
+  "mcpServers": {
+    "baios": {
+      "command": "baios",
+      "args": ["mcp-server", "--stdio"]
+    }
+  }
+}
+</code></pre></p>
+<p><strong>3. Claude Desktop'ta:</strong>
+<pre><code>Bana baios-dev projesinde son 10 commit'i özetler misin?
+→ Claude, BAIOS'un git_ops ARM'ını kullanır
+</code></pre></p>
+<hr>
+<h2 id="guvenlik">Güvenlik</h2>
+<ul><li>MCP sunucuları **yerel** çalışır (stdio) veya TLS ile.</li>
+<li>BAIOS, MCP çağrılarını aynı onay zincirinden geçirir (riskli işlem → onay).</li>
+<li>Audit log'a hem MCP'den gelen istek hem BAIOS'un cevabı kayıt.</li>
+<li>Zararlı MCP sunucusu? BAIOS tarafında **yalnızca izinli eylemler** geçer.</li>
+</ul>
+<hr>
+<h2 id="katki">Katkı</h2>
+<p>Kendi MCP sunucunu yazdıysan ve BAIOS uyumluluk testi istersen:
+<ul><li><strong>GitHub Issue:</strong> <code>[mcp-compat]</code> etiketiyle aç</li>
+<li>Örnek yapılandırma + birkaç test komutu paylaş</li>
+<li>Test sonucu repo'ya ekleriz</li>
+</ul>
+<hr>
+<h2 id="ilgili">İlgili</h2></p>
+<ul><li>[Katalog — Auto ARM bölümü](../katalog.html)</li>
+<li>[Geliştirici rehberi](gelistiriciler.html)</li>
+<li>[Mimari — MCP bölümü](../mimari.html#mcp)</li>
+</ul></main>
+<footer>BAIOS — Semantik İşletim Sistemi · 2026 · <a href="/gizlilik.html">Gizlilik</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

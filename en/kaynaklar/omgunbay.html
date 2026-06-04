@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>omgunbay — BAIOS Chatbot</title>
+<meta name="description" content="A RAG-based chatbot over the BAIOS documentation.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="omgunbay — BAIOS Chatbot">
+<meta property="og:description" content="A RAG-based chatbot over the BAIOS documentation.">
+<meta property="og:url" content="https://baios.dev/en/kaynaklar/omgunbay.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="omgunbay — BAIOS Chatbot">
+<meta name="twitter:description" content="A RAG-based chatbot over the BAIOS documentation.">
+<link rel="canonical" href="https://baios.dev/en/kaynaklar/omgunbay.html">
+<link rel="stylesheet" href="../../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"A RAG-based chatbot over the BAIOS documentation.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "En", "item": "https://baios.dev/en/index.html"}, {"@type": "ListItem", "position": 3, "name": "Kaynaklar", "item": "https://baios.dev/en/kaynaklar/index.html"}, {"@type": "ListItem", "position": 4, "name": "omgunbay — BAIOS Chatbot", "item": "https://baios.dev/en/kaynaklar/omgunbay.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../../en/index.html">BAIOS</a>
+  <nav>
+    <a href="../../en/bireysel/hizli-baslangic.html">Individual</a>
+    <a href="../../kurumsal/index.html">Enterprise</a>
+    <a href="../../en/edge/index.html">Edge</a>
+    <a href="../../en/felsefe.html">Philosophy</a>
+    <a href="../../en/mimari.html">Architecture</a>
+    <a href="../../en/katalog.html">Catalog</a>
+    <a href="../../en/kaynaklar/tutorial.html">Resources</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> A RAG-based chatbot over the BAIOS documentation.</div><h1 id="omgunbay">omgunbay</h1>
+<p>🇹🇷 <a href="../../kaynaklar/omgunbay.html">Türkçe</a></p>
+<p>The answer to <strong>"What happens if you ask BAIOS about BAIOS?"</strong></p>
+<hr>
+<h2 id="what-is-it">What Is It?</h2>
+<p>omgunbay — the official BAIOS chatbot. It works with RAG (retrieval-augmented generation) over all BAIOS documentation (BKS, PROJE_PLANI, BAIOS_PRINCIPLES, tutorial, resources).</p>
+<p><strong>In plain words:</strong> ask anything about BAIOS, and it looks at the written documents and answers. It does not make things up; when it does not know, it says "I don't know."</p>
+<hr>
+<h2 id="where-can-i-find-it">Where Can I Find It?</h2>
+<h3 id="1-the-chat-window-at-the-bottom-right-of-baiosdev">1. The chat window at the bottom right of baios.dev</h3>
+<p>On every page of this site (very soon) — open the chat button at the bottom right and start. No sign-up required.</p>
+<h3 id="2-telegram">2. Telegram</h3>
+<p><code>@omgunbay_bot</code> — start the conversation on Telegram with /start.</p>
+<h3 id="3-inside-baios">3. Inside BAIOS</h3>
+<p>In your own BAIOS installation:
+<pre><code>baios> /chat omgunbay "yeni skill nasıl yazılır?"
+</code></pre></p>
+<hr>
+<h2 id="how-does-it-work">How Does It Work?</h2>
+<p><strong>Knowledge base:</strong>
+<ul><li><code>BAIOS_PRINCIPLES.md</code> — philosophy, principles</li>
+<li><code>PROJE_PLANI.md</code> — roadmap, phase plans</li>
+<li><code>agents/BKS.md</code> — version, status</li>
+<li><code>site/docs/*</code> — this site itself</li>
+<li><code>baios_bireysel_cli_tutorial.md</code> — CLI tutorial</li>
+<li>Source code comments (partial)</li>
+</ul>
+<strong>Process:</strong>
+1. Converts your question into an embedding
+2. Finds the most relevant passages in the knowledge base
+3. Tells the LLM "answer based on these passages"
+4. States which source it drew on in the answer</p>
+<p><strong>Assurance:</strong>
+<ul><li>Says "I don't know" for topics outside the knowledge base</li>
+<li>Cites sources</li>
+<li>The answer is verifiable</li>
+</ul>
+<hr>
+<h2 id="what-can-you-ask">What Can You Ask?</h2></p>
+<h3 id="getting-started">Getting started</h3>
+<ul><li>"What is BAIOS, what is it for?"</li>
+<li>"Which LLMs does it support?"</li>
+<li>"What would my first project look like?"</li>
+</ul>
+<h3 id="technical">Technical</h3>
+<ul><li>"What is the difference between a skill and a flow?"</li>
+<li>"What does ARM install_level 0 mean?"</li>
+<li>"What are the context layers, in order?"</li>
+</ul>
+<h3 id="usage">Usage</h3>
+<ul><li>"Which skills should I use as a blog writer?"</li>
+<li>"How do I set up OAuth for the Gmail ARM?"</li>
+<li>"How do I stop an automation?"</li>
+</ul>
+<h3 id="contributing">Contributing</h3>
+<ul><li>"How do I write my own ARM?"</li>
+<li>"What is the PR process?"</li>
+<li>"How do I run the tests?"</li>
+</ul>
+<hr>
+<h2 id="what-it-does-not-do">What It Does Not Do</h2>
+<ul><li>**It does not analyze project data** — it only talks about BAIOS.</li>
+<li>**It does not give live weather / news** — the knowledge base is static.</li>
+<li>**It does not store conversation history** (optional — can be stored in enterprise mode).</li>
+<li>**It does not take action** — it only gives a written answer. You cannot say "open a PR"; you need to go to the BAIOS CLI/web for that.</li>
+</ul>
+<hr>
+<h2 id="feedback">Feedback</h2>
+<p>If omgunbay gives a wrong answer:
+<ul><li>The <strong>👎</strong> button inside the chat</li>
+<li>GitHub issue: <code>[omgunbay]</code> label</li>
+<li>What the correct answer should have been — write it, so the knowledge base gets updated</li>
+</ul>
+<hr>
+<h2 id="developer-note">Developer Note</h2></p>
+<p>The omgunbay source code is in <code>baios/omgunbay.py</code>. It is a simple RAG implementation — it is re-indexed when the knowledge base is refreshed.</p>
+<p><strong>Extending the knowledge base:</strong> When you add a new tutorial or a new document, the index is updated with <code>baios omgunbay rebuild</code>.</p></main>
+<footer>BAIOS — Semantic Operating System · 2026 · <a href="/en/gizlilik.html">Privacy</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

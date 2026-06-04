@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frequently Asked Questions — BAIOS</title>
+<meta name="description" content="30+ common questions about BAIOS with short answers.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Frequently Asked Questions — BAIOS">
+<meta property="og:description" content="30+ common questions about BAIOS with short answers.">
+<meta property="og:url" content="https://baios.dev/en/kaynaklar/sss.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Frequently Asked Questions — BAIOS">
+<meta name="twitter:description" content="30+ common questions about BAIOS with short answers.">
+<link rel="canonical" href="https://baios.dev/en/kaynaklar/sss.html">
+<link rel="stylesheet" href="../../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"30+ common questions about BAIOS with short answers.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "En", "item": "https://baios.dev/en/index.html"}, {"@type": "ListItem", "position": 3, "name": "Kaynaklar", "item": "https://baios.dev/en/kaynaklar/index.html"}, {"@type": "ListItem", "position": 4, "name": "Frequently Asked Questions", "item": "https://baios.dev/en/kaynaklar/sss.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../../en/index.html">BAIOS</a>
+  <nav>
+    <a href="../../en/bireysel/hizli-baslangic.html">Individual</a>
+    <a href="../../kurumsal/index.html">Enterprise</a>
+    <a href="../../en/edge/index.html">Edge</a>
+    <a href="../../en/felsefe.html">Philosophy</a>
+    <a href="../../en/mimari.html">Architecture</a>
+    <a href="../../en/katalog.html">Catalog</a>
+    <a href="../../en/kaynaklar/tutorial.html">Resources</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> 30+ common questions about BAIOS with short answers.</div><h1 id="faq">FAQ</h1>
+<p>🇹🇷 <a href="../../kaynaklar/sss.html">Türkçe</a></p>
+<p>Here we briefly gather what is already in the documentation. For a deeper answer, follow the link to the relevant page.</p>
+<hr>
+<h2 id="basics">Basics</h2>
+<p><strong>What is BAIOS, in one sentence?</strong>
+A controlled work discipline that runs in human language and is LLM-independent.</p>
+<p><strong>Is it an assistant that acts on its own?</strong>
+No. BAIOS is a layer — you do the thinking, BAIOS applies it with discipline. <a href="../felsefe.html#ajan-değil-katman">Details</a></p>
+<p><strong>Is it paid?</strong>
+MIT license, free and open source. LLM calls may be paid depending on the provider (OpenAI/Anthropic). If you use local Ollama, there is no charge at all.</p>
+<p><strong>Turkish or English?</strong>
+Both. Documentation is Turkish-first; in-code messages are mostly Turkish. The i18n infrastructure is ready.</p>
+<hr>
+<h2 id="installation">Installation</h2>
+<p><strong>How do I install it?</strong>
+<pre><code># early version — from GitHub (PyPI release coming soon)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+</code></pre>
+<a href="tutorial.html">Tutorial</a></p>
+<p><strong>Does it work on Windows?</strong>
+We recommend WSL2. Pure Windows paths are not tested; please report issues.</p>
+<p><strong>Python version?</strong>
+3.12+.</p>
+<p><strong>Is Ollama required?</strong>
+No. If you have an OpenAI/Anthropic API key, that is enough. Ollama is only for a local LLM.</p>
+<hr>
+<h2 id="project-discipline">Project & Discipline</h2>
+<p><strong>What is a project?</strong>
+A purpose-oriented set of files + context + a connected collection of ARMs/Skills. It lives in the <code>~/.baios/projects/<slug>/</code> directory. <a href="../mimari.html#proje-disiplini">Architecture</a></p>
+<p><strong>How many projects can I have?</strong>
+No limit. You can open hundreds of projects.</p>
+<p><strong>Can I move a project?</strong>
+Yes — <code>baios proje export <slug></code> produces a ZIP, which can be loaded on another machine with <code>baios proje import</code>.</p>
+<p><strong>Is project discipline mandatory?</strong>
+No, it is optional. But very useful — the LLM's suggestions to you become project-specific.</p>
+<hr>
+<h2 id="arm-skill">ARM & Skill</h2>
+<p><strong>What is an ARM?</strong>
+An adapter — the Python module that connects BAIOS to external services (Gmail, GitHub, file, shell). <a href="../katalog.html#arm--28-adaptör">Catalog</a></p>
+<p><strong>How many ARMs are there?</strong>
+28 core + 8 optional in the community store.</p>
+<p><strong>Difference between a skill and an ARM?</strong>
+<ul><li><strong>ARM:</strong> does a single job (one API call, one file operation)</li>
+<li><strong>Skill:</strong> a template that combines multiple steps</li>
+</ul>
+<strong>How do I write my own skill?</strong>
+With a JSON file. <a href="gelistiriciler.html#yeni-skill-yaz">Developer guide</a></p>
+<p><strong>Can I give my skill JSON to a friend?</strong>
+Yes — a single file, copy-paste and it works. You can also upload it to the community store.</p>
+<hr>
+<h2 id="llm">LLM</h2>
+<p><strong>Which LLMs are supported?</strong>
+OpenAI (GPT-4/4o/5), Anthropic (Claude Opus/Sonnet), Ollama (Llama 3, Mistral, Qwen), Local_4K (small models).</p>
+<p><strong>Switching providers?</strong>
+<pre><code>baios config set llm.provider anthropic
+</code></pre>
+The conversation continues from where it left off — the context is preserved.</p>
+<p><strong>Does the LLM have a hallucination problem?</strong>
+BAIOS's current capabilities are injected into the context (SM-FIX1). The LLM won't say "this skill doesn't exist" — it knows whether it is in the list or not. Even so, human approval is taken on every important output.</p>
+<p><strong>What is fallback?</strong>
+If the priority provider goes down, the next one is tried. Uninterrupted service.</p>
+<hr>
+<h2 id="data-privacy">Data & Privacy</h2>
+<p><strong>Where is my data?</strong>
+Local: <code>~/.baios/</code>. It goes to an external service only at the moment of an LLM call (to OpenAI if you chose OpenAI).</p>
+<p><strong>Is there a BAIOS server, does it take my data?</strong>
+<strong>No.</strong> BAIOS is entirely local. Telemetry is optional and off by default.</p>
+<p><strong>Are my API keys safe?</strong>
+Encrypted in the vault with Fernet + PBKDF2. The master password is yours.</p>
+<p><strong>Would it accidentally run <code>rm -rf</code>?</strong>
+No. The shell ARM uses an allowlist; <code>rm</code> is on the blocklist. In general, the rule is "no risky action without approval."</p>
+<hr>
+<h2 id="automation">Automation</h2>
+<p><strong>Is it like cron?</strong>
+Yes + more. Time, webhook, file change, RSS, MQTT — all can be triggers.</p>
+<p><strong>What if there is an error?</strong>
+Every run is recorded in the audit. If there is an error, an email/Telegram notification (configurable).</p>
+<p><strong>Stop an automation?</strong>
+<pre><code>baios> /otomasyon durdur <ad>
+</code></pre></p>
+<hr>
+<h2 id="integration">Integration</h2>
+<p><strong>Are Slack/Discord/Telegram supported?</strong>
+Yes, all 17 channels. Bot setup in order at <a href="../katalog.html#kanallar--17">catalog → channels</a>.</p>
+<p><strong>Can it connect to Notion?</strong>
+Yes, with the <code>notion</code> ARM.</p>
+<p><strong>Can an MCP server be added?</strong>
+Yes, Many MCP tools can be connected to BAIOS as ARMs. <a href="mcp-rehberi.html">MCP guide</a></p>
+<p><strong>Triggering GitHub Actions?</strong>
+workflow_dispatch with the <code>deploy</code> ARM.</p>
+<hr>
+<h2 id="enterprise">Enterprise</h2>
+<p><strong>Can it be used in a team?</strong>
+Active development — Phase 13 multi-tenant + RBAC + LDAP. <a href="../../kurumsal/index.html">Enterprise</a></p>
+<p><strong>On-prem?</strong>
+Yes, with docker-compose.</p>
+<p><strong>SOC2?</strong>
+Targeted for 2027. <a href="../../kurumsal/compliance.html">Compliance</a></p>
+<p><strong>Price?</strong>
+Individual MIT (free). Enterprise support + training + custom development is a separate commercial agreement. <a href="../../kurumsal/iletisim.html">Contact</a></p>
+<hr>
+<h2 id="edge">Edge</h2>
+<p><strong>Does it run on ESP32?</strong>
+Active research. Bridge mode (ESP32 sensor + Pi orchestrator) will be ready first. <a href="../edge/index.html">Edge</a></p>
+<p><strong>Raspberry Pi?</strong>
+Targeted for Pi 4 / 5; still an early prototype.</p>
+<hr>
+<h2 id="contribution-community">Contribution & Community</h2>
+<p><strong>Can I open a PR?</strong>
+Of course. <a href="gelistiriciler.html#pr-açma">Developer guide</a></p>
+<p><strong>Where are bugs reported?</strong>
+GitHub Issues: <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios/issues">github.com/ilkerbay0605-baios-xhalfe/baios/issues</a></p>
+<p><strong>Are there Discussions?</strong>
+Being actively prepared.</p>
+<p><strong>What is omgunbay?</strong>
+The chatbot, RAG over the BAIOS documentation. <a href="omgunbay.html">omgunbay</a></p>
+<hr>
+<h2 id="still-cant-find-it">Still Can't Find It?</h2>
+<ul><li>The **omgunbay** chat window at the bottom right (coming soon)</li>
+<li>Open a GitHub Issue</li>
+<li>The `~/.baios/logs/baios.log` file (a clue about the problem)</li>
+</ul></main>
+<footer>BAIOS — Semantic Operating System · 2026 · <a href="/en/gizlilik.html">Privacy</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quick Start — Your First Project in 10 Minutes — BAIOS</title>
+<meta name="description" content="Step by step from installation to running your first skill, for individual users.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Quick Start — Your First Project in 10 Minutes — BAIOS">
+<meta property="og:description" content="Step by step from installation to running your first skill, for individual users.">
+<meta property="og:url" content="https://baios.dev/en/bireysel/hizli-baslangic.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Quick Start — Your First Project in 10 Minutes — BAIOS">
+<meta name="twitter:description" content="Step by step from installation to running your first skill, for individual users.">
+<link rel="canonical" href="https://baios.dev/en/bireysel/hizli-baslangic.html">
+<link rel="stylesheet" href="../../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"Step by step from installation to running your first skill, for individual users.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "En", "item": "https://baios.dev/en/index.html"}, {"@type": "ListItem", "position": 3, "name": "Bireysel", "item": "https://baios.dev/en/bireysel/index.html"}, {"@type": "ListItem", "position": 4, "name": "Quick Start — Your First Project in 10 Minutes", "item": "https://baios.dev/en/bireysel/hizli-baslangic.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../../en/index.html">BAIOS</a>
+  <nav>
+    <a href="../../en/bireysel/hizli-baslangic.html">Individual</a>
+    <a href="../../kurumsal/index.html">Enterprise</a>
+    <a href="../../en/edge/index.html">Edge</a>
+    <a href="../../en/felsefe.html">Philosophy</a>
+    <a href="../../en/mimari.html">Architecture</a>
+    <a href="../../en/katalog.html">Catalog</a>
+    <a href="../../en/kaynaklar/tutorial.html">Resources</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> Step by step from installation to running your first skill, for individual users.</div><h1 id="quick-start">Quick Start</h1>
+<p>🇹🇷 <a href="../../bireysel/hizli-baslangic.html">Türkçe</a></p>
+<p>In ten minutes you'll install BAIOS, open your first project, and run your first skill.</p>
+<hr>
+<h2 id="1-installation-1-min">1. Installation (1 min)</h2>
+<p><pre><code># Early version — install from GitHub (PyPI release coming soon)
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+</code></pre></p>
+<p>On the first run it asks a few short personalization questions (name, language). Once you confirm, the main menu opens.</p>
+<p><strong>Web interface:</strong>
+<pre><code>baios serve
+# → http://localhost:8000
+</code></pre></p>
+<hr>
+<h2 id="2-choose-an-llm-provider-1-min">2. Choose an LLM Provider (1 min)</h2>
+<p>At least one LLM provider is required. Three options:</p>
+<p><strong>OpenAI (if you have an API key):</strong>
+<pre><code>baios config set llm.provider openai
+baios config set openai.api_key sk-...
+</code></pre></p>
+<p><strong>Anthropic:</strong>
+<pre><code>baios config set llm.provider anthropic
+baios config set anthropic.api_key sk-ant-...
+</code></pre></p>
+<p><strong>Local Ollama (no internet, free):</strong>
+<pre><code># In a separate window:
+ollama serve
+ollama pull llama3.2
+
+baios config set llm.provider local
+</code></pre></p>
+<blockquote>If you have sensitive data, prefer **local**. If you want speed and accuracy, use OpenAI/Anthropic.</blockquote>
+<hr>
+<h2 id="3-your-first-project-2-min">3. Your First Project (2 min)</h2>
+<p><strong>Web UI:</strong>
+1. Left menu → <strong>Projeler</strong> → <strong>Yeni</strong>
+2. Name: <code>denemem</code>
+3. Description: <code>BAIOS'u denemek için</code>
+4. <strong>Oluştur</strong></p>
+<p><strong>CLI:</strong>
+<pre><code>baios> /proje yeni denemem "BAIOS'u denemek için"
+baios> /proje sec denemem
+</code></pre></p>
+<p>The project directory is created: <code>~/.baios/projects/denemem/</code>.</p>
+<hr>
+<h2 id="4-generate-a-working-discipline-2-min">4. Generate a Working Discipline (2 min)</h2>
+<p>What is the project for? Tell the Discipline Engine and let the LLM prepare a workflow tailored to you.</p>
+<p><strong>Web UI:</strong>
+1. On the project page, go to the <strong>Çalışma Disiplini</strong> section
+2. <strong>Goal:</strong> "Keep a weekly budget table and produce an end-of-month summary"
+3. <strong>Üret</strong></p>
+<p>The result is <code>discipline_v1.md</code> — a step-by-step method in 3-5 phases, with recommended ARMs and skills.</p>
+<hr>
+<h2 id="5-your-first-skill-2-min">5. Your First Skill (2 min)</h2>
+<p>Let's try a simple skill — <code>arastirma</code>:</p>
+<p><strong>Web UI:</strong>
+1. Left menu → <strong>Kütüphane</strong> → <strong>Skill</strong>
+2. Find <code>arastirma</code> → <strong>Çalıştır</strong>
+3. <code>konu</code>: <code>en iyi sabah rutinleri</code>
+4. <strong>Çalıştır</strong></p>
+<p>Three steps run:
+1. Web search
+2. LLM summary
+3. Save to file → <code>~/.baios/projects/denemem/outputs/arastirma_*.md</code></p>
+<hr>
+<h2 id="6-install-an-arm-optional-1-min">6. Install an ARM (optional, 1 min)</h2>
+<p>If you want to read Gmail, install the <code>gmail</code> ARM:</p>
+<p><strong>Web UI:</strong>
+1. Left menu → <strong>Kütüphane</strong> → <strong>ARM</strong>
+2. <code>gmail</code> → <strong>Kur</strong>
+3. Google account OAuth flow
+4. Done</p>
+<p>Now <code>gmail</code> is available in skills.</p>
+<hr>
+<h2 id="7-talk-from-chat-1-min">7. Talk from Chat (1 min)</h2>
+<p>Now you can speak in natural language:</p>
+<p><pre><code>baios> bugünkü e-postalarımı özetle
+  → gmail arm + llm_ozet skill
+baios> istanbul hava durumu
+  → weather arm
+baios> bu araştırma dosyasından 10 flashcard çıkar
+  → flashcard skill
+</code></pre></p>
+<p>BAIOS reads your intent and runs the appropriate ARM/Skill. For risky operations it asks for approval.</p>
+<hr>
+<h2 id="next-steps">Next Steps</h2>
+<table>
+<thead><tr><th>If you want</th><th>See</th></tr></thead>
+<tbody>
+<tr><td>More scenarios</td><td><a href="senaryolar.html">Scenarios</a></td></tr>
+<tr><td>To write your own skill</td><td><a href="../kaynaklar/gelistiriciler.html">Developer guide</a></td></tr>
+<tr><td>To connect an MCP server</td><td><a href="../kaynaklar/mcp-rehberi.html">MCP guide</a></td></tr>
+<tr><td>The full component list</td><td><a href="../katalog.html">Catalog</a></td></tr>
+<tr><td>If you get stuck</td><td>The omgunbay chat at the bottom right</td></tr>
+</tbody></table>
+<hr>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p><strong>Installation fails:</strong>
+<pre><code># Requires Python 3.12+ and git
+git clone https://github.com/ilkerbay0605-baios-xhalfe/baios
+cd baios && ./run.sh start
+</code></pre></p>
+<p><strong>Web UI won't open:</strong>
+Port 8000 may be used by another application. <code>baios serve --port 8080</code></p>
+<p><strong>LLM error:</strong>
+<pre><code>baios config show       # see the current provider
+baios config test llm   # connection test
+</code></pre></p>
+<p><strong>Log:</strong>
+<pre><code>tail -f ~/.baios/logs/baios.log
+</code></pre></p></main>
+<footer>BAIOS — Semantic Operating System · 2026 · <a href="/en/gizlilik.html">Privacy</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>

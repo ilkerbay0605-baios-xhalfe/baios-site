@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kurumsal Compliance — BAIOS</title>
+<meta name="description" content="KVKK, GDPR, SOC2, audit log, vault, on-prem.">
+<meta name="keywords" content="BAIOS, semantik isletim sistemi, LLM, AI, Turkce, calisma disiplini, ARM, Skill, Flow, MCP, Ollama, OpenAI, Anthropic">
+<meta name="author" content="BAIOS">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kurumsal Compliance — BAIOS">
+<meta property="og:description" content="KVKK, GDPR, SOC2, audit log, vault, on-prem.">
+<meta property="og:url" content="https://baios.dev/kurumsal/compliance.html">
+<meta property="og:site_name" content="BAIOS">
+<meta property="og:locale" content="tr_TR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kurumsal Compliance — BAIOS">
+<meta name="twitter:description" content="KVKK, GDPR, SOC2, audit log, vault, on-prem.">
+<link rel="canonical" href="https://baios.dev/kurumsal/compliance.html">
+<link rel="stylesheet" href="../style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"BAIOS","description":"KVKK, GDPR, SOC2, audit log, vault, on-prem.","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, macOS, WSL","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://baios.dev"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://baios.dev/index.html"}, {"@type": "ListItem", "position": 2, "name": "Kurumsal", "item": "https://baios.dev/kurumsal/index.html"}, {"@type": "ListItem", "position": 3, "name": "Kurumsal Compliance", "item": "https://baios.dev/kurumsal/compliance.html"}]}
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+  <a class="brand" href="../index.html">BAIOS</a>
+  <nav>
+    <a href="../bireysel/hizli-baslangic.html">Bireysel</a>
+    <a href="../kurumsal/index.html">Kurumsal</a>
+    <a href="../edge/index.html">Edge</a>
+    <a href="../felsefe.html">Felsefe</a>
+    <a href="../mimari.html">Mimari</a>
+    <a href="../katalog.html">Katalog</a>
+    <a href="../kaynaklar/tutorial.html">Kaynaklar</a>
+    <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a>
+  </nav>
+</header>
+<main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> KVKK, GDPR, SOC2, audit log, vault, on-prem.</div><h1 id="compliance-yaklasimi">Compliance Yaklaşımı</h1>
+<p>BAIOS'un veri, güvenlik ve denetim konusundaki duruşu. Ayrıntılı belge (sertifika, SOC2 rapor) kurumsal sözleşme kapsamında paylaşılır.</p>
+<hr>
+<h2 id="veri-saklama">Veri Saklama</h2>
+<p><strong>Bireysel kullanımda:</strong>
+<ul><li>Tüm veri <code>~/.baios/</code> altında yerel.</li>
+<li>LLM çağrıları dışında <strong>hiçbir dış servise veri gitmez</strong>.</li>
+<li>Telemetri opsiyonel — <code>baios config set telemetry.enabled false</code> ile kapatılır.</li>
+</ul>
+<strong>Kurumsal kullanımda:</strong>
+<ul><li>On-prem veya müşterinin kendi bulut hesabı.</li>
+<li>BAIOS <strong>veri işlemez</strong> — altyapı müşterinin.</li>
+<li>Kişisel veri geçiş noktaları (sadece LLM çağrı anı) kayıt altında.</li>
+</ul>
+<hr>
+<h2 id="llm-provider-tercihi">LLM Provider Tercihi</h2></p>
+<ul><li>**OpenAI / Anthropic:** Hızlı, kaliteli, ama veri US'de işleniyor.</li>
+<li>**Azure OpenAI:** EU bölgesi seçilebilir, kurumsal SLA.</li>
+<li>**Yerel Ollama:** Veri makinenin dışına çıkmaz.</li>
+<li>**Kurumsal gateway:** Şirketin kendi LLM proxy'si.</li>
+</ul>
+Policy olarak provider kısıtlaması konulabilir: *"Gizlilik seviyesi X üstü proje sadece yerel LLM kullanabilir."*
+<hr>
+<h2 id="kvkk-uyumu">KVKK Uyumu</h2>
+<p><strong>Tasarım prensibi:</strong>
+<ul><li><strong>Data minimization</strong> — LLM'e yalnızca gerektiği kadar context gider, tüm dosya değil.</li>
+<li><strong>Purpose limitation</strong> — her ARM kullanımında amaç audit log'da.</li>
+<li><strong>Right to erasure</strong> — <code>baios proje sil <slug></code> tüm proje verisini siler.</li>
+<li><strong>Data portability</strong> — <code>baios proje export</code> ZIP olarak çıkarır.</li>
+</ul>
+<strong>Belge:</strong> Kurumsal sözleşme kapsamında KVKK uyum raporu hazırlanır.</p>
+<hr>
+<h2 id="gdpr-uyumu">GDPR Uyumu</h2>
+<p>Aynı prensipler GDPR için de geçerli:
+<ul><li>Data Processing Agreement (DPA) sağlanır.</li>
+<li>EU veri bölgesi kısıtlaması opsiyonu.</li>
+<li>Silme / taşınabilirlik hakları desteklenir.</li>
+</ul>
+<hr>
+<h2 id="soc2">SOC2</h2></p>
+<p><strong>Hedef:</strong> Tip II hazırlık (Faz 13 sonrası).</p>
+<p><strong>Hazırlanan kontroller:</strong>
+<ul><li>Access control (RBAC, MFA)</li>
+<li>Audit logging (tamper-proof)</li>
+<li>Change management (git commit + PR review)</li>
+<li>Incident response playbook</li>
+<li>Vendor management (LLM provider risk değerlendirmesi)</li>
+</ul>
+<hr>
+<h2 id="guvenlik-mimarisi">Güvenlik Mimarisi</h2></p>
+<p><strong>Vault:</strong>
+<ul><li>API key'ler Fernet + PBKDF2 ile şifreli.</li>
+<li>Master password — kullanıcı veya kurumsal merkezi.</li>
+<li>Vault kilitliyken plaintext fallback kapatılabilir.</li>
+</ul>
+<strong>Network:</strong>
+<ul><li>TLS zorunlu (on-prem kurulumda self-signed veya kurumsal CA).</li>
+<li>Web UI önünde reverse proxy (nginx/caddy).</li>
+<li>API key olmadan endpoint yok.</li>
+</ul>
+<strong>İşletim:</strong>
+<ul><li>Her ARM çağrısı audit'e kayıt (kim, ne zaman, hangi parametre).</li>
+<li>Her dosya yazma resolve edilmiş yol kontrolü (path traversal yasak).</li>
+<li>Shell ARM beyaz liste; kurumsal sürümde komple kapatılabilir.</li>
+</ul>
+<hr>
+<h2 id="penetrasyon-testi">Penetrasyon Testi</h2></p>
+<p><strong>Bireysel:</strong>
+<ul><li>Open source, herkes kaynak kodu inceleyebilir.</li>
+<li>Security advisory: <code>security@baios.dev</code> (yapılandırılıyor).</li>
+</ul>
+<strong>Kurumsal:</strong>
+<ul><li>Pilot müşterilerle beraber dış pentest planlanacak.</li>
+<li>Bulgular koordineli açıklama (CVD) ile paylaşılacak.</li>
+</ul>
+<hr>
+<h2 id="sertifika-yol-haritasi">Sertifika Yol Haritası</h2></p>
+<table>
+<thead><tr><th>Sertifika</th><th>Hedef</th></tr></thead>
+<tbody>
+<tr><td>ISO 27001 hazırlık</td><td>Faz 13 sonrası</td></tr>
+<tr><td>SOC2 Tip II</td><td>2027</td></tr>
+<tr><td>TS EN ISO 27001 (yurt içi)</td><td>2027</td></tr>
+</tbody></table>
+<hr>
+<h2 id="detayli-bilgi">Detaylı Bilgi</h2>
+<p>Kurumsal sözleşme kapsamında DPA, SOC2 rapor, penetrasyon test sonuçları paylaşılır.</p>
+<p><a href="iletisim.html">İletişime geç →</a></p></main>
+<footer>BAIOS — Semantik İşletim Sistemi · 2026 · <a href="/gizlilik.html">Gizlilik</a> · <a href="https://github.com/ilkerbay0605-baios-xhalfe/baios">GitHub</a></footer>
+</div>
+</body>
+</html>
