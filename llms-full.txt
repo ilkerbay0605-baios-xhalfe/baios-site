@@ -33,13 +33,16 @@ We only process data you **send us yourself**:
 - **Contact / early-test inquiry:** When you email us, your address and message
   are processed to answer your request (KVKK art. 5/2-c and 5/2-f).
 
-## Logo İşbaşı Connection (SSO)
+## Third-Party Integration Connections
 
-The `baios.dev/entegrasyon/isbasi/callback/` page receives the `code` returned
-from Logo İşbaşı authorization **only in your browser** and forwards it to the
-**BAIOS running locally on your own computer**. **This data is not stored, logged,
-or shared with third parties on baios.dev servers.** Access to your İşbaşı account
-happens on your machine, with your key; you are the data controller of your own data.
+When you connect BAIOS to a third-party service (e.g. an accounting or business
+management service), the access/authorization data returned by the authorization
+flow (e.g. a `code` or key) is received **only in your browser** and forwarded to
+the **BAIOS running locally on your own computer**. **This data is not stored,
+logged, or shared with third parties on baios.dev servers.** Access to that service
+happens on your machine, with your key; for this processing you are the data
+controller of your own data. Each integration's connection (callback) page also
+shows a short, integration-specific notice.
 
 ## Your KVKK Rights (art. 11)
 
@@ -172,14 +175,16 @@ Yalnızca **kendi isteğinizle ilettiğiniz** veriyi işleriz:
 - **İletişim / erken-test başvurusu:** Bize e-posta gönderdiğinizde adres ve
   içeriğiniz, talebinizi yanıtlamak amacıyla işlenir (KVKK m.5/2-c ve m.5/2-f).
 
-## Logo İşbaşı Bağlantısı (SSO)
+## Üçüncü-Taraf Entegrasyon Bağlantıları
 
-`baios.dev/entegrasyon/isbasi/callback/` sayfası, Logo İşbaşı yetkilendirmesinden
-dönen `code` değerini **yalnızca tarayıcınızda** alır ve **kendi bilgisayarınızda
-çalışan yerel BAIOS uygulamanıza** iletir. **Bu veri baios.dev sunucularında
-saklanmaz, kaydedilmez, üçüncü tarafa aktarılmaz.** İşbaşı hesabınıza erişim,
-sizin makinenizde, sizin anahtarınızla gerçekleşir; veri sorumlusu, kendi
-verisini işleyen kullanıcı olarak sizsiniz.
+BAIOS'u üçüncü-taraf bir hizmete bağladığınızda (ör. bir muhasebe ya da iş
+yönetimi servisi), yetkilendirme akışından dönen erişim/yetki bilgisi (ör. bir
+`code` veya anahtar) **yalnızca tarayıcınızda** alınır ve **kendi bilgisayarınızda
+çalışan yerel BAIOS uygulamanıza** iletilir. **Bu veri baios.dev sunucularında
+saklanmaz, kaydedilmez, üçüncü tarafa aktarılmaz.** İlgili hizmete erişim sizin
+makinenizde, sizin anahtarınızla gerçekleşir; bu işlemede veri sorumlusu, kendi
+verisini işleyen kullanıcı olarak sizsiniz. Her entegrasyonun bağlantı (callback)
+sayfasında o entegrasyona özel kısa bir aydınlatma da gösterilir.
 
 ## KVKK Haklarınız (m.11)
 
