@@ -14,14 +14,12 @@ BAIOS bir ajan değildir — kullanıcının yanında çalışan onaylı, denetl
 
 ## Kullanım Örnekleri
 
-- `git clone https://github.com/ilkerbay0605-baios-xhalfe/baios && cd baios && ./run.sh start` — erken sürüm (PyPI yakında)
+- Erken erişim — yakında (iletişim: integrations@baios.dev)
 - `baios> /skill calistir arastirma` — hazır skill
 - `baios> istanbul hava durumu` — doğal dil intent
 - `baios serve` — web UI (http://localhost:8000)
 
 ## Kaynaklar
 
-- GitHub: https://github.com/ilkerbay0605-baios-xhalfe/baios
-- Lisans: MIT
 - Tür: Yerel AI asistan / context OS
 - Python: 3.12+

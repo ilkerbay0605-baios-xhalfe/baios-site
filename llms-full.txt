@@ -57,9 +57,6 @@ of your personal data via **[email protected]**.
   professional before any use with legal or financial consequences.
 - The software is provided "as is"; use is at the user's own responsibility.
 
-## Open Source
-
-BAIOS is open source [on GitHub under MIT](https://github.com/ilkerbay0605-baios-xhalfe/baios).
 
 [Home →](index.html)
 
@@ -198,10 +195,6 @@ Kişisel verinize erişme, düzeltme, silme ve işlemeye itiraz haklarınızı
   amaçlıdır**; hukuki, mali veya muhasebe danışmanlığı yerine geçmez. Mali/hukuki
   sonuç doğuran kullanımlardan önce yetkili bir uzmana danışın.
 - Yazılım "olduğu gibi" sunulur; kullanım kullanıcının sorumluluğundadır.
-
-## Açık Kaynak
-
-BAIOS [MIT lisansıyla GitHub'da](https://github.com/ilkerbay0605-baios-xhalfe/baios) açık kaynaktır.
 
 [Ana sayfa →](index.html)
 
