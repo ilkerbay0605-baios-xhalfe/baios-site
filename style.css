@@ -1,19 +1,20 @@
 
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#1a1a2e;color:#e0e0e0;font-family:system-ui,-apple-system,sans-serif;line-height:1.7}
-.container{max-width:960px;margin:0 auto;padding:20px}
-a{color:#e94560;text-decoration:none}
-a:hover{text-decoration:underline}
-header{border-bottom:1px solid #0f3460;padding:16px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-header .brand{color:#e94560;font-size:24px;font-weight:700;text-decoration:none}
-nav{display:flex;flex-wrap:wrap;gap:4px}
-nav a{color:#aaa;padding:4px 10px;font-size:14px;border-radius:4px}
-nav a:hover{color:#fff;background:#0f3460;text-decoration:none}
-.hero{text-align:center;padding:50px 0 30px}
-.hero h1{font-size:42px;color:#fff;margin-bottom:12px;border:none;padding:0}
-.hero h2{font-size:38px;color:#fff;margin-bottom:12px}
-.hero p{font-size:17px;color:#ccc;max-width:720px;margin:12px auto}
-.hero p strong{color:#fff}
+body{background:#070b12;color:#cfd6e4;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased;background-image:radial-gradient(900px 520px at 50% -8%,rgba(99,102,241,.16),transparent 70%),radial-gradient(680px 420px at 88% 6%,rgba(34,211,238,.08),transparent 72%);background-attachment:fixed;min-height:100vh}
+.container{max-width:760px;margin:0 auto;padding:24px}
+a{color:#7dd3fc;text-decoration:none;transition:color .15s}
+a:hover{color:#bae6fd;text-decoration:none}
+header{border-bottom:1px solid rgba(255,255,255,.06);padding:18px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+header .brand{color:#fff;font-size:22px;font-weight:800;letter-spacing:.5px;text-decoration:none}
+nav{display:flex;flex-wrap:wrap;gap:2px}
+nav a{color:#8b94a7;padding:5px 12px;font-size:14px;border-radius:6px}
+nav a:hover{color:#fff;background:rgba(255,255,255,.06);text-decoration:none}
+.hero{text-align:center;padding:76px 0 44px}
+.hero h1{font-size:64px;font-weight:800;letter-spacing:-1.5px;margin-bottom:22px;border:none;padding:0;background:linear-gradient(135deg,#fff 0%,#a5b4fc 52%,#22d3ee 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero h2{font-size:34px;color:#fff;margin-bottom:12px}
+.hero p{font-size:18px;color:#aeb7c7;max-width:600px;margin:18px auto;line-height:1.7}
+.hero p strong{color:#eef2f8}
+.hero em{color:#7dd3fc;font-style:normal;font-weight:600}
 .cta{display:inline-block;padding:10px 22px;background:#e94560;color:#fff;border-radius:6px;font-size:15px;font-weight:500}
 .cta:hover{background:#d63a55;text-decoration:none}
 .cta-secondary{display:inline-block;padding:10px 22px;background:transparent;color:#e94560;border:1.5px solid #e94560;border-radius:6px;font-size:15px}
@@ -47,7 +48,7 @@ table.audience td em{color:#888;font-size:13px}
 .feat h3{color:#e94560;margin-bottom:6px;font-size:15px}
 .feat p{font-size:13px;color:#aaa;margin:0}
 .chat-hint{margin-top:30px;padding:14px 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc}
-footer{border-top:1px solid #0f3460;padding:20px 0;text-align:center;color:#666;font-size:12px;margin-top:40px}
+footer{border-top:1px solid rgba(255,255,255,.06);padding:28px 0;text-align:center;color:#5b6473;font-size:13px;margin-top:72px}
 @media(max-width:640px){
   .hero h2{font-size:26px}
   main h1{font-size:22px}

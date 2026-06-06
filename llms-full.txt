@@ -211,7 +211,7 @@ BAIOS [MIT lisansıyla GitHub'da](https://github.com/ilkerbay0605-baios-xhalfe/b
 
 <p>BAIOS bir ajan değil; LLM ile insan arasında çalışan, kontrollü, kayıtlı ve <strong>geri alınabilir</strong> bir katmandır. Ne istediğini yaz ya da söyle — gerisini BAIOS yürütür.</p>
 
-<p>Anthropic Claude'a rakip değil, <strong>partner-uyumlu complement.</strong> <em>Author once, run forever — sahip ol, kiralanma.</em></p>
+<p>Anthropic Claude'a rakip değil, <strong>partner-uyumlu complement.</strong> <em>Author once, run forever — sahip ol, kiralama.</em></p>
 
 <p>Avukattan muhasebeciye, KOBİ sahibinden araştırmacıya — herkesin işine kendi diliyle.</p>
 
