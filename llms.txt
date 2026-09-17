@@ -10,7 +10,7 @@ BAIOS bir ajan değildir — kullanıcının yanında çalışan onaylı, denetl
 - [BAIOS — Semantic Operating System](https://baios.dev/en/index.html): A natural-language, LLM-independent, privacy-first work assistant — your data stays with you.
 - [Untitled](https://baios.dev/entegrasyon/isbasi/callback/index.html)
 - [Gizlilik & Kullanım](https://baios.dev/gizlilik.html): KVKK aydınlatma, gizlilik politikası, kullanım şartları ve sorumluluk reddi.
-- [BAIOS — Semantik İşletim Sistemi](https://baios.dev/index.html): İnsan dilinde çalışan, LLM-bağımsız, KVKK-uyumlu çalışma asistanı — verisi sende kalır.
+- [BAIOS — Semantik İşletim Sistemi](https://baios.dev/index.html): İnsan dilinde çalışan, LLM-bağımsız, KVKK'ya göre tasarlanmış çalışma asistanı — verisi sende kalır.
 
 ## Kullanım Örnekleri
 

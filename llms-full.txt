@@ -1,6 +1,6 @@
 # BAIOS — Tam İçerik Dökümü (AI modeli tek hamlede yutsun)
 
-Son güncellenme: 2026-06-06
+Son güncellenme: 2026-09-17
 Kaynak: https://baios.dev
 
 ---
@@ -172,6 +172,32 @@ Yalnızca **kendi isteğinizle ilettiğiniz** veriyi işleriz:
 - **İletişim / erken-test başvurusu:** Bize e-posta gönderdiğinizde adres ve
   içeriğiniz, talebinizi yanıtlamak amacıyla işlenir (KVKK m.5/2-c ve m.5/2-f).
 
+## Yerelde Ne Saklanıyor
+
+BAIOS **kendi bilgisayarınızda** çalışır. Aşağıdakiler `~/.baios/` içinde, **yalnızca
+sizin okuyabileceğiniz** izinlerle (`0600`) tutulur ve **hiçbir sunucuya gönderilmez**:
+
+| Ne | Örnek | Nerede |
+|---|---|---|
+| **Kimlik bilgileriniz** | ad, e-posta adresi, görünen ad | `config.json`, `profiles/` |
+| **Tercihleriniz** | dil, üslup, bildirim kanalı, ses | `config.json`, `profiles/` |
+| **İşiniz** | takvim, yapılacaklar, notlar, sohbet geçmişi | `*.db`, `context/` |
+| **Erişim anahtarlarınız** | servis anahtarları, bağlantı token'ları | **şifreli kasa** (`vault.enc`) |
+
+Erişim anahtarları **şifreli kasada** tutulur; kimlik ve tercih bilgileri düz metindir —
+çünkü asistanın sizi tanıması için onları okuyabilmesi gerekir. Bunlar bilgisayarınızdan
+dışarı çıkmaz.
+
+**Silme:** kimlik bilgilerinizi istediğiniz an kalıcı olarak silebilirsiniz
+(`DELETE /api/profile/identity`); tercihleriniz ve işiniz korunur. Öğrenilen kişisel
+bilgiler, sohbet geçmişi ve çıkarımlar için de ayrı silme uçları vardır
+(`/api/profile/facts`, `/api/profile/conversations`, `/api/profile/learns`).
+
+Bu silme işlemleri bugün **yerel API üzerinden** yapılır; tek-tıkla arayüz düğmesi
+henüz eklenmedi.
+
+Bulut/çok-kullanıcılı bir kuruluma geçilirse bu bölüm yeniden değerlendirilir.
+
 ## Üçüncü-Taraf Entegrasyon Bağlantıları
 
 BAIOS'u üçüncü-taraf bir hizmete bağladığınızda (ör. bir muhasebe ya da iş
@@ -204,7 +230,7 @@ Kişisel verinize erişme, düzeltme, silme ve işlemeye itiraz haklarınızı
 
 <div class="hero">
 <h1>BAIOS</h1>
-<p><strong>İnsan dilinde çalışan, LLM-bağımsız, KVKK-uyumlu çalışma asistanı — verisi sende kalır.</strong></p>
+<p><strong>İnsan dilinde çalışan, LLM-bağımsız, KVKK'ya göre tasarlanmış çalışma asistanı — verisi sende kalır.</strong></p>
 <p>🇬🇧 <a href="en/index.html">English</a></p>
 
 <p>BAIOS bir ajan değil; LLM ile insan arasında çalışan, kontrollü, kayıtlı ve <strong>geri alınabilir</strong> bir katmandır. Ne istediğini yaz ya da söyle — gerisini BAIOS yürütür.</p>

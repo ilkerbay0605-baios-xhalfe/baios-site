@@ -49,6 +49,27 @@ sırasında reklam/profilleme amaçlı veri toplanmaz. Sunucu erişim kayıtlar�
 <p>Yalnızca <strong>kendi isteğinizle ilettiğiniz</strong> veriyi işleriz:</p>
 <ul><li>**İletişim / erken-test başvurusu:** Bize e-posta gönderdiğinizde adres ve</li>
 </ul>  içeriğiniz, talebinizi yanıtlamak amacıyla işlenir (KVKK m.5/2-c ve m.5/2-f).
+<h2 id="yerelde-ne-saklaniyor">Yerelde Ne Saklanıyor</h2>
+<p>BAIOS <strong>kendi bilgisayarınızda</strong> çalışır. Aşağıdakiler <code>~/.baios/</code> içinde, **yalnızca
+sizin okuyabileceğiniz<strong> izinlerle (<code>0600</code>) tutulur ve </strong>hiçbir sunucuya gönderilmez**:</p>
+<table>
+<thead><tr><th>Ne</th><th>Örnek</th><th>Nerede</th></tr></thead>
+<tbody>
+<tr><td><strong>Kimlik bilgileriniz</strong></td><td>ad, e-posta adresi, görünen ad</td><td><code>config.json</code>, <code>profiles/</code></td></tr>
+<tr><td><strong>Tercihleriniz</strong></td><td>dil, üslup, bildirim kanalı, ses</td><td><code>config.json</code>, <code>profiles/</code></td></tr>
+<tr><td><strong>İşiniz</strong></td><td>takvim, yapılacaklar, notlar, sohbet geçmişi</td><td><code>*.db</code>, <code>context/</code></td></tr>
+<tr><td><strong>Erişim anahtarlarınız</strong></td><td>servis anahtarları, bağlantı token'ları</td><td><strong>şifreli kasa</strong> (<code>vault.enc</code>)</td></tr>
+</tbody></table>
+<p>Erişim anahtarları <strong>şifreli kasada</strong> tutulur; kimlik ve tercih bilgileri düz metindir —
+çünkü asistanın sizi tanıması için onları okuyabilmesi gerekir. Bunlar bilgisayarınızdan
+dışarı çıkmaz.</p>
+<p><strong>Silme:</strong> kimlik bilgilerinizi istediğiniz an kalıcı olarak silebilirsiniz
+(<code>DELETE /api/profile/identity</code>); tercihleriniz ve işiniz korunur. Öğrenilen kişisel
+bilgiler, sohbet geçmişi ve çıkarımlar için de ayrı silme uçları vardır
+(<code>/api/profile/facts</code>, <code>/api/profile/conversations</code>, <code>/api/profile/learns</code>).</p>
+<p>Bu silme işlemleri bugün <strong>yerel API üzerinden</strong> yapılır; tek-tıkla arayüz düğmesi
+henüz eklenmedi.</p>
+<p>Bulut/çok-kullanıcılı bir kuruluma geçilirse bu bölüm yeniden değerlendirilir.</p>
 <h2 id="ucuncu-taraf-entegrasyon-baglantilari">Üçüncü-Taraf Entegrasyon Bağlantıları</h2>
 <p>BAIOS'u üçüncü-taraf bir hizmete bağladığınızda (ör. bir muhasebe ya da iş
 yönetimi servisi), yetkilendirme akışından dönen erişim/yetki bilgisi (ör. bir
