@@ -1,6 +1,6 @@
 # BAIOS — Tam İçerik Dökümü (AI modeli tek hamlede yutsun)
 
-Son güncellenme: 2026-09-17
+Son güncellenme: 2026-10-22
 Kaynak: https://baios.dev
 
 ---
@@ -11,13 +11,13 @@ Kaynak: https://baios.dev
 
 🇹🇷 [Türkçe](../gizlilik.html)
 
-Last updated: 2026-06-04 · Early version.
+Last updated: 2026-10-22 · Early version.
 
 ---
 
 ## Data Controller
 
-baios.dev is operated by İlker Bayraktar. Contact: **[email protected]**
+baios.dev is operated by İlker Bayraktar. Contact: **gdpr@baios.dev**
 (Contact and KVKK requests go to this address.)
 
 ## Cookies and Tracking
@@ -47,7 +47,7 @@ shows a short, integration-specific notice.
 ## Your KVKK Rights (art. 11)
 
 You can exercise your rights to access, correct, delete, and object to processing
-of your personal data via **[email protected]**.
+of your personal data via **gdpr@baios.dev**.
 
 ## Terms of Use & Disclaimer
 
@@ -150,13 +150,13 @@ kaydedilmez, üçüncü tarafa aktarılmaz</strong>. Ayrıntı: <a href="../../.
 
 🇬🇧 [English](en/gizlilik.html)
 
-Son güncelleme: 2026-06-04 · Erken sürüm.
+Son güncelleme: 2026-10-22 · Erken sürüm.
 
 ---
 
 ## Veri Sorumlusu
 
-baios.dev İlker Bayraktar tarafından yürütülmektedir. İletişim: **[email protected]**
+baios.dev İlker Bayraktar tarafından yürütülmektedir. İletişim: **gdpr@baios.dev**
 (İletişim ve KVKK başvuruları bu adresten yapılır.)
 
 ## Çerez ve İzleme
@@ -174,8 +174,9 @@ Yalnızca **kendi isteğinizle ilettiğiniz** veriyi işleriz:
 
 ## Yerelde Ne Saklanıyor
 
-BAIOS **kendi bilgisayarınızda** çalışır. Aşağıdakiler `~/.baios/` içinde, **yalnızca
-sizin okuyabileceğiniz** izinlerle (`0600`) tutulur ve **hiçbir sunucuya gönderilmez**:
+BAIOS **kendi bilgisayarınızda** çalışır. Aşağıdakiler `~/.baios/` içinde,
+**yalnızca sizin okuyabileceğiniz** izinlerle (`0600`) tutulur;
+**işi yaparken gereken kısım (sizi tanıması için gerekenler dahil), yalnızca o sırada, seçtiğiniz model sağlayıcısına gönderilir**:
 
 | Ne | Örnek | Nerede |
 |---|---|---|
@@ -185,8 +186,9 @@ sizin okuyabileceğiniz** izinlerle (`0600`) tutulur ve **hiçbir sunucuya gönd
 | **Erişim anahtarlarınız** | servis anahtarları, bağlantı token'ları | **şifreli kasa** (`vault.enc`) |
 
 Erişim anahtarları **şifreli kasada** tutulur; kimlik ve tercih bilgileri düz metindir —
-çünkü asistanın sizi tanıması için onları okuyabilmesi gerekir. Bunlar bilgisayarınızdan
-dışarı çıkmaz.
+çünkü asistanın sizi tanıması için onları okuyabilmesi gerekir. Bunlar bilgisayarınızda
+saklanır; işi yaparken gereken kısım (sizi tanıması için gerekenler dahil) yalnızca o
+sırada seçtiğiniz sağlayıcıya gider.
 
 **Silme:** kimlik bilgilerinizi istediğiniz an kalıcı olarak silebilirsiniz
 (`DELETE /api/profile/identity`); tercihleriniz ve işiniz korunur. Öğrenilen kişisel
@@ -212,7 +214,7 @@ sayfasında o entegrasyona özel kısa bir aydınlatma da gösterilir.
 ## KVKK Haklarınız (m.11)
 
 Kişisel verinize erişme, düzeltme, silme ve işlemeye itiraz haklarınızı
-**[email protected]** üzerinden kullanabilirsiniz.
+**gdpr@baios.dev** üzerinden kullanabilirsiniz.
 
 ## Kullanım Şartları & Sorumluluk Reddi
 

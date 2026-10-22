@@ -36,10 +36,10 @@
 </header>
 <main><div class="tldr" role="doc-abstract" style="padding:10px 14px;margin:6px 0 18px;background:#0f3460;border-left:3px solid #e94560;border-radius:6px;font-size:14px;color:#ccc"><strong>TL;DR:</strong> KVKK aydınlatma, gizlilik politikası, kullanım şartları ve sorumluluk reddi.</div><h1 id="gizlilik-kullanim">Gizlilik & Kullanım</h1>
 <p>🇬🇧 <a href="en/gizlilik.html">English</a></p>
-<p>Son güncelleme: 2026-06-04 · Erken sürüm.</p>
+<p>Son güncelleme: 2026-10-22 · Erken sürüm.</p>
 <hr>
 <h2 id="veri-sorumlusu">Veri Sorumlusu</h2>
-<p>baios.dev İlker Bayraktar tarafından yürütülmektedir. İletişim: <strong>[email protected]</strong>
+<p>baios.dev İlker Bayraktar tarafından yürütülmektedir. İletişim: <strong>gdpr@baios.dev</strong>
 (İletişim ve KVKK başvuruları bu adresten yapılır.)</p>
 <h2 id="cerez-ve-izleme">Çerez ve İzleme</h2>
 <p><strong>Bu site çerez kullanmaz, analitik/izleme aracı çalıştırmaz.</strong> Ziyaretiniz
@@ -50,8 +50,9 @@ sırasında reklam/profilleme amaçlı veri toplanmaz. Sunucu erişim kayıtlar�
 <ul><li>**İletişim / erken-test başvurusu:** Bize e-posta gönderdiğinizde adres ve</li>
 </ul>  içeriğiniz, talebinizi yanıtlamak amacıyla işlenir (KVKK m.5/2-c ve m.5/2-f).
 <h2 id="yerelde-ne-saklaniyor">Yerelde Ne Saklanıyor</h2>
-<p>BAIOS <strong>kendi bilgisayarınızda</strong> çalışır. Aşağıdakiler <code>~/.baios/</code> içinde, **yalnızca
-sizin okuyabileceğiniz<strong> izinlerle (<code>0600</code>) tutulur ve </strong>hiçbir sunucuya gönderilmez**:</p>
+<p>BAIOS <strong>kendi bilgisayarınızda</strong> çalışır. Aşağıdakiler <code>~/.baios/</code> içinde,
+<strong>yalnızca sizin okuyabileceğiniz</strong> izinlerle (<code>0600</code>) tutulur;
+<strong>işi yaparken gereken kısım (sizi tanıması için gerekenler dahil), yalnızca o sırada, seçtiğiniz model sağlayıcısına gönderilir</strong>:</p>
 <table>
 <thead><tr><th>Ne</th><th>Örnek</th><th>Nerede</th></tr></thead>
 <tbody>
@@ -61,8 +62,9 @@ sizin okuyabileceğiniz<strong> izinlerle (<code>0600</code>) tutulur ve </stron
 <tr><td><strong>Erişim anahtarlarınız</strong></td><td>servis anahtarları, bağlantı token'ları</td><td><strong>şifreli kasa</strong> (<code>vault.enc</code>)</td></tr>
 </tbody></table>
 <p>Erişim anahtarları <strong>şifreli kasada</strong> tutulur; kimlik ve tercih bilgileri düz metindir —
-çünkü asistanın sizi tanıması için onları okuyabilmesi gerekir. Bunlar bilgisayarınızdan
-dışarı çıkmaz.</p>
+çünkü asistanın sizi tanıması için onları okuyabilmesi gerekir. Bunlar bilgisayarınızda
+saklanır; işi yaparken gereken kısım (sizi tanıması için gerekenler dahil) yalnızca o
+sırada seçtiğiniz sağlayıcıya gider.</p>
 <p><strong>Silme:</strong> kimlik bilgilerinizi istediğiniz an kalıcı olarak silebilirsiniz
 (<code>DELETE /api/profile/identity</code>); tercihleriniz ve işiniz korunur. Öğrenilen kişisel
 bilgiler, sohbet geçmişi ve çıkarımlar için de ayrı silme uçları vardır
@@ -81,7 +83,7 @@ verisini işleyen kullanıcı olarak sizsiniz. Her entegrasyonun bağlantı (cal
 sayfasında o entegrasyona özel kısa bir aydınlatma da gösterilir.</p>
 <h2 id="kvkk-haklariniz-m11">KVKK Haklarınız (m.11)</h2>
 <p>Kişisel verinize erişme, düzeltme, silme ve işlemeye itiraz haklarınızı
-<strong>[email protected]</strong> üzerinden kullanabilirsiniz.</p>
+<strong>gdpr@baios.dev</strong> üzerinden kullanabilirsiniz.</p>
 <h2 id="kullanim-sartlari-sorumluluk-reddi">Kullanım Şartları & Sorumluluk Reddi</h2>
 <ul><li>BAIOS **erken sürümdür**; özellikler geliştirme aşamasındadır ve değişebilir.</li>
 <li>BAIOS'un ürettiği çıktılar (özet, taslak, analiz, hesap) **bilgilendirme</li>
