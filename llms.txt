@@ -1,8 +1,8 @@
 # BAIOS — Semantik İşletim Sistemi
 
-> İnsan dilinde çalışan, LLM bağımsız, kontrollü bir çalışma disiplini. 38 ARM (adaptör), 25 skill (iş akışı), 4 flow, 17 kanal. Proje bazlı çalışır, her projenin kendi context, disiplin ve bağlı araçları vardır.
+> İnsan dilinde çalışan, LLM bağımsız, kontrollü bir çalışma disiplini. 57 ARM (adaptör), 39 skill (iş akışı), 4 flow, 16 kanal. Proje bazlı çalışır, her projenin kendi context, disiplin ve bağlı araçları vardır.
 
-BAIOS bir ajan değildir — kullanıcının yanında çalışan onaylı, denetlenebilir, LLM-agnostik bir katmandır.
+BAIOS bir kabuk; Xhalfe senin asistanın. İşleri senin kurduğun kurallarla yürütür, riskli adımda onayını bekler; her iş kayda geçer.
 
 ## Ana Sayfalar
 

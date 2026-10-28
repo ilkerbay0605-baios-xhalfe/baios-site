@@ -1,6 +1,6 @@
 # BAIOS — Tam İçerik Dökümü (AI modeli tek hamlede yutsun)
 
-Son güncellenme: 2026-10-22
+Son güncellenme: 2026-10-28
 Kaynak: https://baios.dev
 
 ---
@@ -69,7 +69,7 @@ of your personal data via **gdpr@baios.dev**.
 <p><strong>A natural-language, LLM-independent, privacy-first work assistant — your data stays with you.</strong></p>
 <p>🇹🇷 <a href="../index.html">Türkçe</a></p>
 
-<p>BAIOS doesn't act on its own — it is a controlled, logged and <strong>reversible</strong> layer between you and the LLM. Type or speak what you need, and it is carried out with your approval.</p>
+<p>BAIOS is a shell; Xhalfe is your assistant. It runs your work by the rules you set, waits for your approval at risky steps, and records every job. Type or speak what you need.</p>
 
 <p>Not a competitor to Anthropic Claude — a <strong>partner-friendly complement.</strong> <em>Author once, run forever — own it, don't rent it.</em></p>
 
@@ -235,7 +235,7 @@ Kişisel verinize erişme, düzeltme, silme ve işlemeye itiraz haklarınızı
 <p><strong>İnsan dilinde çalışan, LLM-bağımsız, KVKK'ya göre tasarlanmış çalışma asistanı — verisi sende kalır.</strong></p>
 <p>🇬🇧 <a href="en/index.html">English</a></p>
 
-<p>BAIOS bir ajan değil; LLM ile insan arasında çalışan, kontrollü, kayıtlı ve <strong>geri alınabilir</strong> bir katmandır. Ne istediğini yaz ya da söyle — gerisini BAIOS yürütür.</p>
+<p>BAIOS bir kabuk; Xhalfe senin asistanın. İşleri senin kurduğun kurallarla yürütür, riskli adımda onayını bekler; her iş kayda geçer. Ne istediğini yaz ya da söyle.</p>
 
 <p>Anthropic Claude'a rakip değil, <strong>partner-uyumlu complement.</strong> <em>Author once, run forever — sahip ol, kiralama.</em></p>
 
